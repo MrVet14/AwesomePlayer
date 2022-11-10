@@ -15,6 +15,14 @@
 		51A54F55291BC69A0065EF82 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F54291BC69A0065EF82 /* Song.swift */; };
 		51A54F57291BC6A60065EF82 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F56291BC6A60065EF82 /* User.swift */; };
 		51A54F62291BF2050065EF82 /* L10n-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F61291BF2050065EF82 /* L10n-Constants.swift */; };
+		51E319B1291D1E27006E5C55 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B0291D1E27006E5C55 /* AuthViewController.swift */; };
+		51E319B3291D1E34006E5C55 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B2291D1E34006E5C55 /* WelcomeViewController.swift */; };
+		51E319B5291D1E43006E5C55 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B4291D1E43006E5C55 /* SettingsViewController.swift */; };
+		51E319B7291D1E50006E5C55 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B6291D1E50006E5C55 /* ProfileViewController.swift */; };
+		51E319B9291D1E61006E5C55 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B8291D1E61006E5C55 /* PlayerViewController.swift */; };
+		51E319BB291D22C1006E5C55 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319BA291D22C1006E5C55 /* AuthManager.swift */; };
+		51E319BD291D22CE006E5C55 /* API Caller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319BC291D22CE006E5C55 /* API Caller.swift */; };
+		51E319BF291D22E2006E5C55 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319BE291D22E2006E5C55 /* HapticsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +37,14 @@
 		51A54F56291BC6A60065EF82 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		51A54F5C291BEADA0065EF82 /* swiftgen.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
 		51A54F61291BF2050065EF82 /* L10n-Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "L10n-Constants.swift"; sourceTree = "<group>"; };
+		51E319B0291D1E27006E5C55 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		51E319B2291D1E34006E5C55 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		51E319B4291D1E43006E5C55 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		51E319B6291D1E50006E5C55 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		51E319B8291D1E61006E5C55 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		51E319BA291D22C1006E5C55 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		51E319BC291D22CE006E5C55 /* API Caller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API Caller.swift"; sourceTree = "<group>"; };
+		51E319BE291D22E2006E5C55 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +83,7 @@
 				51A54F50291BA5D30065EF82 /* Views */,
 				51A54F51291BA5D90065EF82 /* ViewModels */,
 				51A54F53291BA63F0065EF82 /* Managers */,
+				51E319AE291D19B4006E5C55 /* Controllers */,
 				51A54F52291BA5F80065EF82 /* Resources */,
 				51A54F48291BA42D0065EF82 /* Info.plist */,
 			);
@@ -85,7 +102,6 @@
 		51A54F50291BA5D30065EF82 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				51A54F3E291BA42B0065EF82 /* MainViewController.swift */,
 				51A54F45291BA42D0065EF82 /* LaunchScreen.storyboard */,
 			);
 			path = Views;
@@ -111,6 +127,9 @@
 		51A54F53291BA63F0065EF82 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				51E319BA291D22C1006E5C55 /* AuthManager.swift */,
+				51E319BC291D22CE006E5C55 /* API Caller.swift */,
+				51E319BE291D22E2006E5C55 /* HapticsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -121,6 +140,27 @@
 				51A54F61291BF2050065EF82 /* L10n-Constants.swift */,
 			);
 			path = SwiftGen;
+			sourceTree = "<group>";
+		};
+		51E319AE291D19B4006E5C55 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				51E319AF291D1DE4006E5C55 /* Other */,
+				51A54F3E291BA42B0065EF82 /* MainViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		51E319AF291D1DE4006E5C55 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				51E319B0291D1E27006E5C55 /* AuthViewController.swift */,
+				51E319B2291D1E34006E5C55 /* WelcomeViewController.swift */,
+				51E319B4291D1E43006E5C55 /* SettingsViewController.swift */,
+				51E319B6291D1E50006E5C55 /* ProfileViewController.swift */,
+				51E319B8291D1E61006E5C55 /* PlayerViewController.swift */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -237,11 +277,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				51A54F55291BC69A0065EF82 /* Song.swift in Sources */,
+				51E319BB291D22C1006E5C55 /* AuthManager.swift in Sources */,
+				51E319BF291D22E2006E5C55 /* HapticsManager.swift in Sources */,
+				51E319B3291D1E34006E5C55 /* WelcomeViewController.swift in Sources */,
+				51E319B7291D1E50006E5C55 /* ProfileViewController.swift in Sources */,
 				51A54F3F291BA42B0065EF82 /* MainViewController.swift in Sources */,
+				51E319BD291D22CE006E5C55 /* API Caller.swift in Sources */,
 				51A54F3B291BA42B0065EF82 /* AppDelegate.swift in Sources */,
+				51E319B1291D1E27006E5C55 /* AuthViewController.swift in Sources */,
 				51A54F57291BC6A60065EF82 /* User.swift in Sources */,
 				51A54F62291BF2050065EF82 /* L10n-Constants.swift in Sources */,
 				51A54F3D291BA42B0065EF82 /* SceneDelegate.swift in Sources */,
+				51E319B9291D1E61006E5C55 /* PlayerViewController.swift in Sources */,
+				51E319B5291D1E43006E5C55 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
