@@ -13,7 +13,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // swiftlint:disable line_length
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = MainViewController()
+        if AuthManager.shared.isSignedIn {
+            window.rootViewController = MainViewController()
+        } else {
+            window.rootViewController = WelcomeViewController()
+        }
         window.makeKeyAndVisible()
         self.window = window
         return true
