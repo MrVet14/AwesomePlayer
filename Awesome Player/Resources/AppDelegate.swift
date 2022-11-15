@@ -17,19 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         let window = UIWindow(frame: UIScreen.main.bounds)
-        if AuthManager.shared.isSignedIn {
-            window.rootViewController = rootViewController
-        } else {
-            window.rootViewController = WelcomeViewController()
-        }
+        window.rootViewController = rootViewController
         window.makeKeyAndVisible()
         self.window = window
-        return true
-    }
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        print(url)
-        rootViewController.sessionManager.application(app, open: url, options: options)
         return true
     }
     

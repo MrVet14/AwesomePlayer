@@ -14,6 +14,7 @@
 		5125B724291E78A7007EDF5D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B723291E78A7007EDF5D /* Kingfisher */; };
 		5125B726291E791B007EDF5D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5125B725291E791A007EDF5D /* GoogleService-Info.plist */; };
 		5125B729291E7A95007EDF5D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B728291E7A95007EDF5D /* FirebaseFirestore */; };
+		51763A162923B95500AA871E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51763A152923B95500AA871E /* Constants.swift */; };
 		51A54F3B291BA42B0065EF82 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F3A291BA42B0065EF82 /* AppDelegate.swift */; };
 		51A54F3D291BA42B0065EF82 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F3C291BA42B0065EF82 /* SceneDelegate.swift */; };
 		51A54F3F291BA42B0065EF82 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F3E291BA42B0065EF82 /* MainViewController.swift */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		5125B715291E5B2D007EDF5D /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		5125B725291E791A007EDF5D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		51763A152923B95500AA871E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		51A54F37291BA42B0065EF82 /* Awesome Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Awesome Player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		51A54F3A291BA42B0065EF82 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		51A54F3C291BA42B0065EF82 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				51A54F43291BA42D0065EF82 /* Assets.xcassets */,
 				51A54F3A291BA42B0065EF82 /* AppDelegate.swift */,
 				51A54F3C291BA42B0065EF82 /* SceneDelegate.swift */,
+				51763A152923B95500AA871E /* Constants.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				51E319BF291D22E2006E5C55 /* HapticsManager.swift in Sources */,
 				51E319B3291D1E34006E5C55 /* WelcomeViewController.swift in Sources */,
 				51E319B7291D1E50006E5C55 /* ProfileViewController.swift in Sources */,
+				51763A162923B95500AA871E /* Constants.swift in Sources */,
 				51A54F3F291BA42B0065EF82 /* MainViewController.swift in Sources */,
 				51E319BD291D22CE006E5C55 /* API Caller.swift in Sources */,
 				51A54F3B291BA42B0065EF82 /* AppDelegate.swift in Sources */,
@@ -493,7 +497,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vitalivyucheiski.Awesome-Player";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -532,7 +536,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vitalivyucheiski.Awesome-Player";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
