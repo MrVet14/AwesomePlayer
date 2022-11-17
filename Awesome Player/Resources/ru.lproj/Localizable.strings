@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Awesome Player
+
+  Created by Vitali Vyucheiski on 11/17/22.
+  
+*/
+
+"Connect your Spotify account" = "Подключите аккаунт Spotify";
+"Continue with Spotify" = "Продолжить со Spotify";
+"Disconnect" = "Выйти";

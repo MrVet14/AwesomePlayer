@@ -12,41 +12,45 @@ class MainViewController: UIViewController {
     // MARK: - Subviews
     private lazy var connectLabel: UILabel = {
         let label = UILabel()
-        label.text = "Connect your Spotify account"
+		label.text = "Connect your Spotify account".localized()
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        label.textColor = UIColor(red: (29.0 / 255.0), green: (185.0 / 255.0), blue: (84.0 / 255.0), alpha: 1.0)
+		label.textColor = UIColor(asset: Asset.spotifyGreen)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
     private lazy var connectButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = UIColor(red: (29.0 / 255.0), green: (185.0 / 255.0), blue: (84.0 / 255.0), alpha: 1.0)
+        button.backgroundColor = UIColor(asset: Asset.spotifyGreen)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.contentEdgeInsets = UIEdgeInsets(top: 11.75, left: 32.0, bottom: 11.75, right: 32.0)
         button.layer.cornerRadius = 20.0
-        button.setTitle("Continue with Spotify", for: .normal)
+		button.setTitle("Continue with Spotify".localized(), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         button.sizeToFit()
         button.addTarget(self, action: #selector(didTapConnect(_: )), for: .touchUpInside)
         return button
     }()
+
     private lazy var disconnectButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .red
+		button.backgroundColor = UIColor(asset: Asset.red)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.contentEdgeInsets = UIEdgeInsets(top: 11.75, left: 32.0, bottom: 11.75, right: 32.0)
         button.layer.cornerRadius = 20.0
-        button.setTitle("Disconnect", for: .normal)
+		button.setTitle("Disconnect".localized(), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         button.sizeToFit()
         button.addTarget(self, action: #selector(didTapSignOut(_: )), for: .touchUpInside)
         return button
     }()
+
     // MARK: App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
     }
+
     // MARK: Methods
     func setupViews() {
         view.backgroundColor = UIColor.white
@@ -63,10 +67,27 @@ class MainViewController: UIViewController {
         connectButton.sizeToFit()
         disconnectButton.sizeToFit()
     }
-    @objc func didTapConnect(_ button: UIButton) {
+
+    @objc
+	func didTapConnect(
+		_ button: UIButton
+	) {
         AuthManager().didTapConnect()
     }
-    @objc func didTapSignOut(_ button: UIButton) {
+
+    @objc
+	func didTapSignOut(_ button: UIButton) {
         AuthManager().didTapSignOut()
     }
+}
+
+extension String {
+	func localized() -> String {
+		return NSLocalizedString(
+			self,
+			tableName: "Localizable",
+			bundle: .main,
+			value: self,
+			comment: self)
+	}
 }
