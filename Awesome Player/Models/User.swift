@@ -8,5 +8,5 @@
 import Foundation
 
 struct User: Identifiable {
-	var id: ObjectIdentifier
+	var id: UUID
 }
