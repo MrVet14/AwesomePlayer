@@ -1,14 +1,19 @@
  input_dir: Awesome Player/
  output_dir: Awesome Player/SwiftGen
  
- strings:
-  inputs: Views/Base.lproj
-  filter: .+\.strings$
-  outputs:
-    - templateName: structured-swift5
-      output: L10n-Constants.swift
+# strings:
+#  inputs: Views/Base.lproj
+#  filter: .+\.strings$
+#  outputs:
+#    - templateName: structured-swift5
+#      output: L10n-Constants.swift
  strings:
   inputs: Resources/en.lproj
+  outputs:
+    templateName: structured-swift5
+    output: Strings.swift
+ strings:
+  inputs: Resources/ru.lproj
   outputs:
     templateName: structured-swift5
     output: Strings.swift

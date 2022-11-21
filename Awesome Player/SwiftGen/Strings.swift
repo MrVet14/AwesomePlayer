@@ -14,11 +14,11 @@ internal enum L10n {
   ///   Awesome Player
   /// 
   ///   Created by Vitali Vyucheiski on 11/17/22.
-  internal static let connectYourSpotifyAccount = L10n.tr("Localizable", "Connect your Spotify account", fallback: "Connect your Spotify account")
-  /// Continue with Spotify
-  internal static let continueWithSpotify = L10n.tr("Localizable", "Continue with Spotify", fallback: "Continue with Spotify")
-  /// Disconnect
-  internal static let disconnect = L10n.tr("Localizable", "Disconnect", fallback: "Disconnect")
+  internal static let connectYourSpotifyAccount = L10n.tr("Localizable", "Connect your Spotify account", fallback: "Подключите аккаунт Spotify")
+  /// Продолжить со Spotify
+  internal static let continueWithSpotify = L10n.tr("Localizable", "Continue with Spotify", fallback: "Продолжить со Spotify")
+  /// Выйти
+  internal static let disconnect = L10n.tr("Localizable", "Disconnect", fallback: "Выйти")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces

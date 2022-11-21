@@ -8,9 +8,9 @@
 import Foundation
 
 final class AuthManager: NSObject {
-	let spotifyClientId = LocalPlistReaderManager().returnString("spotifyClientId")
-	let spotifyClientSecretKey = LocalPlistReaderManager().returnString("spotifyClientSecretKey")
-	let redirectUri = LocalPlistReaderManager().returnURL("redirectUri")
+	let spotifyClientId = PlistReaderManager().returnString(PlistBundleParameters.spotifyClientId)
+	let spotifyClientSecretKey = PlistReaderManager().returnString(PlistBundleParameters.spotifyClientSecretKey)
+	let redirectUri = PlistReaderManager().returnURL(PlistBundleParameters.redirectUri)
 
     var responseTypeCode: String? {
         didSet {
@@ -43,11 +43,7 @@ final class AuthManager: NSObject {
         didSet {
             if let authKey = accessToken.data(using: .utf8) {
                 do {
-                    try KeychainManager().setKey(
-                        authKey: authKey,
-                        service: "SpotifySDK",
-                        account: "User"
-                    )
+                    try KeychainManager().setKey(authKey: authKey)
                 } catch {
                     print(error)
                 }
@@ -58,7 +54,7 @@ final class AuthManager: NSObject {
     func getAccessTokenOnLaunch() {
         var returnedToken = String()
         do {
-            returnedToken = try KeychainManager().getKey(service: "SpotifySDK", account: "User")
+            returnedToken = try KeychainManager().getKey()
             print(returnedToken)
         } catch {
             print(error)
@@ -69,8 +65,8 @@ final class AuthManager: NSObject {
     lazy var configuration: SPTConfiguration = {
         let configuration = SPTConfiguration(clientID: spotifyClientId, redirectURL: redirectUri)
         configuration.playURI = ""
-        configuration.tokenSwapURL = URL(string: "http://localhost:1234/swap")
-        configuration.tokenRefreshURL = URL(string: "http://localhost:1234/refresh")
+		configuration.tokenSwapURL = PlistReaderManager().returnURL(PlistBundleParameters.tokenSwapURL)
+		configuration.tokenRefreshURL = PlistReaderManager().returnURL(PlistBundleParameters.tokenRefreshURL)
         return configuration
     }()
 
@@ -94,7 +90,7 @@ final class AuthManager: NSObject {
     // MARK: POST Request
     /// fetch Spotify access token. Use after getting responseTypeCode
     func fetchSpotifyToken(completion: @escaping ([String: Any]?, Error?) -> Void) {
-        let url = URL(string: "https://accounts.spotify.com/api/token")!
+		let url = PlistReaderManager().returnURL(PlistBundleParameters.spotifyAPITokenURL)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
 		let spotifyAuthKeyPreString = "\(spotifyClientId):\(spotifyClientSecretKey)"
