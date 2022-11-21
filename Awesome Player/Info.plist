@@ -30,6 +30,10 @@
 	<string>awesome-player://</string>
 	<key>spotifyAPITokenURL</key>
 	<string>https://accounts.spotify.com/api/token</string>
+	<key>tokenSwapURL</key>
+	<string>http://localhost:1234/swap</string>
+	<key>tokenRefreshURL</key>
+	<string>http://localhost:1234/refresh</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

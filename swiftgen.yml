@@ -12,6 +12,11 @@
   outputs:
     templateName: structured-swift5
     output: Strings.swift
+ strings:
+  inputs: Resources/ru.lproj
+  outputs:
+    templateName: structured-swift5
+    output: Strings.swift
  xcassets:
     inputs: Resources/Assets.xcassets
     outputs:

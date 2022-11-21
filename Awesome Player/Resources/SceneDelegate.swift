@@ -34,10 +34,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         if let code = parameters?["code"] {
             AuthManager().responseTypeCode = code
+			
         } else if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
             AuthManager().accessToken = access_token
+			
         } else if let error_description = parameters?[SPTAppRemoteErrorDescriptionKey] {
             print("No access token error =", error_description)
+			
         }
     }
 
