@@ -12,7 +12,7 @@ class MainViewController: UIViewController {
     // MARK: - Subviews
     private lazy var connectLabel: UILabel = {
         let label = UILabel()
-		label.text = "Connect your Spotify account".localized()
+		label.text = L10n.connectYourSpotifyAccount
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
 		label.textColor = UIColor(asset: Asset.spotifyGreen)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -24,8 +24,9 @@ class MainViewController: UIViewController {
         button.backgroundColor = UIColor(asset: Asset.spotifyGreen)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.contentEdgeInsets = UIEdgeInsets(top: 11.75, left: 32.0, bottom: 11.75, right: 32.0)
+		button.configuration?.titlePadding = 10
         button.layer.cornerRadius = 20.0
-		button.setTitle("Continue with Spotify".localized(), for: .normal)
+		button.setTitle(L10n.continueWithSpotify, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         button.sizeToFit()
         button.addTarget(self, action: #selector(didTapConnect(_: )), for: .touchUpInside)
@@ -38,7 +39,7 @@ class MainViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.contentEdgeInsets = UIEdgeInsets(top: 11.75, left: 32.0, bottom: 11.75, right: 32.0)
         button.layer.cornerRadius = 20.0
-		button.setTitle("Disconnect".localized(), for: .normal)
+		button.setTitle(L10n.disconnect, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         button.sizeToFit()
         button.addTarget(self, action: #selector(didTapSignOut(_: )), for: .touchUpInside)
@@ -79,15 +80,4 @@ class MainViewController: UIViewController {
 	func didTapSignOut(_ button: UIButton) {
         AuthManager().didTapSignOut()
     }
-}
-
-extension String {
-	func localized() -> String {
-		return NSLocalizedString(
-			self,
-			tableName: "Localizable",
-			bundle: .main,
-			value: self,
-			comment: self)
-	}
 }

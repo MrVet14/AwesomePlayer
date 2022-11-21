@@ -19,9 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 	) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
-        if AuthManager().appRemote.isConnected {
-            // deciding on the root view
-        }
         window.rootViewController = MainViewController()
         window.makeKeyAndVisible()
         self.window = window

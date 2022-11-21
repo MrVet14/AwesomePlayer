@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5121C2702927B3B0001EE388 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5121C26F2927B3B0001EE388 /* Strings.swift */; };
 		5125B716291E5B2D007EDF5D /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5125B715291E5B2D007EDF5D /* SpotifyiOS.framework */; };
 		5125B719291E727E007EDF5D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B718291E727E007EDF5D /* SnapKit */; };
 		5125B71C291E7381007EDF5D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B71B291E7381007EDF5D /* Alamofire */; };
@@ -39,6 +40,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5121C26F2927B3B0001EE388 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		5125B715291E5B2D007EDF5D /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		5125B725291E791A007EDF5D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		51763A152923B95500AA871E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		51A54F5D291BF0900065EF82 /* SwiftGen */ = {
 			isa = PBXGroup;
 			children = (
+				5121C26F2927B3B0001EE388 /* Strings.swift */,
 				51A2E6F62926890F008B43F5 /* Assets-Constants.swift */,
 				51A54F61291BF2050065EF82 /* L10n-Constants.swift */,
 			);
@@ -345,6 +348,7 @@
 				51E319BF291D22E2006E5C55 /* HapticsManager.swift in Sources */,
 				51E319B3291D1E34006E5C55 /* WelcomeViewController.swift in Sources */,
 				51A2E6F72926890F008B43F5 /* Assets-Constants.swift in Sources */,
+				5121C2702927B3B0001EE388 /* Strings.swift in Sources */,
 				51E319B7291D1E50006E5C55 /* ProfileViewController.swift in Sources */,
 				51763A162923B95500AA871E /* Constants.swift in Sources */,
 				51A2E6EC29266CB6008B43F5 /* LocalPlistReaderManager.swift in Sources */,

@@ -19,11 +19,11 @@
         output: Assets-Constants.swift
 # strings:
 #	inputs:
-#		- Resources/en.lproj
-#		- Resources/ru.lproj
+#	  - Resources/en.lproj
+#	  - Resources/ru.lproj
 #	outputs:
-#		templateName: structured-swift5
-#	output: Strings.swift
+#	  - templateName: structured-swift5
+#	    output: Strings.swift
 
  
 

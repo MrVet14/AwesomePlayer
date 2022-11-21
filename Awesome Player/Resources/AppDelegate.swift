@@ -20,9 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         FirebaseApp.configure()
         let window = UIWindow(frame: UIScreen.main.bounds)
-        if AuthManager().appRemote.isConnected {
-            // deciding on the root view
-        }
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()
         self.window = window
