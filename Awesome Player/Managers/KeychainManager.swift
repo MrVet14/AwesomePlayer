@@ -8,6 +8,9 @@
 import Foundation
 
 class KeychainManager {
+	let service = KeyChainParameters.service
+	let account = KeyChainParameters.account
+
 	enum KeychainError: Error {
 		// Attempted read for an item that does not exist.
 		case itemNotFound
@@ -20,12 +23,12 @@ class KeychainManager {
 		case unexpectedStatus(OSStatus)
 	}
 
-	func setKey(authKey: Data, service: String, account: String) throws {
+	func setKey(authKey: Data) throws {
 		print("Started setting Key")
 		let query: [String: AnyObject] = [
 			// attrs to identify item
-			kSecAttrService as String: service as AnyObject,
-			kSecAttrAccount as String: account as AnyObject,
+			kSecAttrService as String: self.service as AnyObject,
+			kSecAttrAccount as String: self.account as AnyObject,
 			kSecClass as String: kSecClassGenericPassword,
 			// data to save
 			kSecValueData as String: authKey as AnyObject
@@ -36,7 +39,7 @@ class KeychainManager {
 		if status == errSecDuplicateItem {
 			// updating key
 			do {
-				try self.updateKey(authKey: authKey, service: service, account: account)
+				try self.updateKey(authKey: authKey)
 			} catch {
 				print(error)
 			}
@@ -50,13 +53,13 @@ class KeychainManager {
 		print("Finished setting Key")
 	}
 
-	func getKey(service: String, account: String) throws -> String {
+	func getKey() throws -> String {
 		print("Started getting Key")
 		let query: [String: AnyObject] = [
 			// kSecAttrService,  kSecAttrAccount, and kSecClass
 			// uniquely identify the item to read in Keychain
-			kSecAttrService as String: service as AnyObject,
-			kSecAttrAccount as String: account as AnyObject,
+			kSecAttrService as String: self.service as AnyObject,
+			kSecAttrAccount as String: self.account as AnyObject,
 			kSecClass as String: kSecClassGenericPassword,
 			// kSecMatchLimitOne indicates keychain should read
 			// only the most recent item matching this query
@@ -92,13 +95,13 @@ class KeychainManager {
 		return authKey
 	}
 
-	func updateKey(authKey: Data, service: String, account: String) throws {
+	func updateKey(authKey: Data) throws {
 		print("Started updating Key")
 		let query: [String: AnyObject] = [
 			// kSecAttrService,  kSecAttrAccount, and kSecClass
 			// uniquely identify the item to update in Keychain
-			kSecAttrService as String: service as AnyObject,
-			kSecAttrAccount as String: account as AnyObject,
+			kSecAttrService as String: self.service as AnyObject,
+			kSecAttrAccount as String: self.account as AnyObject,
 			kSecClass as String: kSecClassGenericPassword
 		]
 		// attributes is passed to SecItemUpdate with
@@ -124,13 +127,13 @@ class KeychainManager {
 		print("Finished updating Key")
 	}
 
-	func deleteKey(service: String, account: String) throws {
+	func deleteKey() throws {
 		print("Started deleting Key")
 		let query: [String: AnyObject] = [
 			// kSecAttrService,  kSecAttrAccount, and kSecClass
 			// uniquely identify the item to delete in Keychain
-			kSecAttrService as String: service as AnyObject,
-			kSecAttrAccount as String: account as AnyObject,
+			kSecAttrService as String: self.service as AnyObject,
+			kSecAttrAccount as String: self.account as AnyObject,
 			kSecClass as String: kSecClassGenericPassword
 		]
 		// SecItemDelete attempts to perform a delete operation

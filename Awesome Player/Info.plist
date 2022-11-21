@@ -28,6 +28,8 @@
 	<string>dd4bc1311afa489b8c2e6f5ffe1298cf</string>
 	<key>redirectUri</key>
 	<string>awesome-player://</string>
+	<key>spotifyAPITokenURL</key>
+	<string>https://accounts.spotify.com/api/token</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

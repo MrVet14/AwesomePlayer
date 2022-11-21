@@ -43,11 +43,7 @@ final class AuthManager: NSObject {
         didSet {
             if let authKey = accessToken.data(using: .utf8) {
                 do {
-                    try KeychainManager().setKey(
-                        authKey: authKey,
-                        service: "SpotifySDK",
-                        account: "User"
-                    )
+                    try KeychainManager().setKey(authKey: authKey)
                 } catch {
                     print(error)
                 }
@@ -58,7 +54,7 @@ final class AuthManager: NSObject {
     func getAccessTokenOnLaunch() {
         var returnedToken = String()
         do {
-            returnedToken = try KeychainManager().getKey(service: "SpotifySDK", account: "User")
+            returnedToken = try KeychainManager().getKey()
             print(returnedToken)
         } catch {
             print(error)
@@ -69,8 +65,6 @@ final class AuthManager: NSObject {
     lazy var configuration: SPTConfiguration = {
         let configuration = SPTConfiguration(clientID: spotifyClientId, redirectURL: redirectUri)
         configuration.playURI = ""
-        configuration.tokenSwapURL = URL(string: "http://localhost:1234/swap")
-        configuration.tokenRefreshURL = URL(string: "http://localhost:1234/refresh")
         return configuration
     }()
 
