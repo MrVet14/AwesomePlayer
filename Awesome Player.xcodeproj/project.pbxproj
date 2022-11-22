@@ -15,6 +15,12 @@
 		5125B724291E78A7007EDF5D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B723291E78A7007EDF5D /* Kingfisher */; };
 		5125B726291E791B007EDF5D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5125B725291E791A007EDF5D /* GoogleService-Info.plist */; };
 		5125B729291E7A95007EDF5D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B728291E7A95007EDF5D /* FirebaseFirestore */; };
+		5157080B292CD9B800672E36 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 5157080A292CD9B800672E36 /* Realm */; };
+		5157080D292CD9B800672E36 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5157080C292CD9B800672E36 /* RealmSwift */; };
+		5157080F292CDD1A00672E36 /* RealManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5157080E292CDD1A00672E36 /* RealManager.swift */; };
+		51570811292CDD3E00672E36 /* PicturesParsingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51570810292CDD3E00672E36 /* PicturesParsingManager.swift */; };
+		51570813292CDD8700672E36 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51570812292CDD8700672E36 /* FirebaseManager.swift */; };
+		51570815292CE8E800672E36 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51570814292CE8E800672E36 /* Playlist.swift */; };
 		51763A162923B95500AA871E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51763A152923B95500AA871E /* Constants.swift */; };
 		51A2E6EA29265185008B43F5 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A2E6E929265185008B43F5 /* KeychainManager.swift */; };
 		51A2E6EC29266CB6008B43F5 /* PlistReaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A2E6EB29266CB6008B43F5 /* PlistReaderManager.swift */; };
@@ -27,7 +33,6 @@
 		51A54F47291BA42D0065EF82 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51A54F45291BA42D0065EF82 /* LaunchScreen.storyboard */; };
 		51A54F55291BC69A0065EF82 /* Song.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F54291BC69A0065EF82 /* Song.swift */; };
 		51A54F57291BC6A60065EF82 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F56291BC6A60065EF82 /* User.swift */; };
-		51A54F62291BF2050065EF82 /* L10n-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F61291BF2050065EF82 /* L10n-Constants.swift */; };
 		51E319B1291D1E27006E5C55 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B0291D1E27006E5C55 /* AuthViewController.swift */; };
 		51E319B3291D1E34006E5C55 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B2291D1E34006E5C55 /* WelcomeViewController.swift */; };
 		51E319B5291D1E43006E5C55 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B4291D1E43006E5C55 /* SettingsViewController.swift */; };
@@ -43,6 +48,10 @@
 		5121C26F2927B3B0001EE388 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		5125B715291E5B2D007EDF5D /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		5125B725291E791A007EDF5D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5157080E292CDD1A00672E36 /* RealManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealManager.swift; sourceTree = "<group>"; };
+		51570810292CDD3E00672E36 /* PicturesParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturesParsingManager.swift; sourceTree = "<group>"; };
+		51570812292CDD8700672E36 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		51570814292CE8E800672E36 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		51763A152923B95500AA871E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		51A2E6E929265185008B43F5 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		51A2E6EB29266CB6008B43F5 /* PlistReaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistReaderManager.swift; sourceTree = "<group>"; };
@@ -59,7 +68,6 @@
 		51A54F54291BC69A0065EF82 /* Song.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Song.swift; sourceTree = "<group>"; };
 		51A54F56291BC6A60065EF82 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		51A54F5C291BEADA0065EF82 /* swiftgen.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
-		51A54F61291BF2050065EF82 /* L10n-Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "L10n-Constants.swift"; sourceTree = "<group>"; };
 		51E319B0291D1E27006E5C55 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		51E319B2291D1E34006E5C55 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		51E319B4291D1E43006E5C55 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +85,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5157080D292CD9B800672E36 /* RealmSwift in Frameworks */,
+				5157080B292CD9B800672E36 /* Realm in Frameworks */,
 				5125B724291E78A7007EDF5D /* Kingfisher in Frameworks */,
 				5125B71C291E7381007EDF5D /* Alamofire in Frameworks */,
 				5125B716291E5B2D007EDF5D /* SpotifyiOS.framework in Frameworks */,
@@ -129,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				51A54F54291BC69A0065EF82 /* Song.swift */,
+				51570814292CE8E800672E36 /* Playlist.swift */,
 				51A54F56291BC6A60065EF82 /* User.swift */,
 			);
 			path = Models;
@@ -154,8 +165,8 @@
 			children = (
 				51A54F43291BA42D0065EF82 /* Assets.xcassets */,
 				51A54F3A291BA42B0065EF82 /* AppDelegate.swift */,
-				51A54F3C291BA42B0065EF82 /* SceneDelegate.swift */,
 				51763A152923B95500AA871E /* Constants.swift */,
+				51A54F3C291BA42B0065EF82 /* SceneDelegate.swift */,
 				51A2E6F329267CEB008B43F5 /* Localizable.strings */,
 			);
 			path = Resources;
@@ -164,10 +175,13 @@
 		51A54F53291BA63F0065EF82 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				51E319BA291D22C1006E5C55 /* AuthManager.swift */,
 				51E319BC291D22CE006E5C55 /* APICaller.swift */,
+				51E319BA291D22C1006E5C55 /* AuthManager.swift */,
+				51570812292CDD8700672E36 /* FirebaseManager.swift */,
 				51E319BE291D22E2006E5C55 /* HapticsManager.swift */,
 				51A2E6E929265185008B43F5 /* KeychainManager.swift */,
+				5157080E292CDD1A00672E36 /* RealManager.swift */,
+				51570810292CDD3E00672E36 /* PicturesParsingManager.swift */,
 				51A2E6EB29266CB6008B43F5 /* PlistReaderManager.swift */,
 			);
 			path = Managers;
@@ -176,9 +190,8 @@
 		51A54F5D291BF0900065EF82 /* SwiftGen */ = {
 			isa = PBXGroup;
 			children = (
-				5121C26F2927B3B0001EE388 /* Strings.swift */,
 				51A2E6F62926890F008B43F5 /* Assets-Constants.swift */,
-				51A54F61291BF2050065EF82 /* L10n-Constants.swift */,
+				5121C26F2927B3B0001EE388 /* Strings.swift */,
 			);
 			path = SwiftGen;
 			sourceTree = "<group>";
@@ -196,10 +209,10 @@
 			isa = PBXGroup;
 			children = (
 				51E319B0291D1E27006E5C55 /* AuthViewController.swift */,
-				51E319B2291D1E34006E5C55 /* WelcomeViewController.swift */,
-				51E319B4291D1E43006E5C55 /* SettingsViewController.swift */,
-				51E319B6291D1E50006E5C55 /* ProfileViewController.swift */,
 				51E319B8291D1E61006E5C55 /* PlayerViewController.swift */,
+				51E319B6291D1E50006E5C55 /* ProfileViewController.swift */,
+				51E319B4291D1E43006E5C55 /* SettingsViewController.swift */,
+				51E319B2291D1E34006E5C55 /* WelcomeViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -236,6 +249,8 @@
 				5125B720291E76C1007EDF5D /* Moya */,
 				5125B723291E78A7007EDF5D /* Kingfisher */,
 				5125B728291E7A95007EDF5D /* FirebaseFirestore */,
+				5157080A292CD9B800672E36 /* Realm */,
+				5157080C292CD9B800672E36 /* RealmSwift */,
 			);
 			productName = "Awesome Player";
 			productReference = 51A54F37291BA42B0065EF82 /* Awesome Player.app */;
@@ -272,6 +287,7 @@
 				5125B71D291E76C1007EDF5D /* XCRemoteSwiftPackageReference "Moya" */,
 				5125B722291E78A7007EDF5D /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				5125B727291E7A95007EDF5D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				51570809292CD9B700672E36 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 51A54F38291BA42B0065EF82 /* Products */;
 			projectDirPath = "";
@@ -352,14 +368,17 @@
 				51E319B7291D1E50006E5C55 /* ProfileViewController.swift in Sources */,
 				51763A162923B95500AA871E /* Constants.swift in Sources */,
 				51A2E6EC29266CB6008B43F5 /* PlistReaderManager.swift in Sources */,
+				51570813292CDD8700672E36 /* FirebaseManager.swift in Sources */,
 				51A54F3F291BA42B0065EF82 /* MainViewController.swift in Sources */,
 				51E319BD291D22CE006E5C55 /* APICaller.swift in Sources */,
 				51A2E6EA29265185008B43F5 /* KeychainManager.swift in Sources */,
 				51A54F3B291BA42B0065EF82 /* AppDelegate.swift in Sources */,
+				51570811292CDD3E00672E36 /* PicturesParsingManager.swift in Sources */,
 				51E319B1291D1E27006E5C55 /* AuthViewController.swift in Sources */,
 				51A54F57291BC6A60065EF82 /* User.swift in Sources */,
-				51A54F62291BF2050065EF82 /* L10n-Constants.swift in Sources */,
+				5157080F292CDD1A00672E36 /* RealManager.swift in Sources */,
 				51A54F3D291BA42B0065EF82 /* SceneDelegate.swift in Sources */,
+				51570815292CE8E800672E36 /* Playlist.swift in Sources */,
 				51E319B9291D1E61006E5C55 /* PlayerViewController.swift in Sources */,
 				51E319B5291D1E43006E5C55 /* SettingsViewController.swift in Sources */,
 			);
@@ -646,6 +665,14 @@
 				kind = branch;
 			};
 		};
+		51570809292CD9B700672E36 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				kind = exactVersion;
+				version = 10.32.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -673,6 +700,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 5125B727291E7A95007EDF5D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		5157080A292CD9B800672E36 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51570809292CD9B700672E36 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		5157080C292CD9B800672E36 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 51570809292CD9B700672E36 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

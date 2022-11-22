@@ -41,9 +41,9 @@ final class AuthManager: NSObject {
 
     var accessToken = "" {
         didSet {
-            if let authKey = accessToken.data(using: .utf8) {
+            if let accessToken = accessToken.data(using: .utf8) {
                 do {
-                    try KeychainManager().setKey(authKey: authKey)
+                    try KeychainManager().setToken(token: accessToken)
                 } catch {
                     print(error)
                 }
@@ -54,7 +54,7 @@ final class AuthManager: NSObject {
     func getAccessTokenOnLaunch() {
         var returnedToken = String()
         do {
-            returnedToken = try KeychainManager().getKey()
+            returnedToken = try KeychainManager().getToken()
             print(returnedToken)
         } catch {
             print(error)

@@ -23,15 +23,15 @@ class KeychainManager {
 		case unexpectedStatus(OSStatus)
 	}
 
-	func setKey(authKey: Data) throws {
-		print("Started setting Key")
+	func setToken(token: Data) throws {
+		print("Started setting Token")
 		let query: [String: AnyObject] = [
 			// attrs to identify item
 			kSecAttrService as String: self.service as AnyObject,
 			kSecAttrAccount as String: self.account as AnyObject,
 			kSecClass as String: kSecClassGenericPassword,
 			// data to save
-			kSecValueData as String: authKey as AnyObject
+			kSecValueData as String: token as AnyObject
 		]
 		// adding items to keychain
 		let status = SecItemAdd(query as CFDictionary, nil)
@@ -39,7 +39,7 @@ class KeychainManager {
 		if status == errSecDuplicateItem {
 			// updating key
 			do {
-				try self.updateKey(authKey: authKey)
+				try self.updateToken(token: token)
 			} catch {
 				print(error)
 			}
@@ -47,14 +47,14 @@ class KeychainManager {
 		}
 		// trowing error if failed to save data
 		guard status == errSecSuccess else {
-			print("Error setting Key")
+			print("Error setting Token")
 			throw KeychainError.unexpectedStatus(status)
 		}
-		print("Finished setting Key")
+		print("Finished setting Token")
 	}
 
-	func getKey() throws -> String {
-		print("Started getting Key")
+	func getToken() throws -> String {
+		print("Started getting Token")
 		let query: [String: AnyObject] = [
 			// kSecAttrService,  kSecAttrAccount, and kSecClass
 			// uniquely identify the item to read in Keychain
@@ -91,12 +91,12 @@ class KeychainManager {
 			throw KeychainError.invalidItemFormat
 		}
 		let authKey = String(decoding: authKeyData, as: UTF8.self)
-		print("Finished getting Key")
+		print("Finished getting Token")
 		return authKey
 	}
 
-	func updateKey(authKey: Data) throws {
-		print("Started updating Key")
+	func updateToken(token: Data) throws {
+		print("Started updating Token")
 		let query: [String: AnyObject] = [
 			// kSecAttrService,  kSecAttrAccount, and kSecClass
 			// uniquely identify the item to update in Keychain
@@ -107,7 +107,7 @@ class KeychainManager {
 		// attributes is passed to SecItemUpdate with
 		// kSecValueData as the updated item value
 		let attributes: [String: AnyObject] = [
-			kSecValueData as String: authKey as AnyObject
+			kSecValueData as String: token as AnyObject
 		]
 		// SecItemUpdate attempts to update the item identified
 		// by query, overriding the previous value
@@ -124,11 +124,11 @@ class KeychainManager {
 		guard status == errSecSuccess else {
 			throw KeychainError.unexpectedStatus(status)
 		}
-		print("Finished updating Key")
+		print("Finished updating Token")
 	}
 
-	func deleteKey() throws {
-		print("Started deleting Key")
+	func deleteToken() throws {
+		print("Started deleting Token")
 		let query: [String: AnyObject] = [
 			// kSecAttrService,  kSecAttrAccount, and kSecClass
 			// uniquely identify the item to delete in Keychain
@@ -145,6 +145,6 @@ class KeychainManager {
 		guard status == errSecSuccess else {
 			throw KeychainError.unexpectedStatus(status)
 		}
-		print("Finished deleting Key")
+		print("Finished deleting Token")
 	}
 }

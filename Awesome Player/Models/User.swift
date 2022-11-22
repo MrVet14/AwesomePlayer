@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct User: Identifiable {
-	var id: UUID
+class User {
+	@Published var likedSongs = [Song]()
 }
