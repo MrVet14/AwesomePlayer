@@ -38,6 +38,9 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+		DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+			APICaller().loadRecommendedTracks()
+		}
     }
 
     // MARK: Methods
