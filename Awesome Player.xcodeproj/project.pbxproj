@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5121C2702927B3B0001EE388 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5121C26F2927B3B0001EE388 /* Strings.swift */; };
 		5125B716291E5B2D007EDF5D /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5125B715291E5B2D007EDF5D /* SpotifyiOS.framework */; };
 		5125B719291E727E007EDF5D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B718291E727E007EDF5D /* SnapKit */; };
 		5125B71C291E7381007EDF5D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B71B291E7381007EDF5D /* Alamofire */; };
@@ -15,6 +16,10 @@
 		5125B726291E791B007EDF5D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5125B725291E791A007EDF5D /* GoogleService-Info.plist */; };
 		5125B729291E7A95007EDF5D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B728291E7A95007EDF5D /* FirebaseFirestore */; };
 		51763A162923B95500AA871E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51763A152923B95500AA871E /* Constants.swift */; };
+		51A2E6EA29265185008B43F5 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A2E6E929265185008B43F5 /* KeychainManager.swift */; };
+		51A2E6EC29266CB6008B43F5 /* PlistReaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A2E6EB29266CB6008B43F5 /* PlistReaderManager.swift */; };
+		51A2E6F129267CEB008B43F5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 51A2E6F329267CEB008B43F5 /* Localizable.strings */; };
+		51A2E6F72926890F008B43F5 /* Assets-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A2E6F62926890F008B43F5 /* Assets-Constants.swift */; };
 		51A54F3B291BA42B0065EF82 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F3A291BA42B0065EF82 /* AppDelegate.swift */; };
 		51A54F3D291BA42B0065EF82 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F3C291BA42B0065EF82 /* SceneDelegate.swift */; };
 		51A54F3F291BA42B0065EF82 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F3E291BA42B0065EF82 /* MainViewController.swift */; };
@@ -29,15 +34,21 @@
 		51E319B7291D1E50006E5C55 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B6291D1E50006E5C55 /* ProfileViewController.swift */; };
 		51E319B9291D1E61006E5C55 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B8291D1E61006E5C55 /* PlayerViewController.swift */; };
 		51E319BB291D22C1006E5C55 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319BA291D22C1006E5C55 /* AuthManager.swift */; };
-		51E319BD291D22CE006E5C55 /* API Caller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319BC291D22CE006E5C55 /* API Caller.swift */; };
+		51E319BD291D22CE006E5C55 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319BC291D22CE006E5C55 /* APICaller.swift */; };
 		51E319BF291D22E2006E5C55 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319BE291D22E2006E5C55 /* HapticsManager.swift */; };
 		51E319C7291D4519006E5C55 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 51E319C6291D4519006E5C55 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5121C26F2927B3B0001EE388 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		5125B715291E5B2D007EDF5D /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		5125B725291E791A007EDF5D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		51763A152923B95500AA871E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		51A2E6E929265185008B43F5 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		51A2E6EB29266CB6008B43F5 /* PlistReaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistReaderManager.swift; sourceTree = "<group>"; };
+		51A2E6F229267CEB008B43F5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		51A2E6F529267D0D008B43F5 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		51A2E6F62926890F008B43F5 /* Assets-Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Assets-Constants.swift"; sourceTree = "<group>"; };
 		51A54F37291BA42B0065EF82 /* Awesome Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Awesome Player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		51A54F3A291BA42B0065EF82 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		51A54F3C291BA42B0065EF82 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,7 +66,7 @@
 		51E319B6291D1E50006E5C55 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		51E319B8291D1E61006E5C55 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		51E319BA291D22C1006E5C55 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
-		51E319BC291D22CE006E5C55 /* API Caller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API Caller.swift"; sourceTree = "<group>"; };
+		51E319BC291D22CE006E5C55 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		51E319BE291D22E2006E5C55 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		51E319C5291D4500006E5C55 /* Awesome-Player-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Awesome-Player-Bridging-Header.h"; sourceTree = "<group>"; };
 		51E319C6291D4519006E5C55 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -145,6 +156,7 @@
 				51A54F3A291BA42B0065EF82 /* AppDelegate.swift */,
 				51A54F3C291BA42B0065EF82 /* SceneDelegate.swift */,
 				51763A152923B95500AA871E /* Constants.swift */,
+				51A2E6F329267CEB008B43F5 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -153,8 +165,10 @@
 			isa = PBXGroup;
 			children = (
 				51E319BA291D22C1006E5C55 /* AuthManager.swift */,
-				51E319BC291D22CE006E5C55 /* API Caller.swift */,
+				51E319BC291D22CE006E5C55 /* APICaller.swift */,
 				51E319BE291D22E2006E5C55 /* HapticsManager.swift */,
+				51A2E6E929265185008B43F5 /* KeychainManager.swift */,
+				51A2E6EB29266CB6008B43F5 /* PlistReaderManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -162,6 +176,8 @@
 		51A54F5D291BF0900065EF82 /* SwiftGen */ = {
 			isa = PBXGroup;
 			children = (
+				5121C26F2927B3B0001EE388 /* Strings.swift */,
+				51A2E6F62926890F008B43F5 /* Assets-Constants.swift */,
 				51A54F61291BF2050065EF82 /* L10n-Constants.swift */,
 			);
 			path = SwiftGen;
@@ -247,6 +263,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 51A54F2E291BA42A0065EF82;
 			packageReferences = (
@@ -270,6 +287,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51A2E6F129267CEB008B43F5 /* Localizable.strings in Resources */,
 				51E319C7291D4519006E5C55 /* .swiftlint.yml in Resources */,
 				5125B726291E791B007EDF5D /* GoogleService-Info.plist in Resources */,
 				51A54F47291BA42D0065EF82 /* LaunchScreen.storyboard in Resources */,
@@ -329,10 +347,14 @@
 				51E319BB291D22C1006E5C55 /* AuthManager.swift in Sources */,
 				51E319BF291D22E2006E5C55 /* HapticsManager.swift in Sources */,
 				51E319B3291D1E34006E5C55 /* WelcomeViewController.swift in Sources */,
+				51A2E6F72926890F008B43F5 /* Assets-Constants.swift in Sources */,
+				5121C2702927B3B0001EE388 /* Strings.swift in Sources */,
 				51E319B7291D1E50006E5C55 /* ProfileViewController.swift in Sources */,
 				51763A162923B95500AA871E /* Constants.swift in Sources */,
+				51A2E6EC29266CB6008B43F5 /* PlistReaderManager.swift in Sources */,
 				51A54F3F291BA42B0065EF82 /* MainViewController.swift in Sources */,
-				51E319BD291D22CE006E5C55 /* API Caller.swift in Sources */,
+				51E319BD291D22CE006E5C55 /* APICaller.swift in Sources */,
+				51A2E6EA29265185008B43F5 /* KeychainManager.swift in Sources */,
 				51A54F3B291BA42B0065EF82 /* AppDelegate.swift in Sources */,
 				51E319B1291D1E27006E5C55 /* AuthViewController.swift in Sources */,
 				51A54F57291BC6A60065EF82 /* User.swift in Sources */,
@@ -346,6 +368,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		51A2E6F329267CEB008B43F5 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				51A2E6F229267CEB008B43F5 /* en */,
+				51A2E6F529267D0D008B43F5 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		51A54F45291BA42D0065EF82 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -361,6 +392,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -421,6 +453,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

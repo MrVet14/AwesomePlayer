@@ -13,13 +13,13 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     lazy var rootViewController = MainViewController()
-    // swiftlint:disable line_length
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         FirebaseApp.configure()
         let window = UIWindow(frame: UIScreen.main.bounds)
-        if AuthManager().appRemote.isConnected {
-            // deciding on the root view
-        }
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()
         self.window = window

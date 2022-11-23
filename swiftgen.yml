@@ -1,17 +1,35 @@
  input_dir: Awesome Player/
  output_dir: Awesome Player/SwiftGen
  
+# strings:
+#  inputs: Views/Base.lproj
+#  filter: .+\.strings$
+#  outputs:
+#    - templateName: structured-swift5
+#      output: L10n-Constants.swift
  strings:
-  inputs: Views/Base.lproj
-  filter: .+\.strings$
+  inputs: Resources/en.lproj
   outputs:
-    - templateName: structured-swift5
-      output: L10n-Constants.swift
-#xcassets:
-#    inputs: Resources/Assets.xcassets
-#    outputs:
-#      - templateName: swift5
-#        output: Assets-Constants.swift
+    templateName: structured-swift5
+    output: Strings.swift
+ strings:
+  inputs: Resources/ru.lproj
+  outputs:
+    templateName: structured-swift5
+    output: Strings.swift
+ xcassets:
+    inputs: Resources/Assets.xcassets
+    outputs:
+      - templateName: swift5
+        output: Assets-Constants.swift
+# strings:
+#	inputs:
+#	  - Resources/en.lproj
+#	  - Resources/ru.lproj
+#	outputs:
+#	  - templateName: structured-swift5
+#	    output: Strings.swift
+
  
 
 ## Generate constants for your Assets Catalogs, including constants for images, colors, ARKit resources, etc.

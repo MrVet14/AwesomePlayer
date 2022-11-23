@@ -7,12 +7,16 @@
 
 import Foundation
 
-let accessTokenKey = "access-token-key"
-let redirectUri = URL(string: "awesome-player://")!
-let spotifyClientId = "a02da930b4a64ab8a976ea8376eda362"
-let spotifyClientSecretKey = "dd4bc1311afa489b8c2e6f5ffe1298cf"
+enum KeyChainParameters {
+	internal static let service: String = "SpotifySDK"
+	internal static let account: String = "User"
+}
 
-// remove scopes you don't need
-let scopes: SPTScope = [.userReadEmail]
-// remove scopes you don't need
-let stringScopes = ["user-read-email"]
+enum PlistBundleParameters {
+	internal static let spotifyClientId: String = "spotifyClientId"
+	internal static let spotifyClientSecretKey: String = "spotifyClientSecretKey"
+	internal static let redirectUri: String = "redirectUri"
+	internal static let spotifyAPITokenURL: String = "spotifyAPITokenURL"
+	internal static let tokenSwapURL: String = "tokenSwapURL"
+	internal static let tokenRefreshURL: String = "tokenRefreshURL"
+}
