@@ -51,17 +51,6 @@ final class AuthManager: NSObject {
         }
     }
 
-    func getAccessTokenOnLaunch() {
-        var returnedToken = String()
-        do {
-            returnedToken = try KeychainManager().getToken()
-            print(returnedToken)
-        } catch {
-            print(error)
-        }
-        accessToken = returnedToken
-    }
-
     lazy var configuration: SPTConfiguration = {
         let configuration = SPTConfiguration(clientID: spotifyClientId, redirectURL: redirectUri)
         configuration.playURI = ""
@@ -91,18 +80,13 @@ final class AuthManager: NSObject {
     /// fetch Spotify access token. Use after getting responseTypeCode
     func fetchSpotifyToken(completion: @escaping ([String: Any]?, Error?) -> Void) {
 		let url = PlistReaderManager().returnURL(PlistBundleParameters.spotifyAPITokenURL)
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
 		let spotifyAuthKeyPreString = "\(spotifyClientId):\(spotifyClientSecretKey)"
 		let spotifyAuthKey = "Basic \(spotifyAuthKeyPreString.data(using: .utf8)!.base64EncodedString())"
-        request.allHTTPHeaderFields = [
-			"Authorization": spotifyAuthKey,
-			"Content-Type": "application/x-www-form-urlencoded"
-		]
-        var requestBodyComponents = URLComponents()
 		let stringScopes = ["user-read-email"]
-        let scopeAsString = stringScopes.joined(separator: " ")
-        requestBodyComponents.queryItems = [
+		let scopeAsString = stringScopes.joined(separator: " ")
+
+		var requestBodyComponents = URLComponents()
+		requestBodyComponents.queryItems = [
 			URLQueryItem(
 				name: "client_id",
 				value: spotifyClientId
@@ -124,6 +108,13 @@ final class AuthManager: NSObject {
 				value: scopeAsString
 			)
 		]
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = [
+			"Authorization": spotifyAuthKey,
+			"Content-Type": "application/x-www-form-urlencoded"
+		]
         request.httpBody = requestBodyComponents.query?.data(using: .utf8)
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -136,8 +127,6 @@ final class AuthManager: NSObject {
             }
             let responseObject = try? JSONSerialization.jsonObject(with: data) as? [String: Any]
             print(responseObject!)
-//            print("---access_token:", responseObject?["access_token"] ?? "")
-//            print("---refresh_token:", responseObject?["refresh_token"] ?? "")
             completion(responseObject, nil)
         }
         task.resume()

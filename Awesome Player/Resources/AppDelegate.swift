@@ -19,10 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         FirebaseApp.configure()
+
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = rootViewController
         window.makeKeyAndVisible()
+
         self.window = window
+
         return true
     }
     

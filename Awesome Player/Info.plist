@@ -34,6 +34,8 @@
 	<string>http://localhost:1234/swap</string>
 	<key>tokenRefreshURL</key>
 	<string>http://localhost:1234/refresh</string>
+	<key>spotifyWebAPIBaseUrl</key>
+	<string>https://api.spotify.com/v1</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

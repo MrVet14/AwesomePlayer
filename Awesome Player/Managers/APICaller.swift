@@ -18,7 +18,7 @@ enum SpotifyAPI {
 
 extension SpotifyAPI: TargetType {
 	var baseURL: URL {
-		return URL(string: "https://api.spotify.com/v1")!
+		return URL(string: PlistReaderManager().returnString(APIConstants.spotifyWebAPIBaseUrl))!
 	}
 
 	var path: String {
@@ -45,22 +45,20 @@ extension SpotifyAPI: TargetType {
 	}
 
 	var task: Moya.Task {
+		let queryString = URLEncoding.queryString
+
 		switch self {
 		case .loadASong:
-			return .requestParameters(parameters: ["market": "US"], encoding: URLEncoding.queryString)
+			return .requestPlain
 
 		case .loadSongs(ids: let ids):
-			let requestParameters = [
-				"ids": ids,
-				"market": "US"
-			] as [String: Any]
-			return .requestParameters(parameters: requestParameters, encoding: URLEncoding.queryString)
+			return .requestParameters(parameters: ["ids": ids], encoding: queryString)
 
 		case .loadSongFeatures:
 			return .requestPlain
 
 		case .loadSongsFeatures(ids: let ids):
-			return .requestParameters(parameters: ["ids": ids], encoding: URLEncoding.queryString)
+			return .requestParameters(parameters: ["ids": ids], encoding: queryString)
 
 		case .loadRecommended:
 			let parameters = [
@@ -71,7 +69,7 @@ extension SpotifyAPI: TargetType {
 				"limit": "1",
 				"market": "US"
 			]
-			return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
+			return .requestParameters(parameters: parameters, encoding: queryString)
 		}
 	}
 
@@ -104,15 +102,7 @@ class APICaller {
 
 	func loadASong(_ id: String) {
 		provider.request(.loadASong(id: id)) { result in
-			switch result {
-			case .success(let response):
-				print("Success")
-				print(response.statusCode)
-				print(String(bytes: response.data, encoding: .utf8)!)
-			case .failure(let error):
-				print("Failure")
-				print(error)
-			}
+			self.testPrintResult(result)
 		}
 	}
 

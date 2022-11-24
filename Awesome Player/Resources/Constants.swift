@@ -20,3 +20,7 @@ enum PlistBundleParameters {
 	internal static let tokenSwapURL: String = "tokenSwapURL"
 	internal static let tokenRefreshURL: String = "tokenRefreshURL"
 }
+
+enum APIConstants {
+	internal static let spotifyWebAPIBaseUrl = "spotifyWebAPIBaseUrl"
+}

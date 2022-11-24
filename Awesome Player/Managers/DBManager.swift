@@ -1,5 +1,5 @@
 //
-//  RealManager.swift
+//  RealmManager.swift
 //  Awesome Player
 //
 //  Created by Vitali Vyucheiski on 11/22/22.

@@ -9,11 +9,11 @@ import Foundation
 
 class PlistReaderManager {
 	func returnString(_ key: String) -> String {
-		guard let parametreToReturn = Bundle.main.infoDictionary?[key] as? String else {
+		guard let parameterToReturn = Bundle.main.infoDictionary?[key] as? String else {
 			print("Error acquired")
 			return ""
 		}
-		return parametreToReturn
+		return parameterToReturn
 	}
 
 	func returnURL(_ key: String) -> URL {
