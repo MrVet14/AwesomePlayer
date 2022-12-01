@@ -38,9 +38,9 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-		DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-			APICaller().loadRecommendedTracks()
-		}
+//		DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+//			APICaller().loadRecommendedTracks()
+//		}
     }
 
     // MARK: Methods
@@ -54,6 +54,7 @@ class MainViewController: UIViewController {
 
         connectButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         connectButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+
         connectLabel.centerXAnchor.constraint(equalTo: connectButton.centerXAnchor).isActive = true
         connectLabel.bottomAnchor.constraint(equalTo: connectButton.topAnchor, constant: -constant).isActive = true
     }
@@ -61,10 +62,5 @@ class MainViewController: UIViewController {
     @objc
 	func didTapConnect(_ button: UIButton) {
         AuthManager().didTapConnect()
-    }
-
-    @objc
-	func didTapSignOut(_ button: UIButton) {
-        AuthManager().didTapSignOut()
     }
 }

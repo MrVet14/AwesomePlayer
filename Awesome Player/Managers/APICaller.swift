@@ -45,20 +45,20 @@ extension SpotifyAPI: TargetType {
 	}
 
 	var task: Moya.Task {
-		let queryString = URLEncoding.queryString
+		let encodingQueryString = URLEncoding.queryString
 
 		switch self {
 		case .loadASong:
 			return .requestPlain
 
 		case .loadSongs(ids: let ids):
-			return .requestParameters(parameters: ["ids": ids], encoding: queryString)
+			return .requestParameters(parameters: ["ids": ids], encoding: encodingQueryString)
 
 		case .loadSongFeatures:
 			return .requestPlain
 
 		case .loadSongsFeatures(ids: let ids):
-			return .requestParameters(parameters: ["ids": ids], encoding: queryString)
+			return .requestParameters(parameters: ["ids": ids], encoding: encodingQueryString)
 
 		case .loadRecommended:
 			let parameters = [
@@ -66,10 +66,9 @@ extension SpotifyAPI: TargetType {
 				// "seed_artists": "",
 				"seed_genres": "pop,country",
 				// "seed_tracks": "",
-				"limit": "1",
-				"market": "US"
+				"limit": "1"
 			]
-			return .requestParameters(parameters: parameters, encoding: queryString)
+			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
 		}
 	}
 

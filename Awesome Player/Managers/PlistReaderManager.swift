@@ -23,4 +23,19 @@ class PlistReaderManager {
 		}
 		return URL(string: URLStringToParse)!
 	}
+
+	func returnStrings(_ keys: [String]) -> [String: String] {
+		var parametersToReturn: [String: String] = [:]
+
+		for key in keys {
+			parametersToReturn[key] = returnString(key)
+		}
+
+		guard !parametersToReturn.isEmpty else {
+			print("Error acquired")
+			return [:]
+		}
+
+		return parametersToReturn
+	}
 }

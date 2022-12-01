@@ -8,8 +8,10 @@
 import Foundation
 
 final class AuthManager: NSObject {
-	let spotifyClientId = PlistReaderManager().returnString(PlistBundleParameters.spotifyClientId)
-	let spotifyClientSecretKey = PlistReaderManager().returnString(PlistBundleParameters.spotifyClientSecretKey)
+	let constantsToUse = PlistReaderManager().returnStrings(
+		[PlistBundleParameters.spotifyClientId,
+		 PlistBundleParameters.spotifyClientSecretKey]
+	)
 	let redirectUri = PlistReaderManager().returnURL(PlistBundleParameters.redirectUri)
 
     var responseTypeCode: String? {
@@ -52,7 +54,9 @@ final class AuthManager: NSObject {
     }
 
     lazy var configuration: SPTConfiguration = {
-        let configuration = SPTConfiguration(clientID: spotifyClientId, redirectURL: redirectUri)
+		let configuration = SPTConfiguration(
+			clientID: constantsToUse[PlistBundleParameters.spotifyClientId]!,
+			redirectURL: redirectUri)
         configuration.playURI = ""
 		configuration.tokenSwapURL = PlistReaderManager().returnURL(PlistBundleParameters.tokenSwapURL)
 		configuration.tokenRefreshURL = PlistReaderManager().returnURL(PlistBundleParameters.tokenRefreshURL)
@@ -80,7 +84,8 @@ final class AuthManager: NSObject {
     /// fetch Spotify access token. Use after getting responseTypeCode
     func fetchSpotifyToken(completion: @escaping ([String: Any]?, Error?) -> Void) {
 		let url = PlistReaderManager().returnURL(PlistBundleParameters.spotifyAPITokenURL)
-		let spotifyAuthKeyPreString = "\(spotifyClientId):\(spotifyClientSecretKey)"
+		let spotifyAuthKeyPreString =
+			"\(constantsToUse[PlistBundleParameters.spotifyClientId]!):\(constantsToUse[PlistBundleParameters.spotifyClientSecretKey]!)"
 		let spotifyAuthKey = "Basic \(spotifyAuthKeyPreString.data(using: .utf8)!.base64EncodedString())"
 		let stringScopes = ["user-read-email"]
 		let scopeAsString = stringScopes.joined(separator: " ")
@@ -89,7 +94,7 @@ final class AuthManager: NSObject {
 		requestBodyComponents.queryItems = [
 			URLQueryItem(
 				name: "client_id",
-				value: spotifyClientId
+				value: constantsToUse[PlistBundleParameters.spotifyClientId]!
 			),
 			URLQueryItem(
 				name: "grant_type",
