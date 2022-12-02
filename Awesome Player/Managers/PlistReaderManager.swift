@@ -1,16 +1,9 @@
-//
-//  LocalPlistReaderManager.swift
-//  Awesome Player
-//
-//  Created by Vitali Vyucheiski on 11/17/22.
-//
-
 import Foundation
 
 class PlistReaderManager {
 	func returnString(_ key: String) -> String {
 		guard let parameterToReturn = Bundle.main.infoDictionary?[key] as? String else {
-			print("Error acquired")
+			print("Error returning parameter")
 			return ""
 		}
 		return parameterToReturn
@@ -18,7 +11,7 @@ class PlistReaderManager {
 
 	func returnURL(_ key: String) -> URL {
 		guard let URLStringToParse = Bundle.main.infoDictionary?[key] as? String else {
-			print("Error acquired")
+			print("Error returning URL")
 			return URL(string: "")!
 		}
 		return URL(string: URLStringToParse)!
@@ -32,10 +25,25 @@ class PlistReaderManager {
 		}
 
 		guard !parametersToReturn.isEmpty else {
-			print("Error acquired")
+			print("Error returning parameters")
 			return [:]
 		}
 
 		return parametersToReturn
+	}
+
+	func returnURLs(_ keys: [String]) -> [String: URL] {
+		var URLsToReturn: [String: URL] = [:]
+
+		for key in keys {
+			URLsToReturn[key] = returnURL(key)
+		}
+
+		guard !URLsToReturn.isEmpty else {
+			print("Error returning URLs")
+			return [:]
+		}
+
+		return URLsToReturn
 	}
 }

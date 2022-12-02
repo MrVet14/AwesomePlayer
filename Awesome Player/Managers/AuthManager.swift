@@ -1,18 +1,44 @@
-//
-//  AuthManager.swift
-//  Awesome Player
-//
-//  Created by Vitali Vyucheiski on 11/10/22.
-//
-
 import Foundation
+import Moya
 
+final class AuthManager {
+	static let shared = AuthManager()
+
+	private init() {}
+
+	var isSignedIn: Bool {
+		return false
+	}
+
+	private var accessToken: String? {
+		return nil
+	}
+
+	private var refreshToken: String? {
+		return nil
+	}
+
+	private var tokenExpirationDate: Date? {
+		return nil
+	}
+
+	private var shouldRefreshToken: Bool {
+		return false
+	}
+}
+
+// swiftlint:disable all
+/*
 final class AuthManager: NSObject {
 	let constantsToUse = PlistReaderManager().returnStrings(
 		[PlistBundleParameters.spotifyClientId,
 		 PlistBundleParameters.spotifyClientSecretKey]
 	)
-	let redirectUri = PlistReaderManager().returnURL(PlistBundleParameters.redirectUri)
+	let URLsToUse = PlistReaderManager().returnURLs(
+		[PlistBundleParameters.redirectUri,
+		 PlistBundleParameters.tokenSwapURL,
+		 PlistBundleParameters.tokenRefreshURL]
+	)
 
     var responseTypeCode: String? {
         didSet {
@@ -26,8 +52,6 @@ final class AuthManager: NSObject {
 					return
 				}
                 DispatchQueue.main.async {
-                    self.appRemote.connectionParameters.accessToken = accessToken
-                    self.appRemote.connect()
                     self.accessToken = accessToken
                 }
             }
@@ -56,10 +80,10 @@ final class AuthManager: NSObject {
     lazy var configuration: SPTConfiguration = {
 		let configuration = SPTConfiguration(
 			clientID: constantsToUse[PlistBundleParameters.spotifyClientId]!,
-			redirectURL: redirectUri)
+			redirectURL: URLsToUse[PlistBundleParameters.redirectUri]!)
         configuration.playURI = ""
-		configuration.tokenSwapURL = PlistReaderManager().returnURL(PlistBundleParameters.tokenSwapURL)
-		configuration.tokenRefreshURL = PlistReaderManager().returnURL(PlistBundleParameters.tokenRefreshURL)
+		configuration.tokenSwapURL = URLsToUse[PlistBundleParameters.tokenSwapURL]
+		configuration.tokenRefreshURL = URLsToUse[PlistBundleParameters.tokenRefreshURL]
         return configuration
     }()
 
@@ -74,16 +98,10 @@ final class AuthManager: NSObject {
         sessionManager.initiateSession(with: scopes, options: .clientOnly)
     }
 
-    func didTapSignOut() {
-        if appRemote.isConnected {
-            appRemote.disconnect()
-        }
-    }
-
     // MARK: POST Request
     /// fetch Spotify access token. Use after getting responseTypeCode
     func fetchSpotifyToken(completion: @escaping ([String: Any]?, Error?) -> Void) {
-		let url = PlistReaderManager().returnURL(PlistBundleParameters.spotifyAPITokenURL)
+		let url = URLsToUse[PlistBundleParameters.spotifyAPITokenURL]!
 		let spotifyAuthKeyPreString =
 			"\(constantsToUse[PlistBundleParameters.spotifyClientId]!):\(constantsToUse[PlistBundleParameters.spotifyClientSecretKey]!)"
 		let spotifyAuthKey = "Basic \(spotifyAuthKeyPreString.data(using: .utf8)!.base64EncodedString())"
@@ -106,7 +124,7 @@ final class AuthManager: NSObject {
 			),
 			URLQueryItem(
 				name: "redirect_uri",
-				value: redirectUri.absoluteString
+				value: URLsToUse[PlistBundleParameters.redirectUri]!.absoluteString
 			),
 			URLQueryItem(
 				name: "scope",
@@ -182,3 +200,5 @@ extension AuthManager: SPTSessionManagerDelegate {
 	) {
     }
 }
+
+*/

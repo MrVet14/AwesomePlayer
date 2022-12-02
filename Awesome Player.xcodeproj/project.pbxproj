@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5121C2702927B3B0001EE388 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5121C26F2927B3B0001EE388 /* Strings.swift */; };
-		5125B716291E5B2D007EDF5D /* SpotifyiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5125B715291E5B2D007EDF5D /* SpotifyiOS.framework */; };
 		5125B719291E727E007EDF5D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B718291E727E007EDF5D /* SnapKit */; };
 		5125B71C291E7381007EDF5D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B71B291E7381007EDF5D /* Alamofire */; };
 		5125B721291E76C1007EDF5D /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B720291E76C1007EDF5D /* Moya */; };
@@ -45,7 +44,6 @@
 
 /* Begin PBXFileReference section */
 		5121C26F2927B3B0001EE388 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
-		5125B715291E5B2D007EDF5D /* SpotifyiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpotifyiOS.framework; sourceTree = "<group>"; };
 		5125B725291E791A007EDF5D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5157080E292CDD1A00672E36 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		51570810292CDD3E00672E36 /* PicturesParsingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PicturesParsingManager.swift; sourceTree = "<group>"; };
@@ -74,7 +72,6 @@
 		51E319BA291D22C1006E5C55 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		51E319BC291D22CE006E5C55 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		51E319BE291D22E2006E5C55 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
-		51E319C5291D4500006E5C55 /* Awesome-Player-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Awesome-Player-Bridging-Header.h"; sourceTree = "<group>"; };
 		51E319C6291D4519006E5C55 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -87,7 +84,6 @@
 				5157080B292CD9B800672E36 /* Realm in Frameworks */,
 				5125B724291E78A7007EDF5D /* Kingfisher in Frameworks */,
 				5125B71C291E7381007EDF5D /* Alamofire in Frameworks */,
-				5125B716291E5B2D007EDF5D /* SpotifyiOS.framework in Frameworks */,
 				5125B721291E76C1007EDF5D /* Moya in Frameworks */,
 				5125B719291E727E007EDF5D /* SnapKit in Frameworks */,
 				5125B729291E7A95007EDF5D /* FirebaseFirestore in Frameworks */,
@@ -100,7 +96,6 @@
 		51A54F2E291BA42A0065EF82 = {
 			isa = PBXGroup;
 			children = (
-				51E319C5291D4500006E5C55 /* Awesome-Player-Bridging-Header.h */,
 				51A54F5C291BEADA0065EF82 /* swiftgen.yml */,
 				51E319C6291D4519006E5C55 /* .swiftlint.yml */,
 				51A54F39291BA42B0065EF82 /* Awesome Player */,
@@ -126,7 +121,6 @@
 				51A54F53291BA63F0065EF82 /* Managers */,
 				51E319AE291D19B4006E5C55 /* Controllers */,
 				51A54F52291BA5F80065EF82 /* Resources */,
-				51E319C0291D3641006E5C55 /* Frameworks */,
 				51A54F48291BA42D0065EF82 /* Info.plist */,
 				5125B725291E791A007EDF5D /* GoogleService-Info.plist */,
 			);
@@ -214,14 +208,6 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
-		51E319C0291D3641006E5C55 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5125B715291E5B2D007EDF5D /* SpotifyiOS.framework */,
-			);
-			path = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -232,8 +218,8 @@
 				51A54F33291BA42B0065EF82 /* Sources */,
 				51A54F34291BA42B0065EF82 /* Frameworks */,
 				51A54F35291BA42B0065EF82 /* Resources */,
-				51A54F58291BD5040065EF82 /* Run Script */,
 				51A54F5B291BDF200065EF82 /* Run Script */,
+				51A54F58291BD5040065EF82 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -534,6 +520,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Awesome Player/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "AWESOME Player";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -545,14 +532,14 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vitalivyucheiski.Awesome-Player";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Awesome-Player-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -573,6 +560,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Awesome Player/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "AWESOME Player";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -584,14 +572,14 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vitalivyucheiski.Awesome-Player";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Awesome-Player-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
