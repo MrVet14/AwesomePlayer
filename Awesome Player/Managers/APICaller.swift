@@ -11,7 +11,8 @@ enum SpotifyAPI {
 
 extension SpotifyAPI: TargetType {
 	var baseURL: URL {
-		return URL(string: PlistReaderManager().returnString(APIConstants.spotifyWebAPIBaseUrl))!
+		// swiftlint:disable force_cast
+		return URL(string: Bundle.main.infoDictionary?[APIConstants.spotifyWebAPIBaseUrl] as! String)!
 	}
 
 	var path: String {
@@ -66,20 +67,47 @@ extension SpotifyAPI: TargetType {
 	}
 
 	var headers: [String: String]? {
-		var authToken = ""
+		// MARK: getting access token from keychain
+		let query: [String: Any] = [
+			/// kSecAttrService,  kSecAttrAccount, and kSecClass uniquely identify the item in Keychain
+			kSecAttrService as String: TypesOfDataForKeychain.accessToken as AnyObject,
+			kSecAttrAccount as String: KeyChainParameters.account as AnyObject,
+			kSecClass as String: kSecClassGenericPassword,
+			kSecMatchLimit as String: kSecMatchLimitOne,
+			kSecReturnData as String: kCFBooleanTrue!
+		]
 
-		do {
-			authToken = try KeychainManager().getToken()
-		} catch {
-			print(error)
+		/// SecItemCopyMatching will attempt to copy the item
+		/// identified by query to the reference itemCopy
+		var itemCopy: AnyObject?
+
+		let status = SecItemCopyMatching(query as CFDictionary, &itemCopy)
+		/// errSecItemNotFound is a special status indicating the
+		/// read item does not exist. Throw itemNotFound so the
+		/// client can determine whether or not to handle this case
+		guard status != errSecItemNotFound else {
+			print("Item not found")
+			return nil
+		}
+		/// Any status other than errSecSuccess indicates the read operation failed.
+		guard status == errSecSuccess else {
+			print("Unexpected status: \(status)")
+			return nil
+		}
+		/// checking if our value is indeed Data and it's present
+		guard let dataToDecode = itemCopy as? Data else {
+			print("InvalidItemFormat")
+			return nil
 		}
 
-		let returnHeaders = [
+		let authToken = String(decoding: dataToDecode, as: UTF8.self)
+
+		let headersToReturn = [
 			"Content-type": "application/json",
 			"Authorization": "Bearer \(authToken)"
 		] as [String: String]
 
-		return returnHeaders
+		return headersToReturn
 	}
 }
 

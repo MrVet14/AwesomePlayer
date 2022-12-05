@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5117794B293C0F690090B1E4 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5117794A293C0F690090B1E4 /* WelcomeViewController.swift */; };
+		5117794D293C118A0090B1E4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5117794C293C118A0090B1E4 /* Extensions.swift */; };
+		5117794F293E12870090B1E4 /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5117794E293E12870090B1E4 /* AuthResponse.swift */; };
 		5121C2702927B3B0001EE388 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5121C26F2927B3B0001EE388 /* Strings.swift */; };
 		5125B719291E727E007EDF5D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B718291E727E007EDF5D /* SnapKit */; };
 		5125B71C291E7381007EDF5D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 5125B71B291E7381007EDF5D /* Alamofire */; };
@@ -21,8 +24,6 @@
 		51570813292CDD8700672E36 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51570812292CDD8700672E36 /* FirebaseManager.swift */; };
 		51570815292CE8E800672E36 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51570814292CE8E800672E36 /* Playlist.swift */; };
 		51763A162923B95500AA871E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51763A152923B95500AA871E /* Constants.swift */; };
-		51A2E6EA29265185008B43F5 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A2E6E929265185008B43F5 /* KeychainManager.swift */; };
-		51A2E6EC29266CB6008B43F5 /* PlistReaderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A2E6EB29266CB6008B43F5 /* PlistReaderManager.swift */; };
 		51A2E6F129267CEB008B43F5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 51A2E6F329267CEB008B43F5 /* Localizable.strings */; };
 		51A2E6F72926890F008B43F5 /* Assets-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A2E6F62926890F008B43F5 /* Assets-Constants.swift */; };
 		51A54F3B291BA42B0065EF82 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F3A291BA42B0065EF82 /* AppDelegate.swift */; };
@@ -43,6 +44,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5117794A293C0F690090B1E4 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		5117794C293C118A0090B1E4 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		5117794E293E12870090B1E4 /* AuthResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
 		5121C26F2927B3B0001EE388 /* Strings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		5125B725291E791A007EDF5D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5157080E292CDD1A00672E36 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
@@ -50,8 +54,6 @@
 		51570812292CDD8700672E36 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		51570814292CE8E800672E36 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		51763A152923B95500AA871E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		51A2E6E929265185008B43F5 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
-		51A2E6EB29266CB6008B43F5 /* PlistReaderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistReaderManager.swift; sourceTree = "<group>"; };
 		51A2E6F229267CEB008B43F5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		51A2E6F529267D0D008B43F5 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		51A2E6F62926890F008B43F5 /* Assets-Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Assets-Constants.swift"; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				51A54F54291BC69A0065EF82 /* Song.swift */,
 				51570814292CE8E800672E36 /* Playlist.swift */,
 				51A54F56291BC6A60065EF82 /* User.swift */,
+				5117794E293E12870090B1E4 /* AuthResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -158,6 +161,7 @@
 				51A54F43291BA42D0065EF82 /* Assets.xcassets */,
 				51A54F3A291BA42B0065EF82 /* AppDelegate.swift */,
 				51763A152923B95500AA871E /* Constants.swift */,
+				5117794C293C118A0090B1E4 /* Extensions.swift */,
 				51A54F3C291BA42B0065EF82 /* SceneDelegate.swift */,
 				51A2E6F329267CEB008B43F5 /* Localizable.strings */,
 			);
@@ -171,10 +175,8 @@
 				51E319BA291D22C1006E5C55 /* AuthManager.swift */,
 				51570812292CDD8700672E36 /* FirebaseManager.swift */,
 				51E319BE291D22E2006E5C55 /* HapticsManager.swift */,
-				51A2E6E929265185008B43F5 /* KeychainManager.swift */,
 				5157080E292CDD1A00672E36 /* DBManager.swift */,
 				51570810292CDD3E00672E36 /* PicturesParsingManager.swift */,
-				51A2E6EB29266CB6008B43F5 /* PlistReaderManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -204,6 +206,7 @@
 				51E319B8291D1E61006E5C55 /* PlayerViewController.swift */,
 				51E319B6291D1E50006E5C55 /* ProfileViewController.swift */,
 				51E319B4291D1E43006E5C55 /* SettingsViewController.swift */,
+				5117794A293C0F690090B1E4 /* WelcomeViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -342,19 +345,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5117794D293C118A0090B1E4 /* Extensions.swift in Sources */,
 				51A54F55291BC69A0065EF82 /* Song.swift in Sources */,
 				51E319BB291D22C1006E5C55 /* AuthManager.swift in Sources */,
 				51E319BF291D22E2006E5C55 /* HapticsManager.swift in Sources */,
 				51A2E6F72926890F008B43F5 /* Assets-Constants.swift in Sources */,
 				5121C2702927B3B0001EE388 /* Strings.swift in Sources */,
+				5117794F293E12870090B1E4 /* AuthResponse.swift in Sources */,
 				51E319B7291D1E50006E5C55 /* ProfileViewController.swift in Sources */,
 				51763A162923B95500AA871E /* Constants.swift in Sources */,
-				51A2E6EC29266CB6008B43F5 /* PlistReaderManager.swift in Sources */,
 				51570813292CDD8700672E36 /* FirebaseManager.swift in Sources */,
 				51A54F3F291BA42B0065EF82 /* MainViewController.swift in Sources */,
 				51E319BD291D22CE006E5C55 /* APICaller.swift in Sources */,
-				51A2E6EA29265185008B43F5 /* KeychainManager.swift in Sources */,
 				51A54F3B291BA42B0065EF82 /* AppDelegate.swift in Sources */,
+				5117794B293C0F690090B1E4 /* WelcomeViewController.swift in Sources */,
 				51570811292CDD3E00672E36 /* PicturesParsingManager.swift in Sources */,
 				51E319B1291D1E27006E5C55 /* AuthViewController.swift in Sources */,
 				51A54F57291BC6A60065EF82 /* User.swift in Sources */,

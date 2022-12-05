@@ -75,6 +75,7 @@ opt_in_rules:
   - yoda_condition
 
 identifier_name:
+  allowed_symbols: ["_"]
   excluded:
     - id
 large_tuple: 3
@@ -89,6 +90,7 @@ file_name:
     - L10n-Constants.swift
     - Strings.swift
     - Constants.swift
+    - Extensions.swift
 
 custom_rules:
   rule_id:
