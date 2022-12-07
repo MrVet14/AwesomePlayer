@@ -6,6 +6,8 @@ class APICaller {
 
 	let provider = MoyaProvider<SpotifyAPI>()
 
+	private init() {}
+
 	// MARK: Loading a song
 	func loadASong(
 		_ id: String,

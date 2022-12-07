@@ -2,7 +2,7 @@ import Foundation
 import Moya
 
 struct Variables {
-	let vars: AuthManagerVariablesModel = AuthManagerVariablesParser.shared.parse()
+	let vars = AuthManagerVariablesParser.shared.parse()
 }
 
 class AuthManager {
