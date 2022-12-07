@@ -20,14 +20,12 @@ class APICaller {
 					let result = try JSONDecoder().decode(Song.self, from: response.data)
 					completion(.success(result))
 				} catch {
-					print("Failed to parse a song")
-					print("Error: \(error.localizedDescription)")
+					self.printError("Failed to parse a song", error: error)
 					completion(.failure(error))
 				}
 
 			case .failure(let error):
-				print("Failed to load a song")
-				print("Error: \(error.localizedDescription)")
+				self.printError("Failed to load a song", error: error)
 				completion(.failure(error))
 			}
 		}
@@ -45,14 +43,12 @@ class APICaller {
 					let result = try JSONDecoder().decode(MultipleSongsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
-					print("Failed to parse songs")
-					print("Error: \(error.localizedDescription)")
+					self.printError("Failed to parse songs", error: error)
 					completion(.failure(error))
 				}
 
 			case .failure(let error):
-				print("Failed to load songs")
-				print("Error: \(error.localizedDescription)")
+				self.printError("Failed to load songs", error: error)
 				completion(.failure(error))
 			}
 		}
@@ -67,14 +63,12 @@ class APICaller {
 					let result = try JSONDecoder().decode(RecommendationsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
-					print("Failed to parse recommended Tracks")
-					print("Error: \(error.localizedDescription)")
+					self.printError("Failed to parse recommended Tracks", error: error)
 					completion(.failure(error))
 				}
 
 			case .failure(let error):
-				print("Failed to load recommended Tracks")
-				print("Error: \(error.localizedDescription)")
+				self.printError("Failed to load recommended Tracks", error: error)
 				completion(.failure(error))
 			}
 		}
@@ -89,17 +83,21 @@ class APICaller {
 					let result = try JSONDecoder().decode(User.self, from: response.data)
 					completion(.success(result))
 				} catch {
-					print("Failed to parse User Info")
-					print("Error: \(error.localizedDescription)")
+					self.printError("Failed to parse User Info", error: error)
 					completion(.failure(error))
 				}
 
 			case .failure(let error):
-				print("Failed to load User Info")
-				print("Error: \(error.localizedDescription)")
+				self.printError("Failed to load User Info", error: error)
 				completion(.failure(error))
 			}
 		}
+	}
+
+	// MARK: Printing out errors
+	func printError(_ msg: String, error: Error) {
+		print(msg)
+		print(error.localizedDescription)
 	}
 }
 
@@ -146,6 +144,7 @@ extension SpotifyAPI: TargetType {
 			return .requestPlain
 
 		case .loadSongs(ids: let ids):
+			assert(ids.count > 50, "You must not pass more than 50 ids at once, due to Spotify WEB API limitations")
 			return .requestParameters(parameters: ["ids": ids], encoding: encodingQueryString)
 
 		case .loadRecommended:

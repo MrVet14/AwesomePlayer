@@ -1,6 +1,6 @@
 import Foundation
 
-struct AuthManagerVariablesModel {
+struct AuthManagerSettingForAuth {
 	var spotifyAuthBaseURL: String = ""
 	var clientID: String = ""
 	var clientSecret: String = ""

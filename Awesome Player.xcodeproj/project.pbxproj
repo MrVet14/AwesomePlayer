@@ -45,7 +45,7 @@
 		51E319BD291D22CE006E5C55 /* APICaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319BC291D22CE006E5C55 /* APICaller.swift */; };
 		51E319BF291D22E2006E5C55 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319BE291D22E2006E5C55 /* HapticsManager.swift */; };
 		51E319C7291D4519006E5C55 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 51E319C6291D4519006E5C55 /* .swiftlint.yml */; };
-		51EB350A2940B16B0015F61D /* AuthManagerVariablesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EB35092940B16B0015F61D /* AuthManagerVariablesModel.swift */; };
+		51EB350A2940B16B0015F61D /* AuthManagerSettingForAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EB35092940B16B0015F61D /* AuthManagerSettingForAuth.swift */; };
 		51EB350D2940B5050015F61D /* AuthManagerVariablesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EB350C2940B5050015F61D /* AuthManagerVariablesParser.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,7 +85,7 @@
 		51E319BC291D22CE006E5C55 /* APICaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICaller.swift; sourceTree = "<group>"; };
 		51E319BE291D22E2006E5C55 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		51E319C6291D4519006E5C55 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		51EB35092940B16B0015F61D /* AuthManagerVariablesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerVariablesModel.swift; sourceTree = "<group>"; };
+		51EB35092940B16B0015F61D /* AuthManagerSettingForAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerSettingForAuth.swift; sourceTree = "<group>"; };
 		51EB350C2940B5050015F61D /* AuthManagerVariablesParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerVariablesParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,7 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				51547AFF293FB4700050A01C /* Album.swift */,
-				51EB35092940B16B0015F61D /* AuthManagerVariablesModel.swift */,
+				51EB35092940B16B0015F61D /* AuthManagerSettingForAuth.swift */,
 				51547AFB293FB3F70050A01C /* Artist.swift */,
 				5117794E293E12870090B1E4 /* AuthResponse.swift */,
 				51547AFD293FB4360050A01C /* Image.swift */,
@@ -396,7 +396,7 @@
 				5157080F292CDD1A00672E36 /* DBManager.swift in Sources */,
 				51A54F3D291BA42B0065EF82 /* SceneDelegate.swift in Sources */,
 				51570815292CE8E800672E36 /* Playlist.swift in Sources */,
-				51EB350A2940B16B0015F61D /* AuthManagerVariablesModel.swift in Sources */,
+				51EB350A2940B16B0015F61D /* AuthManagerSettingForAuth.swift in Sources */,
 				51E319B9291D1E61006E5C55 /* PlayerViewController.swift in Sources */,
 				51E319B5291D1E43006E5C55 /* SettingsViewController.swift in Sources */,
 			);

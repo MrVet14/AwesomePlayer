@@ -49,6 +49,6 @@ Thumbs.db
 *.wmv
 
 #Xcode
-.xcuserdatad
+.xcbkptlist
 .xcuserstate
 */xcuserdata/*

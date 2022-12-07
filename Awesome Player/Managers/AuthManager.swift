@@ -1,12 +1,11 @@
 import Foundation
 import Moya
 
-struct Variables {
-	let vars = AuthManagerVariablesParser.shared.parse()
-}
-
 class AuthManager {
 	static let shared = AuthManager()
+
+	// MARK: Setting for AuthManager
+	let vars = AuthManagerVariablesParser.shared.parse()
 
 	// MARK: provider for Moya
 	let provider = MoyaProvider<SpotifyAccessToken>()
@@ -20,10 +19,10 @@ class AuthManager {
 
 	/// creating sign in url with all the needed attributes
 	var signInURL: URL? {
-		let base = Variables().vars.spotifyAuthBaseURL
-		let clientIdString = "client_id=\(Variables().vars.clientID)"
-		let scopesString = "scope=\(Variables().vars.scopes)"
-		let redirectURIString = "redirect_uri=\(Variables().vars.redirectURI)"
+		let base = vars.spotifyAuthBaseURL
+		let clientIdString = "client_id=\(vars.clientID)"
+		let scopesString = "scope=\(vars.scopes)"
+		let redirectURIString = "redirect_uri=\(vars.redirectURI)"
 		let showDialogString = "show_dialog=TRUE"
 		let string = "\(base)?response_type=code&\(clientIdString)&\(scopesString)&\(redirectURIString)&\(showDialogString)"
 		return URL(string: string)
@@ -318,8 +317,10 @@ enum SpotifyAccessToken {
 }
 
 extension SpotifyAccessToken: TargetType {
+	// MARK: Setting for AuthManager
+
 	var baseURL: URL {
-		return URL(string: Variables().vars.tokenAPIURL)!
+		return URL(string: AuthManager.shared.vars.tokenAPIURL)!
 	}
 
 	var path: String {
@@ -339,7 +340,7 @@ extension SpotifyAccessToken: TargetType {
 			let parameters = [
 				"grant_type": "authorization_code",
 				"code": code,
-				"redirect_uri": Variables().vars.redirectURI
+				"redirect_uri": AuthManager.shared.vars.redirectURI
 			]
 
 			return.requestParameters(
@@ -362,7 +363,7 @@ extension SpotifyAccessToken: TargetType {
 	}
 
 	var headers: [String: String]? {
-		let authString = "\(Variables().vars.clientID):\(Variables().vars.clientSecret)"
+		let authString = "\(AuthManager.shared.vars.clientID):\(AuthManager.shared.vars.clientSecret)"
 
 		let headersToReturn = [
 			"Authorization": "Basic \(authString.data(using: .utf8)!.base64EncodedString())",
