@@ -2,9 +2,6 @@ import Foundation
 import Moya
 
 struct Constants {
-	/* Форс каст ведь будет допустим тут?
-	Так как эти данные мы сами вручную указывали в плисте и знаем что они там и рабочие,
-	а без них и так ничего работать не будет */
 	// swiftlint:disable force_cast
 	let clientID = Bundle.main.infoDictionary?[PlistBundleParameters.spotifyClientId] as! String
 	let clientSecret = Bundle.main.infoDictionary?[PlistBundleParameters.spotifyClientSecretKey] as! String
@@ -21,6 +18,9 @@ class AuthManager {
 
 	// MARK: provider for Moya
 	let provider = MoyaProvider<SpotifyAccessToken>()
+
+	var refreshingToken = false
+	var updatingForAPICall = false
 
 	private init() {}
 
@@ -68,13 +68,17 @@ class AuthManager {
 		code: String,
 		completion: @escaping ((Bool) -> Void)
 	) {
-		provider.request(.get(code: code)) { result in
-			completion(self.handleResult(result, actionType: "getting"))
+		provider.request(.get(code: code)) { [weak self] result in
+			completion((self?.handleResult(result, actionType: "getting"))!)
 		}
 	}
 
 	// MARK: refreshing token of needed
 	func refreshIfNeeded(completion: @escaping ((Bool) -> Void)) {
+		guard !refreshingToken else {
+			return
+		}
+
 		guard shouldRefreshToken else {
 			completion(true)
 			return
@@ -84,8 +88,11 @@ class AuthManager {
 			return
 		}
 
-		provider.request(.refresh(refreshToken: refreshToken)) { result in
-			completion(self.handleResult(result, actionType: "refresh"))
+		refreshingToken = true
+
+		provider.request(.refresh(refreshToken: refreshToken)) { [weak self] result in
+			completion((self?.handleResult(result, actionType: "refresh"))!)
+			self?.refreshingToken = false
 		}
 	}
 
@@ -98,6 +105,10 @@ class AuthManager {
 		case .success(let response):
 			do {
 				let result = try JSONDecoder().decode(AuthResponse.self, from: response.data)
+				if actionType == "refresh" && updatingForAPICall == true {
+					self.onRefreshBlocks.forEach { $0(result.access_token) }
+					self.onRefreshBlocks.removeAll()
+				}
 				self.cacheToken(result: result)
 				return true
 			} catch {
@@ -138,6 +149,33 @@ class AuthManager {
 		}
 		/// Saving expiration data
 		UserDefaults.standard.setValue(Date().addingTimeInterval(TimeInterval(result.expires_in)), forKey: "expirationDate")
+	}
+
+	private var onRefreshBlocks = [((String) -> Void)]()
+
+	func validToken(completion: @escaping (String) -> Void) {
+		guard !refreshingToken else {
+			/// Append the completion
+			onRefreshBlocks.append(completion)
+			return
+		}
+
+		updatingForAPICall = true
+
+		if shouldRefreshToken {
+			/// refreshing token
+			refreshIfNeeded { [weak self] success in
+				if let token = self?.accessToken, success {
+					completion(token)
+					self?.updatingForAPICall = false
+				}
+			}
+		} else {
+			if let token = accessToken {
+				completion(token)
+				updatingForAPICall = false
+			}
+		}
 	}
 
 	// MARK: signing out

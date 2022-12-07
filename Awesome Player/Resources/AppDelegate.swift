@@ -4,6 +4,7 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+
     lazy var rootViewController = MainViewController()
 
     func application(
@@ -14,6 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let window = UIWindow(frame: UIScreen.main.bounds)
 		if AuthManager.shared.isSignedIn {
+			AuthManager.shared.refreshIfNeeded { success in
+				print("Need to update AuthToken: \(!success)")
+			}
 			window.rootViewController = rootViewController
 		} else {
 			let navVC = UINavigationController(rootViewController: WelcomeViewController())
@@ -24,6 +28,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.makeKeyAndVisible()
 
         self.window = window
+
+//		APICaller.shared.loadSongs("7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B") { foo in
+//			print(foo)
+//		}
+//		APICaller.shared.loadRecommendedTracks { foo in
+//			print(foo)
+//		}
+//		APICaller.shared.loadASong("7ouMYWpwJ422jRcDASZB7P") { foo in
+//			print(foo)
+//		}
 
         return true
     }

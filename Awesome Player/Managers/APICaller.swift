@@ -1,12 +1,113 @@
 import Foundation
 import Moya
 
+class APICaller {
+	static let shared = APICaller()
+
+	let provider = MoyaProvider<SpotifyAPI>()
+
+	// MARK: Loading a song
+	func loadASong(
+		_ id: String,
+		completion: @escaping (Result<Song, Error>) -> Void
+	) {
+		provider.request(.loadASong(id: id)) { result in
+			switch result {
+			case.success(let response):
+				do {
+					let result = try JSONDecoder().decode(Song.self, from: response.data)
+					completion(.success(result))
+				} catch {
+					print("Failed to parse a song")
+					print("Error: \(error.localizedDescription)")
+					completion(.failure(error))
+				}
+
+			case .failure(let error):
+				print("Failed to load a song")
+				print("Error: \(error.localizedDescription)")
+				completion(.failure(error))
+			}
+		}
+	}
+
+	// MARK: Loading a bunch of songs
+	func loadSongs(
+		_ ids: String,
+		completion: @escaping (Result<MultipleSongsResponse, Error>) -> Void
+	) {
+		provider.request(.loadSongs(ids: ids)) { result in
+			switch result {
+			case.success(let response):
+				do {
+					let result = try JSONDecoder().decode(MultipleSongsResponse.self, from: response.data)
+					completion(.success(result))
+				} catch {
+					print("Failed to parse songs")
+					print("Error: \(error.localizedDescription)")
+					completion(.failure(error))
+				}
+
+			case .failure(let error):
+				print("Failed to load songs")
+				print("Error: \(error.localizedDescription)")
+				completion(.failure(error))
+			}
+		}
+	}
+
+	// MARK: Loading recommended tracks
+	func loadRecommendedTracks(completion: @escaping (Result<RecommendationsResponse, Error>) -> Void) {
+		provider.request(.loadRecommended) { result in
+			switch result {
+			case.success(let response):
+				do {
+					let result = try JSONDecoder().decode(RecommendationsResponse.self, from: response.data)
+					completion(.success(result))
+				} catch {
+					print("Failed to parse recommended Tracks")
+					print("Error: \(error.localizedDescription)")
+					completion(.failure(error))
+				}
+
+			case .failure(let error):
+				print("Failed to load recommended Tracks")
+				print("Error: \(error.localizedDescription)")
+				completion(.failure(error))
+			}
+		}
+	}
+
+	// MARK: Loading user profile
+	func loadUser(completion: @escaping (Result<User, Error>) -> Void) {
+		provider.request(.loadUser) { result in
+			switch result {
+			case.success(let response):
+				do {
+					let result = try JSONDecoder().decode(User.self, from: response.data)
+					completion(.success(result))
+				} catch {
+					print("Failed to parse User Info")
+					print("Error: \(error.localizedDescription)")
+					completion(.failure(error))
+				}
+
+			case .failure(let error):
+				print("Failed to load User Info")
+				print("Error: \(error.localizedDescription)")
+				completion(.failure(error))
+			}
+		}
+	}
+}
+
+// MARK: Moya configuration
+
 enum SpotifyAPI {
 	case loadASong(id: String)
-	case loadSongs(ids: [String]) // max 50 IDs
-	case loadSongFeatures(id: String)
-	case loadSongsFeatures(ids: [String]) // max 100 IDs
+	case loadSongs(ids: String) // max 50 IDs
 	case loadRecommended
+	case loadUser
 }
 
 extension SpotifyAPI: TargetType {
@@ -21,16 +122,13 @@ extension SpotifyAPI: TargetType {
 			return "/tracks/\(id)"
 
 		case .loadSongs:
-			return "/track"
-
-		case .loadSongFeatures(id: let id):
-			return "/audio-features/\(id)"
-
-		case .loadSongsFeatures:
-			return "/audio-features"
+			return "/tracks"
 
 		case .loadRecommended:
 			return "/recommendations"
+
+		case .loadUser:
+			return"/me"
 		}
 	}
 
@@ -48,59 +146,27 @@ extension SpotifyAPI: TargetType {
 		case .loadSongs(ids: let ids):
 			return .requestParameters(parameters: ["ids": ids], encoding: encodingQueryString)
 
-		case .loadSongFeatures:
-			return .requestPlain
-
-		case .loadSongsFeatures(ids: let ids):
-			return .requestParameters(parameters: ["ids": ids], encoding: encodingQueryString)
-
 		case .loadRecommended:
 			let parameters = [
 				// Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres
 				// "seed_artists": "",
 				"seed_genres": "pop,country",
 				// "seed_tracks": "",
-				"limit": "1"
+				"limit": "10"
 			]
 			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
+
+		case .loadUser:
+			return .requestPlain
 		}
 	}
 
 	var headers: [String: String]? {
-		// MARK: getting access token from keychain
-		let query: [String: Any] = [
-			/// kSecAttrService,  kSecAttrAccount, and kSecClass uniquely identify the item in Keychain
-			kSecAttrService as String: TypesOfDataForKeychain.accessToken as AnyObject,
-			kSecAttrAccount as String: KeyChainParameters.account as AnyObject,
-			kSecClass as String: kSecClassGenericPassword,
-			kSecMatchLimit as String: kSecMatchLimitOne,
-			kSecReturnData as String: kCFBooleanTrue!
-		]
+		var authToken: String = ""
 
-		/// SecItemCopyMatching will attempt to copy the item
-		/// identified by query to the reference itemCopy
-		var itemCopy: AnyObject?
-
-		let status = SecItemCopyMatching(query as CFDictionary, &itemCopy)
-		/// errSecItemNotFound is a special status indicating the
-		/// read item does not exist. Throw itemNotFound so the
-		/// client can determine whether or not to handle this case
-		guard status != errSecItemNotFound else {
-			print("Item not found")
-			return nil
+		AuthManager.shared.validToken { token in
+			authToken = token
 		}
-		/// Any status other than errSecSuccess indicates the read operation failed.
-		guard status == errSecSuccess else {
-			print("Unexpected status: \(status)")
-			return nil
-		}
-		/// checking if our value is indeed Data and it's present
-		guard let dataToDecode = itemCopy as? Data else {
-			print("InvalidItemFormat")
-			return nil
-		}
-
-		let authToken = String(decoding: dataToDecode, as: UTF8.self)
 
 		let headersToReturn = [
 			"Content-type": "application/json",
@@ -114,51 +180,5 @@ extension SpotifyAPI: TargetType {
 extension SpotifyAPI: AccessTokenAuthorizable {
 	var authorizationType: Moya.AuthorizationType? {
 		return .bearer
-	}
-}
-
-class APICaller {
-	let provider = MoyaProvider<SpotifyAPI>()
-
-	func loadASong(_ id: String) {
-		provider.request(.loadASong(id: id)) { result in
-			self.testPrintResult(result)
-		}
-	}
-
-	func loadSongs(_ ids: [String]) {
-		provider.request(.loadSongs(ids: ids)) { result in
-			self.testPrintResult(result)
-		}
-	}
-
-	func loadSongFeatures(_ id: String) {
-		provider.request(.loadSongFeatures(id: id)) { result in
-			self.testPrintResult(result)
-		}
-	}
-
-	func loadSongsFeatures(_ ids: [String]) {
-		provider.request(.loadSongsFeatures(ids: ids)) { result in
-			self.testPrintResult(result)
-		}
-	}
-
-	func loadRecommendedTracks() {
-		provider.request(.loadRecommended) { result in
-			self.testPrintResult(result)
-		}
-	}
-
-	func testPrintResult(_ result: Result<Moya.Response, Moya.MoyaError>) {
-		switch result {
-		case .success(let response):
-			print("Success")
-			print(response.statusCode)
-			print(String(bytes: response.data, encoding: .utf8)!)
-		case .failure(let error):
-			print("Failure")
-			print(error)
-		}
 	}
 }

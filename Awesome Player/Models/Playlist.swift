@@ -1,7 +1,9 @@
 import Foundation
 
-struct Playlist {
+struct Playlist: Codable {
+	let description: String
+	let external_urls: [String: String]
 	let id: String
-	let title: String
-	let contents: [Song]
+	let images: [Image]
+	let name: String
 }

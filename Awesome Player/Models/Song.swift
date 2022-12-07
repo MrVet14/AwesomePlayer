@@ -1,9 +1,10 @@
 import Foundation
 
-struct Song: Hashable {
+struct Song: Codable {
+	var album: Album?
+	let artists: [Artist]
+	let explicit: Bool
 	let id: String
-	let title: String
-	let album: String
-	let albumCoverPictureURL: String
-	let sonSampleURL: String
+	let name: String
+	let preview_url: String?
 }
