@@ -1,16 +1,8 @@
 import Foundation
 import Moya
 
-struct Constants {
-	// swiftlint:disable force_cast
-	let clientID = Bundle.main.infoDictionary?[PlistBundleParameters.spotifyClientId] as! String
-	let clientSecret = Bundle.main.infoDictionary?[PlistBundleParameters.spotifyClientSecretKey] as! String
-	let redirectURI = Bundle.main.infoDictionary?[PlistBundleParameters.redirectUri] as! String
-	let tokenAPIURL = Bundle.main.infoDictionary?[PlistBundleParameters.spotifyAPITokenURL] as! String
-	var scopes: String {
-		let scopesFromBundle = Bundle.main.infoDictionary?[PlistBundleParameters.scopes] as! String
-		return scopesFromBundle.replacingOccurrences(of: " ", with: "%20")
-	}
+struct Variables {
+	let vars: AuthManagerVariablesModel = AuthManagerVariablesParser.shared.parse()
 }
 
 class AuthManager {
@@ -25,13 +17,13 @@ class AuthManager {
 	private init() {}
 
 	// MARK: all the required variables for AuthManager
+
 	/// creating sign in url with all the needed attributes
 	var signInURL: URL? {
-		print(Constants().scopes)
-		let base = "https://accounts.spotify.com/authorize"
-		let clientIdString = "client_id=\(Constants().clientID)"
-		let scopesString = "scope=\(Constants().scopes)"
-		let redirectURIString = "redirect_uri=\(Constants().redirectURI)"
+		let base = Variables().vars.spotifyAuthBaseURL
+		let clientIdString = "client_id=\(Variables().vars.clientID)"
+		let scopesString = "scope=\(Variables().vars.scopes)"
+		let redirectURIString = "redirect_uri=\(Variables().vars.redirectURI)"
 		let showDialogString = "show_dialog=TRUE"
 		let string = "\(base)?response_type=code&\(clientIdString)&\(scopesString)&\(redirectURIString)&\(showDialogString)"
 		return URL(string: string)
@@ -212,6 +204,7 @@ class AuthManager {
 
 	// MARK: This implementation of KeychainInterface requires all items to be saved and read as Data.
 	// Otherwise, invalidItemFormat is thrown
+
 	/// initial shared query of parameter used by keychain methods below
 	var query: [String: Any] = [
 		/// kSecAttrService,  kSecAttrAccount, and kSecClass uniquely identify the item in Keychain
@@ -326,7 +319,7 @@ enum SpotifyAccessToken {
 
 extension SpotifyAccessToken: TargetType {
 	var baseURL: URL {
-		return URL(string: Constants().tokenAPIURL)!
+		return URL(string: Variables().vars.tokenAPIURL)!
 	}
 
 	var path: String {
@@ -346,7 +339,7 @@ extension SpotifyAccessToken: TargetType {
 			let parameters = [
 				"grant_type": "authorization_code",
 				"code": code,
-				"redirect_uri": Constants().redirectURI
+				"redirect_uri": Variables().vars.redirectURI
 			]
 
 			return.requestParameters(
@@ -369,7 +362,7 @@ extension SpotifyAccessToken: TargetType {
 	}
 
 	var headers: [String: String]? {
-		let authString = "\(Constants().clientID):\(Constants().clientSecret)"
+		let authString = "\(Variables().vars.clientID):\(Variables().vars.clientSecret)"
 
 		let headersToReturn = [
 			"Authorization": "Basic \(authString.data(using: .utf8)!.base64EncodedString())",

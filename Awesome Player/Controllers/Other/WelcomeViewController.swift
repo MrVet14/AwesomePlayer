@@ -4,7 +4,7 @@ class WelcomeViewController: UIViewController {
 	private let signInButton: UIButton = {
 		let button = UIButton()
 		button.backgroundColor = UIColor(asset: Asset.spotifyGreen)
-		button.setTitle(L10n.continueWithSpotify, for: .normal)
+		button.setTitle(L10n.connectYourSpotifyAccount, for: .normal)
 		return button
 	}()
 
@@ -39,8 +39,8 @@ class WelcomeViewController: UIViewController {
 
 	private func handleSignIn(success: Bool) {
 		guard success else {
-			let alert = UIAlertController(title: "Something went wrong", message: "Try again later...", preferredStyle: .alert)
-			alert.addAction(UIAlertAction(title: "Dissmiss", style: .cancel))
+			let alert = UIAlertController(title: L10n.somethingWentWrong, message: L10n.tryAgainLater, preferredStyle: .alert)
+			alert.addAction(UIAlertAction(title: L10n.dismiss, style: .cancel))
 			present(alert, animated: true)
 			return
 		}

@@ -11,6 +11,7 @@ enum TypesOfDataForKeychain {
 }
 
 enum PlistBundleParameters {
+	internal static let spotifyAuthBaseURL: String = "spotifyAuthBaseURL"
 	internal static let spotifyClientId: String = "spotifyClientId"
 	internal static let spotifyClientSecretKey: String = "spotifyClientSecretKey"
 	internal static let redirectUri: String = "redirectUri"

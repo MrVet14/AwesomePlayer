@@ -34,6 +34,8 @@
 	<string>https://accounts.spotify.com/api/token</string>
 	<key>spotifyWebAPIBaseUrl</key>
 	<string>https://api.spotify.com/v1</string>
+	<key>spotifyAuthBaseURL</key>
+	<string>https://accounts.spotify.com/authorize</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

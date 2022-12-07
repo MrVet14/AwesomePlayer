@@ -19,6 +19,12 @@ internal enum L10n {
   internal static let continueWithSpotify = L10n.tr("Localizable", "Continue with Spotify", fallback: "Продолжить со Spotify")
   /// Выйти
   internal static let disconnect = L10n.tr("Localizable", "Disconnect", fallback: "Выйти")
+  /// Скрыть
+  internal static let dismiss = L10n.tr("Localizable", "Dismiss", fallback: "Скрыть")
+  /// Что-то пошло не так
+  internal static let somethingWentWrong = L10n.tr("Localizable", "Something went wrong", fallback: "Что-то пошло не так")
+  /// Попробуйте позже
+  internal static let tryAgainLater = L10n.tr("Localizable", "Try again later", fallback: "Попробуйте позже")
   /// Привет!
   internal static let welcome = L10n.tr("Localizable", "Welcome", fallback: "Привет!")
 }
