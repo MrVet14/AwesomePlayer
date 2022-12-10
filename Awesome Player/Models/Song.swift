@@ -7,5 +7,4 @@ struct Song: Codable {
 	let id: String
 	let name: String
 	let preview_url: String?
-	var liked = false
 }

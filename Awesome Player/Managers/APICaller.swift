@@ -20,14 +20,12 @@ class APICaller {
 					let result = try JSONDecoder().decode(Song.self, from: response.data)
 					completion(.success(result))
 				} catch {
-					print("Failed to parse a song")
-					print("Error: \(error.localizedDescription)")
+					self.printError("Failed to parse a song", error: error)
 					completion(.failure(error))
 				}
 
 			case .failure(let error):
-				print("Failed to load a song")
-				print("Error: \(error.localizedDescription)")
+				self.printError("Failed to load a song", error: error)
 				completion(.failure(error))
 			}
 		}
@@ -35,7 +33,7 @@ class APICaller {
 
 	// MARK: Loading a bunch of songs
 	func loadSongs(
-		_ ids: String,
+		_ ids: [String],
 		completion: @escaping (Result<MultipleSongsResponse, Error>) -> Void
 	) {
 		provider.request(.loadSongs(ids: ids)) { result in
@@ -45,14 +43,12 @@ class APICaller {
 					let result = try JSONDecoder().decode(MultipleSongsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
-					print("Failed to parse songs")
-					print("Error: \(error.localizedDescription)")
+					self.printError("Failed to parse songs", error: error)
 					completion(.failure(error))
 				}
 
 			case .failure(let error):
-				print("Failed to load songs")
-				print("Error: \(error.localizedDescription)")
+				self.printError("Failed to load songs", error: error)
 				completion(.failure(error))
 			}
 		}
@@ -67,14 +63,12 @@ class APICaller {
 					let result = try JSONDecoder().decode(RecommendationsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
-					print("Failed to parse recommended Tracks")
-					print("Error: \(error.localizedDescription)")
+					self.printError("Failed to parse recommended Tracks", error: error)
 					completion(.failure(error))
 				}
 
 			case .failure(let error):
-				print("Failed to load recommended Tracks")
-				print("Error: \(error.localizedDescription)")
+				self.printError("Failed to load recommended Tracks", error: error)
 				completion(.failure(error))
 			}
 		}
@@ -89,17 +83,21 @@ class APICaller {
 					let result = try JSONDecoder().decode(User.self, from: response.data)
 					completion(.success(result))
 				} catch {
-					print("Failed to parse User Info")
-					print("Error: \(error.localizedDescription)")
+					self.printError("Failed to parse User Info", error: error)
 					completion(.failure(error))
 				}
 
 			case .failure(let error):
-				print("Failed to load User Info")
-				print("Error: \(error.localizedDescription)")
+				self.printError("Failed to load User Info", error: error)
 				completion(.failure(error))
 			}
 		}
+	}
+
+	// MARK: Printing out errors
+	func printError(_ msg: String, error: Error) {
+		print(msg)
+		print(error.localizedDescription)
 	}
 }
 
@@ -107,7 +105,7 @@ class APICaller {
 
 enum SpotifyAPI {
 	case loadASong(id: String)
-	case loadSongs(ids: String) // max 50 IDs
+	case loadSongs(ids: [String]) // max 50 IDs
 	case loadRecommended
 	case loadUser
 }
@@ -145,8 +143,29 @@ extension SpotifyAPI: TargetType {
 		case .loadASong:
 			return .requestPlain
 
-		case .loadSongs(ids: let ids):
-			return .requestParameters(parameters: ["ids": ids], encoding: encodingQueryString)
+		case .loadSongs(ids: var ids):
+			// MARK: Checking if number of passed IDs is greater than 50
+			if ids.count > 50 {
+				if ids.count > 100 {
+					var newSetOfIDs: [String] = []
+					for posInArr in 0..<50 {
+						newSetOfIDs.append(ids[posInArr])
+					}
+					ids = newSetOfIDs
+				} else {
+					while ids.count > 50 {
+						ids.remove(at: 50)
+					}
+				}
+				print("""
+						You must not pass more than 50 ids at once, due to Spotify WEB API limitations
+						All the IDs past 50 have been removed
+				""")
+			}
+
+			// MARK: Joining array of string with "," separator to pass as String parameter
+			let idsToReturn = ids.joined(separator: ",")
+			return .requestParameters(parameters: ["ids": idsToReturn], encoding: encodingQueryString)
 
 		case .loadRecommended:
 			let parameters = [

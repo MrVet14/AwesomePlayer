@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         self.window = window
 
-//		APICaller.shared.loadSongs("7ouMYWpwJ422jRcDASZB7P,4VqPOruhp5EdPBeR92t6lQ,2takcwOaAZWiXQijPHIx7B") { foo in
+//		APICaller.shared.loadSongs(["7ouMYWpwJ422jRcDASZB7P", "4VqPOruhp5EdPBeR92t6lQ", "2takcwOaAZWiXQijPHIx7B"]) { foo in
 //			print(foo)
 //		}
 //		APICaller.shared.loadRecommendedTracks { foo in
