@@ -15,7 +15,6 @@ class AuthManagerVariablesParser {
 		)
 
 		varsToReturn.scopes = varsToReturn.scopes.replacingOccurrences(of: " ", with: "%20")
-		print(varsToReturn)
 		return varsToReturn
 	}
 }

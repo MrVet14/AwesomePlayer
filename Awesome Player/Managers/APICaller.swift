@@ -33,7 +33,7 @@ class APICaller {
 
 	// MARK: Loading a bunch of songs
 	func loadSongs(
-		_ ids: String,
+		_ ids: [String],
 		completion: @escaping (Result<MultipleSongsResponse, Error>) -> Void
 	) {
 		provider.request(.loadSongs(ids: ids)) { result in
@@ -105,7 +105,7 @@ class APICaller {
 
 enum SpotifyAPI {
 	case loadASong(id: String)
-	case loadSongs(ids: String) // max 50 IDs
+	case loadSongs(ids: [String]) // max 50 IDs
 	case loadRecommended
 	case loadUser
 }
@@ -143,9 +143,29 @@ extension SpotifyAPI: TargetType {
 		case .loadASong:
 			return .requestPlain
 
-		case .loadSongs(ids: let ids):
-			assert(ids.count > 50, "You must not pass more than 50 ids at once, due to Spotify WEB API limitations")
-			return .requestParameters(parameters: ["ids": ids], encoding: encodingQueryString)
+		case .loadSongs(ids: var ids):
+			// MARK: Checking if number of passed IDs is greater than 50
+			if ids.count > 50 {
+				if ids.count > 100 {
+					var newSetOfIDs: [String] = []
+					for posInArr in 0..<50 {
+						newSetOfIDs.append(ids[posInArr])
+					}
+					ids = newSetOfIDs
+				} else {
+					while ids.count > 50 {
+						ids.remove(at: 50)
+					}
+				}
+				print("""
+						You must not pass more than 50 ids at once, due to Spotify WEB API limitations
+						All the IDs past 50 have been removed
+				""")
+			}
+
+			// MARK: Joining array of string with "," separator to pass as String parameter
+			let idsToReturn = ids.joined(separator: ",")
+			return .requestParameters(parameters: ["ids": idsToReturn], encoding: encodingQueryString)
 
 		case .loadRecommended:
 			let parameters = [
