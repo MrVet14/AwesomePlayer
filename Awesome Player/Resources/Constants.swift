@@ -34,3 +34,8 @@ enum KeychainError: Error {
 	/// Any operation result status than errSecSuccess
 	case unexpectedStatus(OSStatus)
 }
+
+enum DBSongTypes {
+	internal static let liked = "liked"
+	internal static let recommended = "recommended"
+}

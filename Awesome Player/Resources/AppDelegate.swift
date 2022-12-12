@@ -29,14 +29,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         self.window = window
 
-//		APICaller.shared.loadSongs(["7ouMYWpwJ422jRcDASZB7P", "4VqPOruhp5EdPBeR92t6lQ", "2takcwOaAZWiXQijPHIx7B"]) { foo in
-//			print(foo)
+		// MARK: Section for testing logic
+		// swiftlint:disable line_length
+//		APICaller.shared.loadSongs(["7ouMYWpwJ422jRcDASZB7P", "4VqPOruhp5EdPBeR92t6lQ", "2takcwOaAZWiXQijPHIx7B"]) { result in
+//			DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.liked)
 //		}
-//		APICaller.shared.loadRecommendedTracks { foo in
-//			print(foo)
+//		APICaller.shared.loadRecommendedTracks { result in
+//			DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.recommended)
 //		}
 //		APICaller.shared.loadASong("7ouMYWpwJ422jRcDASZB7P") { foo in
 //			print(foo)
+//		}
+//		APICaller.shared.loadUser { result in
+//			DBManager.shared.addUserToDB(result)
+//		}
+//		DBManager.shared.getUserFromDB { result in
+//			print(result)
+//		}
+//		DBManager.shared.getRecommendedSongsFromDB { result in
+//			print(result)
+//		}
+//		DBManager.shared.getLikedSongsFromDB { result in
+//			print(result)
 //		}
 
         return true

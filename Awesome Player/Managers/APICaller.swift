@@ -55,12 +55,12 @@ class APICaller {
 	}
 
 	// MARK: Loading recommended tracks
-	func loadRecommendedTracks(completion: @escaping (Result<RecommendationsResponse, Error>) -> Void) {
+	func loadRecommendedTracks(completion: @escaping (Result<MultipleSongsResponse, Error>) -> Void) {
 		provider.request(.loadRecommended) { result in
 			switch result {
 			case.success(let response):
 				do {
-					let result = try JSONDecoder().decode(RecommendationsResponse.self, from: response.data)
+					let result = try JSONDecoder().decode(MultipleSongsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
 					self.printError("Failed to parse recommended Tracks", error: error)
@@ -173,7 +173,7 @@ extension SpotifyAPI: TargetType {
 				// "seed_artists": "",
 				"seed_genres": "pop,country",
 				// "seed_tracks": "",
-				"limit": "10"
+				"limit": "25"
 			]
 			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
 
