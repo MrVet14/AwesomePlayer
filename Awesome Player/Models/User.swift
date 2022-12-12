@@ -1,8 +1,9 @@
-//
-//  User.swift
-//  Awesome Player
-//
-//  Created by Vitali Vyucheiski on 11/9/22.
-//
-
 import Foundation
+
+class User: Codable {
+	let country: String
+	let display_name: String
+	let email: String
+	let id: String
+	let images: [Image]
+}

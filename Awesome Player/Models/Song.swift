@@ -1,8 +1,10 @@
-//
-//  Song.swift
-//  Awesome Player
-//
-//  Created by Vitali Vyucheiski on 11/9/22.
-//
-
 import Foundation
+
+struct Song: Codable {
+	let album: Album?
+	let artists: [Artist]
+	let explicit: Bool
+	let id: String
+	let name: String
+	let preview_url: String?
+}

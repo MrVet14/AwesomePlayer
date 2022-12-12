@@ -1,16 +1,8 @@
-//
-//  SceneDelegate.swift
-//  Awesome Player
-//
-//  Created by Vitali Vyucheiski on 11/9/22.
-//
-
-// swiftlint:disable all
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+
     lazy var rootViewController = MainViewController()
 
     func scene(
@@ -20,28 +12,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
 
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = MainViewController()
-
+		if AuthManager.shared.isSignedIn {
+			window.rootViewController = rootViewController
+		} else {
+			let navVC = UINavigationController(rootViewController: WelcomeViewController())
+			navVC.navigationBar.prefersLargeTitles = true
+			navVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
+			window.rootViewController = navVC
+		}
         window.makeKeyAndVisible()
+
         self.window = window
-    }
-    
-    //for spotify authorization and authentication flow
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        guard let url = URLContexts.first?.url else { return }
-
-        let parameters = AuthManager().appRemote.authorizationParameters(from: url)
-
-        if let code = parameters?["code"] {
-            AuthManager().responseTypeCode = code
-			
-        } else if let access_token = parameters?[SPTAppRemoteAccessTokenKey] {
-            AuthManager().accessToken = access_token
-			
-        } else if let error_description = parameters?[SPTAppRemoteErrorDescriptionKey] {
-            print("No access token error =", error_description)
-			
-        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

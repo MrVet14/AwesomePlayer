@@ -1,8 +1,24 @@
-//
-//  HapticsManager.swift
-//  Awesome Player
-//
-//  Created by Vitali Vyucheiski on 11/10/22.
-//
-
 import Foundation
+import UIKit
+
+class HapticsManager {
+	static let shared = HapticsManager()
+
+	private init() {}
+
+	func vibrateForSelection() {
+		DispatchQueue.main.async {
+			let generator = UISelectionFeedbackGenerator()
+			generator.prepare()
+			generator.selectionChanged()
+		}
+	}
+
+	func vibrate(for type: UINotificationFeedbackGenerator.FeedbackType) {
+		DispatchQueue.main.async {
+			let generator = UINotificationFeedbackGenerator()
+			generator.prepare()
+			generator.notificationOccurred(type)
+		}
+	}
+}

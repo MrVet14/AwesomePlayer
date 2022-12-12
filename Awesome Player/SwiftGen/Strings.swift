@@ -10,6 +10,8 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
+  /// Awesome Player
+  internal static let awesomePlayer = L10n.tr("Localizable", "Awesome Player", fallback: "Awesome Player")
   /// Localizable.strings
   ///   Awesome Player
   /// 
@@ -19,6 +21,16 @@ internal enum L10n {
   internal static let continueWithSpotify = L10n.tr("Localizable", "Continue with Spotify", fallback: "Продолжить со Spotify")
   /// Выйти
   internal static let disconnect = L10n.tr("Localizable", "Disconnect", fallback: "Выйти")
+  /// Скрыть
+  internal static let dismiss = L10n.tr("Localizable", "Dismiss", fallback: "Скрыть")
+  /// Войти
+  internal static let signIn = L10n.tr("Localizable", "Sign In", fallback: "Войти")
+  /// Что-то пошло не так
+  internal static let somethingWentWrong = L10n.tr("Localizable", "Something went wrong", fallback: "Что-то пошло не так")
+  /// Попробуйте позже
+  internal static let tryAgainLater = L10n.tr("Localizable", "Try again later", fallback: "Попробуйте позже")
+  /// Привет!
+  internal static let welcome = L10n.tr("Localizable", "Welcome", fallback: "Привет!")
 }
 // swiftlint:enable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:enable nesting type_body_length type_name vertical_whitespace_opening_braces
