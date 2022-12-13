@@ -1,11 +1,9 @@
-/* 
-  Localizable.strings
-  Awesome Player
-
-  Created by Vitali Vyucheiski on 11/17/22.
-  
-*/
-
 "Connect your Spotify account" = "Connect your Spotify account";
 "Continue with Spotify" = "Continue with Spotify";
 "Disconnect" = "Disconnect";
+"Welcome" = "Welcome!";
+"Something went wrong" = "Something went wrong";
+"Try again later" = "Try again later...";
+"Dismiss" = "Dismiss";
+"Awesome Player" = "Awesome Player";
+"Sign In" = "Sign In";
