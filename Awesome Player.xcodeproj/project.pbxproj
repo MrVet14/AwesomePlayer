@@ -37,6 +37,8 @@
 		51A54F57291BC6A60065EF82 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A54F56291BC6A60065EF82 /* User.swift */; };
 		51E1B24D294661F40098DDE1 /* UserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1B24C294661F40098DDE1 /* UserObject.swift */; };
 		51E1B24F2946824E0098DDE1 /* SongObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1B24E2946824E0098DDE1 /* SongObject.swift */; };
+		51E1B251294812ED0098DDE1 /* RecommendedSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1B250294812ED0098DDE1 /* RecommendedSongsViewController.swift */; };
+		51E1B253294813080098DDE1 /* LikedSongsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1B252294813080098DDE1 /* LikedSongsViewController.swift */; };
 		51E319B1291D1E27006E5C55 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B0291D1E27006E5C55 /* AuthViewController.swift */; };
 		51E319B5291D1E43006E5C55 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B4291D1E43006E5C55 /* SettingsViewController.swift */; };
 		51E319B7291D1E50006E5C55 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B6291D1E50006E5C55 /* ProfileViewController.swift */; };
@@ -77,6 +79,8 @@
 		51A54F5C291BEADA0065EF82 /* swiftgen.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = swiftgen.yml; sourceTree = "<group>"; };
 		51E1B24C294661F40098DDE1 /* UserObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserObject.swift; sourceTree = "<group>"; };
 		51E1B24E2946824E0098DDE1 /* SongObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongObject.swift; sourceTree = "<group>"; };
+		51E1B250294812ED0098DDE1 /* RecommendedSongsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendedSongsViewController.swift; sourceTree = "<group>"; };
+		51E1B252294813080098DDE1 /* LikedSongsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikedSongsViewController.swift; sourceTree = "<group>"; };
 		51E319B0291D1E27006E5C55 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		51E319B4291D1E43006E5C55 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		51E319B6291D1E50006E5C55 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -233,6 +237,8 @@
 				51E319B6291D1E50006E5C55 /* ProfileViewController.swift */,
 				51E319B4291D1E43006E5C55 /* SettingsViewController.swift */,
 				5117794A293C0F690090B1E4 /* WelcomeViewController.swift */,
+				51E1B250294812ED0098DDE1 /* RecommendedSongsViewController.swift */,
+				51E1B252294813080098DDE1 /* LikedSongsViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -386,6 +392,7 @@
 				51E319BF291D22E2006E5C55 /* HapticsManager.swift in Sources */,
 				51E1B24F2946824E0098DDE1 /* SongObject.swift in Sources */,
 				51A2E6F72926890F008B43F5 /* Assets-Constants.swift in Sources */,
+				51E1B253294813080098DDE1 /* LikedSongsViewController.swift in Sources */,
 				5121C2702927B3B0001EE388 /* Strings.swift in Sources */,
 				5117794F293E12870090B1E4 /* AuthResponse.swift in Sources */,
 				51E319B7291D1E50006E5C55 /* ProfileViewController.swift in Sources */,
@@ -393,6 +400,7 @@
 				51763A162923B95500AA871E /* Constants.swift in Sources */,
 				51570813292CDD8700672E36 /* FirebaseManager.swift in Sources */,
 				51547B04293FEA7D0050A01C /* MultipleSongsResponse.swift in Sources */,
+				51E1B251294812ED0098DDE1 /* RecommendedSongsViewController.swift in Sources */,
 				51A54F3F291BA42B0065EF82 /* MainViewController.swift in Sources */,
 				51E319BD291D22CE006E5C55 /* APICaller.swift in Sources */,
 				51A54F3B291BA42B0065EF82 /* AppDelegate.swift in Sources */,

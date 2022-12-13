@@ -38,9 +38,10 @@ class DBManager {
 	}
 
 	// MARK: retrieving user data from realm
-	func getUserFromDB(completion: ((Results<UserObject>) -> Void)) {
+	func getUserFromDB(completion: ((UserObject) -> Void)) {
 		let result = realm.objects(UserObject.self)
-		completion(result)
+		let returnObject = result[0]
+		completion(returnObject)
 	}
 
 	// MARK: adding song to Realm, can be used for Recommended & Liked songs

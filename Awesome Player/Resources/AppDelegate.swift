@@ -52,6 +52,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //		DBManager.shared.getLikedSongsFromDB { result in
 //			print(result)
 //		}
+//		FirebaseManager.shared.getData { result in
+//			print(result)
+//		}
+//		FirebaseManager.shared.addLikedSongToFirebase("7ouMYWpwJ422jRcDASZB7P") { result in
+//			print(result)
+//		}
+//		FirebaseManager.shared.deleteUnlikedSongFromFirebase("7ouMYWpwJ422jRcDASZB7P") { result in
+//			print(result)
+//		}
 
         return true
     }
