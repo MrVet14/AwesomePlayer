@@ -11,7 +11,9 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		title = L10n.awesomePlayer
+
 		view.backgroundColor = .systemGray
+
 		view.addSubview(signInButton)
 		signInButton.addTarget(self, action: #selector(didTapSignIn), for: .touchUpInside)
     }

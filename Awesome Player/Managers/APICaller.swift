@@ -143,7 +143,7 @@ extension SpotifyAPI: TargetType {
 				// "seed_artists": "",
 				"seed_genres": "pop,country",
 				// "seed_tracks": "",
-				"limit": "25"
+				"limit": "10"
 			]
 			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
 

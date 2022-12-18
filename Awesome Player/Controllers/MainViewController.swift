@@ -2,6 +2,10 @@ import SnapKit
 import UIKit
 
 class MainViewController: UIViewController {
+	var recommendedSongs: [SongObject] = []
+	var likedSongs: [SongObject] = []
+	var userProfile: UserObject?
+
     // MARK: - Subviews
     private lazy var connectLabel: UILabel = {
         let label = UILabel()
@@ -15,16 +19,57 @@ class MainViewController: UIViewController {
     // MARK: App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
+		loadAllTheData()
+		setupViews()
     }
 
-    // MARK: Methods
+    // MARK: Adding different elements to view
     func setupViews() {
 		view.backgroundColor = .systemBackground
 
         view.addSubview(connectLabel)
-
-        connectLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        connectLabel.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
+
+	// MARK: Laying out constraints
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+
+		connectLabel.snp.makeConstraints { make in
+			make.center.equalTo(view.center)
+		}
+	}
+
+	// MARK: Getting Data Form API & Firebase, then storing & retrieving it from Realm
+	func loadAllTheData() {
+		// getting user profile
+		APICaller.shared.loadUser { result in
+			print("1")
+			DBManager.shared.addUserToDB(result)
+			DBManager.shared.getUserFromDB { [weak self] result in
+				self?.userProfile = result
+			}
+		}
+
+		// getting Recommended songs
+		APICaller.shared.loadRecommendedTracks { result in
+			print("2")
+			DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.recommended)
+			DBManager.shared.getRecommendedSongsFromDB { [weak self] result in
+				self?.recommendedSongs = result
+			}
+		}
+
+		// getting Liked songs
+		FirebaseManager.shared.getData { result in
+			// checking firebase response, if there's any liked songs we load and store them
+			if !result.isEmpty {
+				APICaller.shared.loadSongs(result) { result in
+					DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.liked)
+					DBManager.shared.getLikedSongsFromDB { [weak self] result in
+						self?.likedSongs = result
+					}
+				}
+			}
+		}
+	}
 }

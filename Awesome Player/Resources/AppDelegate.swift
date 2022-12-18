@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			AuthManager.shared.refreshIfNeeded { success in
 				print("Need to update AuthToken: \(!success)")
 			}
-			window.rootViewController = rootViewController
+			window.rootViewController = self.rootViewController
 		} else {
 			let navVC = UINavigationController(rootViewController: WelcomeViewController())
 			navVC.navigationBar.prefersLargeTitles = true
