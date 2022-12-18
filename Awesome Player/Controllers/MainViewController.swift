@@ -1,3 +1,4 @@
+import Kingfisher
 import SnapKit
 import UIKit
 
@@ -43,7 +44,7 @@ class MainViewController: UIViewController {
 	func loadAllTheData() {
 		// getting user profile
 		APICaller.shared.loadUser { result in
-			print("1")
+			print("Loading User data")
 			DBManager.shared.addUserToDB(result)
 			DBManager.shared.getUserFromDB { [weak self] result in
 				self?.userProfile = result
@@ -52,7 +53,7 @@ class MainViewController: UIViewController {
 
 		// getting Recommended songs
 		APICaller.shared.loadRecommendedTracks { result in
-			print("2")
+			print("Loading recommended songs")
 			DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.recommended)
 			DBManager.shared.getRecommendedSongsFromDB { [weak self] result in
 				self?.recommendedSongs = result
@@ -62,7 +63,9 @@ class MainViewController: UIViewController {
 		// getting Liked songs
 		FirebaseManager.shared.getData { result in
 			// checking firebase response, if there's any liked songs we load and store them
+			print("Checking if user have any liked songs")
 			if !result.isEmpty {
+				print("Loading liked songs")
 				APICaller.shared.loadSongs(result) { result in
 					DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.liked)
 					DBManager.shared.getLikedSongsFromDB { [weak self] result in

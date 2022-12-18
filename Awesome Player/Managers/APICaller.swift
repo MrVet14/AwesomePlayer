@@ -17,6 +17,11 @@ class APICaller {
 			switch result {
 			case.success(let response):
 				do {
+					// for debugging only
+					if 400...599 ~= response.statusCode {
+						self.debugResponse("----- Error loading songs -----", response: response)
+					}
+
 					let result = try JSONDecoder().decode(MultipleSongsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
@@ -37,6 +42,11 @@ class APICaller {
 			switch result {
 			case.success(let response):
 				do {
+					// for debugging only
+					if 400...599 ~= response.statusCode {
+						self.debugResponse("----- Error recommended songs -----", response: response)
+					}
+
 					let result = try JSONDecoder().decode(MultipleSongsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
@@ -57,6 +67,11 @@ class APICaller {
 			switch result {
 			case.success(let response):
 				do {
+					// for debugging only
+					if 400...599 ~= response.statusCode {
+						self.debugResponse("----- Error loading user -----", response: response)
+					}
+
 					let result = try JSONDecoder().decode(User.self, from: response.data)
 					completion(.success(result))
 				} catch {
@@ -75,6 +90,13 @@ class APICaller {
 	func printError(_ msg: String, error: Error) {
 		print(msg)
 		print(error.localizedDescription)
+	}
+
+	func debugResponse(_ msq: String, response: Response) {
+		print(msq)
+		print("Status code: \(response.statusCode)")
+		print("Request URL:", response.request as Any)
+		print("Data:", String(bytes: response.data, encoding: .utf8) as Any)
 	}
 }
 
