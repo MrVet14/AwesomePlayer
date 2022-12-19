@@ -13,12 +13,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         FirebaseApp.configure()
 
+//		// MARK: For testing only
+//		AuthManager.shared.signOut { _ in
+//			print("Signed Out")
+//		}
+
         let window = UIWindow(frame: UIScreen.main.bounds)
 		if AuthManager.shared.isSignedIn {
 			AuthManager.shared.refreshIfNeeded { success in
 				print("Need to update AuthToken: \(!success)")
 			}
-			window.rootViewController = self.rootViewController
+			let mainVC = UINavigationController(rootViewController: rootViewController)
+			window.rootViewController = mainVC
 		} else {
 			let navVC = UINavigationController(rootViewController: WelcomeViewController())
 			navVC.navigationBar.prefersLargeTitles = true
@@ -36,12 +42,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //		}
 //		APICaller.shared.loadRecommendedTracks { result in
 //			DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.recommended)
+//			DBManager.shared.getRecommendedSongsFromDB { foo in
+//				print(foo)
+//			}
 //		}
 //		APICaller.shared.loadASong("7ouMYWpwJ422jRcDASZB7P") { foo in
 //			print(foo)
 //		}
 //		APICaller.shared.loadUser { result in
 //			DBManager.shared.addUserToDB(result)
+//			DBManager.shared.getUserFromDB { foo in
+//				print(foo)
+//			}
 //		}
 //		DBManager.shared.getUserFromDB { result in
 //			print(result)
@@ -55,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //		FirebaseManager.shared.getData { result in
 //			print(result)
 //		}
-//		FirebaseManager.shared.addLikedSongToFirebase("7ouMYWpwJ422jRcDASZB7P") { result in
+//		FirebaseManager.shared.addLikedSongToFirebase("2IHWabwhSEdpB5XEhaz9zx") { result in
 //			print(result)
 //		}
 //		FirebaseManager.shared.deleteUnlikedSongFromFirebase("7ouMYWpwJ422jRcDASZB7P") { result in

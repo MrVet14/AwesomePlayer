@@ -44,7 +44,7 @@ class APICaller {
 				do {
 					// for debugging only
 					if 400...599 ~= response.statusCode {
-						self.debugResponse("----- Error recommended songs -----", response: response)
+						self.debugResponse("----- Error loading recommended songs -----", response: response)
 					}
 
 					let result = try JSONDecoder().decode(MultipleSongsResponse.self, from: response.data)

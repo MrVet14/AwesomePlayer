@@ -1,47 +1,62 @@
 import Kingfisher
 import SnapKit
 import UIKit
-
+// swiftlint:disable all
 class MainViewController: UIViewController {
+	let waysToSayHi = ["Hi!", "Hello!", "Howdy!", "Buongiorno!", "Hey!", "How are you?", "What’s up?", "What’s new?", "Long time no see...", "I come in peace!", "Ahoy!"]
+	
 	var recommendedSongs: [SongObject] = []
 	var likedSongs: [SongObject] = []
 	var userProfile: UserObject?
 
     // MARK: - Subviews
-    private lazy var connectLabel: UILabel = {
-        let label = UILabel()
-		label.text = L10n.welcome
-        label.font = UIFont.systemFont(ofSize: 40, weight: .bold)
-		label.textColor = UIColor(asset: Asset.spotifyGreen)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
 
     // MARK: App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-		loadAllTheData()
+
+		loadTheData()
 		setupViews()
     }
 
     // MARK: Adding different elements to view
     func setupViews() {
+		title = waysToSayHi.randomElement()
 		view.backgroundColor = .systemBackground
 
-        view.addSubview(connectLabel)
+		let accountButton = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(didTapProfile))
+		let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(didTapSettings))
+		navigationItem.rightBarButtonItems = [accountButton, settingsButton]
     }
 
 	// MARK: Laying out constraints
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
+	}
 
-		connectLabel.snp.makeConstraints { make in
-			make.center.equalTo(view.center)
+	@objc
+	func didTapProfile() {
+		let profileVC = ProfileViewController()
+		profileVC.navigationItem.largeTitleDisplayMode = .never
+		navigationController?.pushViewController(profileVC, animated: true)
+	}
+
+	@objc
+	func didTapSettings() {
+		let settingsVC = SettingsViewController()
+		settingsVC.navigationItem.largeTitleDisplayMode = .never
+		navigationController?.pushViewController(settingsVC, animated: true)
+	}
+	
+	@objc
+	func didTapDisconnect() {
+		AuthManager.shared.signOut { _ in
+			print("Signed Out")
 		}
 	}
 
 	// MARK: Getting Data Form API & Firebase, then storing & retrieving it from Realm
-	func loadAllTheData() {
+	func loadTheData() {
 		// getting user profile
 		APICaller.shared.loadUser { result in
 			print("Loading User data")
@@ -60,6 +75,7 @@ class MainViewController: UIViewController {
 			}
 		}
 
+		// Add a check for a number of calls? if over 50? split call into 2
 		// getting Liked songs
 		FirebaseManager.shared.getData { result in
 			// checking firebase response, if there's any liked songs we load and store them

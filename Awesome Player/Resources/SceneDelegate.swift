@@ -13,7 +13,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
 		if AuthManager.shared.isSignedIn {
-			window.rootViewController = rootViewController
+			let mainVC = UINavigationController(rootViewController: rootViewController)
+			window.rootViewController = mainVC
 		} else {
 			let navVC = UINavigationController(rootViewController: WelcomeViewController())
 			navVC.navigationBar.prefersLargeTitles = true
