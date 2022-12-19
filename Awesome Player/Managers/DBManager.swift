@@ -22,10 +22,10 @@ class DBManager {
 			/// creating object and assigning data
 			let user = UserObject()
 			user.country = data.country
-			user.display_name = data.display_name
+			user.displayName = data.display_name
 			user.email = data.email
 			user.id = data.id
-			user.imageURL = data.images.first?.url ?? "No Image"
+			user.imageURL = data.images.first?.url ?? ""
 
 			/// adding entry to Realm
 			realm.add(user)
@@ -69,23 +69,24 @@ class DBManager {
 				/// processing artist names
 				/// combining 'em if there's several
 				var artistName = ""
-				if song.artists.count == 1 {
-					artistName = song.artists.first?.name ?? "Artist 1"
-				} else if song.artists.count == 2 {
-					artistName = "\(song.artists.first?.name ?? "Artist 1") & \(song.artists.last?.name ?? "Artist 2")"
-				} else {
-					artistName = "Numerous Artists"
+				switch song.artists.count {
+				case 1:
+					artistName = song.artists[0].name
+				case 2:
+					artistName = "\(song.artists[0].name) & \(song.artists[1].name)"
+				default:
+					artistName = L10n.numerousArtists
 				}
 
 				/// creating object and assigning data
 				let songToWrite = SongObject()
 				songToWrite.albumName = song.album!.name
-				songToWrite.albumCoverURL = song.album!.images.first?.url ?? "No Image"
+				songToWrite.albumCoverURL = song.album!.images.first?.url ?? ""
 				songToWrite.artistName = artistName
 				songToWrite.explicit = song.explicit
 				songToWrite.id = song.id
 				songToWrite.name = song.name
-				songToWrite.preview_url = songPreviewURL
+				songToWrite.previewURL = songPreviewURL
 				songToWrite.liked = typeOfPassedSongs == DBSongTypes.liked
 				songToWrite.recommended = typeOfPassedSongs == DBSongTypes.recommended
 
@@ -147,8 +148,7 @@ class DBManager {
 	// MARK: getting song object to be user in likedSong() & dislikedSong() methods
 	func getSongObject(_ songID: String) -> SongObject? {
 		let result = realm.objects(SongObject.self).where { $0.id == songID }
-		let returnObject = result.first
-		return returnObject
+		return result.first
 	}
 
 	// MARK: method for committing write to Realm

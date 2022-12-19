@@ -7,7 +7,7 @@ class SongObject: Object {
 	@Persisted var albumCoverURL: String = ""
 	@Persisted var artistName: String = ""
 	@Persisted var name: String = ""
-	@Persisted var preview_url: String = ""
+	@Persisted var previewURL: String = ""
 	@Persisted var explicit = false
 	@Persisted var liked = false
 	@Persisted var recommended = false
