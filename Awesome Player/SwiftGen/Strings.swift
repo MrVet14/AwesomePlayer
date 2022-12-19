@@ -23,6 +23,14 @@ internal enum L10n {
   internal static let disconnect = L10n.tr("Localizable", "Disconnect", fallback: "Выйти")
   /// Скрыть
   internal static let dismiss = L10n.tr("Localizable", "Dismiss", fallback: "Скрыть")
+  /// Привет
+  internal static let hi = L10n.tr("Localizable", "Hi", fallback: "Привет")
+  /// Несколько исполнителей
+  internal static let numerousArtists = L10n.tr("Localizable", "Numerous Artists", fallback: "Несколько исполнителей")
+  /// Профиль
+  internal static let profile = L10n.tr("Localizable", "Profile", fallback: "Профиль")
+  /// Настройки
+  internal static let settings = L10n.tr("Localizable", "Settings", fallback: "Настройки")
   /// Войти
   internal static let signIn = L10n.tr("Localizable", "Sign In", fallback: "Войти")
   /// Что-то пошло не так

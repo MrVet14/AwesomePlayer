@@ -13,12 +13,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         FirebaseApp.configure()
 
+//		// MARK: For testing only
+//		AuthManager.shared.signOut { _ in
+//			print("Signed Out")
+//		}
+
         let window = UIWindow(frame: UIScreen.main.bounds)
 		if AuthManager.shared.isSignedIn {
 			AuthManager.shared.refreshIfNeeded { success in
 				print("Need to update AuthToken: \(!success)")
 			}
-			window.rootViewController = rootViewController
+			let mainVC = UINavigationController(rootViewController: rootViewController)
+			window.rootViewController = mainVC
 		} else {
 			let navVC = UINavigationController(rootViewController: WelcomeViewController())
 			navVC.navigationBar.prefersLargeTitles = true
@@ -29,14 +35,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         self.window = window
 
-//		APICaller.shared.loadSongs(["7ouMYWpwJ422jRcDASZB7P", "4VqPOruhp5EdPBeR92t6lQ", "2takcwOaAZWiXQijPHIx7B"]) { foo in
-//			print(foo)
+		// MARK: Section for testing logic
+		// swiftlint:disable line_length
+//		APICaller.shared.loadSongs(["7ouMYWpwJ422jRcDASZB7P", "4VqPOruhp5EdPBeR92t6lQ", "2takcwOaAZWiXQijPHIx7B"]) { result in
+//			DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.liked)
 //		}
-//		APICaller.shared.loadRecommendedTracks { foo in
-//			print(foo)
+//		APICaller.shared.loadRecommendedTracks { result in
+//			DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.recommended)
+//			DBManager.shared.getRecommendedSongsFromDB { foo in
+//				print(foo)
+//			}
 //		}
 //		APICaller.shared.loadASong("7ouMYWpwJ422jRcDASZB7P") { foo in
 //			print(foo)
+//		}
+//		APICaller.shared.loadUser { result in
+//			DBManager.shared.addUserToDB(result)
+//			DBManager.shared.getUserFromDB { foo in
+//				print(foo)
+//			}
+//		}
+//		DBManager.shared.getUserFromDB { result in
+//			print(result)
+//		}
+//		DBManager.shared.getRecommendedSongsFromDB { result in
+//			print(result)
+//		}
+//		DBManager.shared.getLikedSongsFromDB { result in
+//			print(result)
+//		}
+//		FirebaseManager.shared.getData { result in
+//			print(result)
+//		}
+//		FirebaseManager.shared.addLikedSongToFirebase("2IHWabwhSEdpB5XEhaz9zx") { result in
+//			print(result)
+//		}
+//		FirebaseManager.shared.deleteUnlikedSongFromFirebase("7ouMYWpwJ422jRcDASZB7P") { result in
+//			print(result)
 //		}
 
         return true

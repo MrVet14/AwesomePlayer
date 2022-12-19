@@ -50,8 +50,8 @@ class AuthManager {
 			return false
 		}
 		let currentDate = Date()
-		let fiveMinutes: TimeInterval = 300
-		return currentDate.addingTimeInterval(fiveMinutes) >= expirationDate
+		let tenMinutes: TimeInterval = 600
+		return currentDate.addingTimeInterval(tenMinutes) >= expirationDate
 	}
 
 	// MARK: exchanging code for access token
@@ -64,7 +64,7 @@ class AuthManager {
 		}
 	}
 
-	// MARK: refreshing token of needed
+	// MARK: refreshing token if needed
 	func refreshIfNeeded(completion: @escaping ((Bool) -> Void)) {
 		guard !refreshingToken else {
 			return
@@ -212,7 +212,10 @@ class AuthManager {
 	]
 
 	// MARK: method to save our data to Keychain
-	func saveData(_ whatToSave: String, _ value: Data) throws {
+	func saveData(
+		_ whatToSave: String,
+		_ value: Data
+	) throws {
 		var query = self.query
 		/// type of added data
 		query[kSecAttrService as String] = whatToSave as AnyObject
@@ -272,7 +275,10 @@ class AuthManager {
 	}
 
 	// MARK: method to update our data in Keychain
-	func updateData(_ whatToUpdate: String, _ value: Data) throws {
+	func updateData(
+		_ whatToUpdate: String,
+		_ value: Data
+	) throws {
 		var query = self.query
 		/// type of updated data
 		query[kSecAttrService as String] = whatToUpdate as AnyObject

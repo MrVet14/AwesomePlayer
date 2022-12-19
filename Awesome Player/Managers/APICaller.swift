@@ -8,29 +8,6 @@ class APICaller {
 
 	private init() {}
 
-	// MARK: Loading a song
-	func loadASong(
-		_ id: String,
-		completion: @escaping (Result<Song, Error>) -> Void
-	) {
-		provider.request(.loadASong(id: id)) { result in
-			switch result {
-			case.success(let response):
-				do {
-					let result = try JSONDecoder().decode(Song.self, from: response.data)
-					completion(.success(result))
-				} catch {
-					self.printError("Failed to parse a song", error: error)
-					completion(.failure(error))
-				}
-
-			case .failure(let error):
-				self.printError("Failed to load a song", error: error)
-				completion(.failure(error))
-			}
-		}
-	}
-
 	// MARK: Loading a bunch of songs
 	func loadSongs(
 		_ ids: [String],
@@ -40,6 +17,11 @@ class APICaller {
 			switch result {
 			case.success(let response):
 				do {
+					// for debugging only
+					if 400...599 ~= response.statusCode {
+						self.debugResponse("----- Error loading songs -----", response: response)
+					}
+
 					let result = try JSONDecoder().decode(MultipleSongsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
@@ -55,12 +37,17 @@ class APICaller {
 	}
 
 	// MARK: Loading recommended tracks
-	func loadRecommendedTracks(completion: @escaping (Result<RecommendationsResponse, Error>) -> Void) {
+	func loadRecommendedTracks(completion: @escaping (Result<MultipleSongsResponse, Error>) -> Void) {
 		provider.request(.loadRecommended) { result in
 			switch result {
 			case.success(let response):
 				do {
-					let result = try JSONDecoder().decode(RecommendationsResponse.self, from: response.data)
+					// for debugging only
+					if 400...599 ~= response.statusCode {
+						self.debugResponse("----- Error loading recommended songs -----", response: response)
+					}
+
+					let result = try JSONDecoder().decode(MultipleSongsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
 					self.printError("Failed to parse recommended Tracks", error: error)
@@ -80,6 +67,11 @@ class APICaller {
 			switch result {
 			case.success(let response):
 				do {
+					// for debugging only
+					if 400...599 ~= response.statusCode {
+						self.debugResponse("----- Error loading user -----", response: response)
+					}
+
 					let result = try JSONDecoder().decode(User.self, from: response.data)
 					completion(.success(result))
 				} catch {
@@ -95,16 +87,28 @@ class APICaller {
 	}
 
 	// MARK: Printing out errors
-	func printError(_ msg: String, error: Error) {
+	func printError(
+		_ msg: String,
+		error: Error
+	) {
 		print(msg)
 		print(error.localizedDescription)
+	}
+
+	func debugResponse(
+		_ msq: String,
+		response: Response
+	) {
+		print(msq)
+		print("Status code: \(response.statusCode)")
+		print("Request URL:", response.request as Any)
+		print("Data:", String(bytes: response.data, encoding: .utf8) as Any)
 	}
 }
 
 // MARK: Moya configuration
 
 enum SpotifyAPI {
-	case loadASong(id: String)
 	case loadSongs(ids: [String]) // max 50 IDs
 	case loadRecommended
 	case loadUser
@@ -118,9 +122,6 @@ extension SpotifyAPI: TargetType {
 
 	var path: String {
 		switch self {
-		case .loadASong(id: let id):
-			return "/tracks/\(id)"
-
 		case .loadSongs:
 			return "/tracks"
 
@@ -140,9 +141,6 @@ extension SpotifyAPI: TargetType {
 		let encodingQueryString = URLEncoding.queryString
 
 		switch self {
-		case .loadASong:
-			return .requestPlain
-
 		case .loadSongs(ids: var ids):
 			// MARK: Checking if number of passed IDs is greater than 50
 			if ids.count > 50 {
