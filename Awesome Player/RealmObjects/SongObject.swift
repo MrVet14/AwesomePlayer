@@ -2,13 +2,15 @@ import Foundation
 import RealmSwift
 
 class SongObject: Object {
-	@objc dynamic var albumName: String = ""
-	@objc dynamic var albumCoverURL: String = ""
-	@objc dynamic var artistName: String = ""
-	@objc dynamic var explicit = false
-	@objc dynamic var id: String = ""
-	@objc dynamic var name: String = ""
-	@objc dynamic var preview_url: String = ""
-	@objc dynamic var liked = false
-	@objc dynamic var recommended = false
+	@Persisted(primaryKey: true) var objectID: ObjectId
+
+	@Persisted var albumName: String = ""
+	@Persisted var albumCoverURL: String = ""
+	@Persisted var artistName: String = ""
+	@Persisted var explicit = false
+	@Persisted var id: String = ""
+	@Persisted var name: String = ""
+	@Persisted var preview_url: String = ""
+	@Persisted var liked = false
+	@Persisted var recommended = false
 }

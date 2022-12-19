@@ -40,8 +40,14 @@ class DBManager {
 	// MARK: retrieving user data from realm
 	func getUserFromDB(completion: @escaping ((UserObject) -> Void)) {
 		let result = realm.objects(UserObject.self)
-		let returnObject = result[0]
-		completion(returnObject)
+		var returnObject: UserObject?
+		for object in result {
+			returnObject = object
+		}
+		guard returnObject != nil else {
+			return
+		}
+		completion(returnObject!)
 	}
 
 	// MARK: adding song to Realm, can be used for Recommended & Liked songs
@@ -55,9 +61,9 @@ class DBManager {
 
 			/// removing previous entries in realm
 			if typeOfPassedSongs == DBSongTypes.recommended {
-				realm.delete(realm.objects(SongObject.self).filter("recommended == true"))
+				realm.delete(realm.objects(SongObject.self).where { ($0.recommended == true) })
 			} else {
-				realm.delete(realm.objects(SongObject.self).filter("liked == true"))
+				realm.delete(realm.objects(SongObject.self).where { ($0.liked == true) })
 			}
 
 			/// adding parsed song from APICaller to Realm
@@ -72,11 +78,10 @@ class DBManager {
 				var artistName = ""
 				if song.artists.count == 1 {
 					artistName = song.artists[0].name
+				} else if song.artists.count == 2 {
+					artistName = "\(song.artists[0]) & \(song.artists[1])"
 				} else {
-					for artist in song.artists {
-						artistName += ("\(artist.name) & ")
-					}
-					artistName = String(artistName.dropLast(3))
+					artistName = "Numerous Artists"
 				}
 
 				/// creating object and assigning data
@@ -88,15 +93,8 @@ class DBManager {
 				songToWrite.id = song.id
 				songToWrite.name = song.name
 				songToWrite.preview_url = songPreviewURL
-
-				/// checking type of entry and assigning data accordingly
-				if typeOfPassedSongs == DBSongTypes.recommended {
-					songToWrite.liked = false
-					songToWrite.recommended = true
-				} else {
-					songToWrite.liked = true
-					songToWrite.recommended = false
-				}
+				songToWrite.liked = typeOfPassedSongs == DBSongTypes.liked
+				songToWrite.recommended = typeOfPassedSongs == DBSongTypes.recommended
 
 				/// finally adding entry to Realm
 				realm.add(songToWrite)
@@ -111,14 +109,14 @@ class DBManager {
 
 	// MARK: retrieving Recommended songs from realm
 	func getRecommendedSongsFromDB(completion: @escaping (([SongObject]) -> Void)) {
-		let results = realm.objects(SongObject.self).filter("recommended == true")
-		completion(convertResultToArray(results))
+		let results = realm.objects(SongObject.self).where { $0.recommended == true }
+		completion(Array(results))
 	}
 
 	// MARK: retrieving Liked songs from realm
 	func getLikedSongsFromDB(completion: @escaping (([SongObject]) -> Void)) {
-		let results = realm.objects(SongObject.self).filter("liked == true")
-		completion(convertResultToArray(results))
+		let results = realm.objects(SongObject.self).where { $0.liked == true }
+		completion(Array(results))
 	}
 
 	// MARK: marking song as liked
@@ -149,18 +147,9 @@ class DBManager {
 
 	// MARK: getting song object to be user in likedSong() & dislikedSong() methods
 	func getSongObject(_ songID: String) -> SongObject {
-		let result = realm.objects(SongObject.self).filter("id = '\(songID)'")
+		let result = realm.objects(SongObject.self).where{ $0.id == songID }
 		let returnObject = result[0]
 		return returnObject
-	}
-
-	// MARK: Converting Result from loading Liked & Recommended songs from Realm into array of SongObjects
-	func convertResultToArray(_ dataToConvert: Results<SongObject>) -> [SongObject] {
-		var arrayToReturn: [SongObject] = []
-		for object in dataToConvert {
-			arrayToReturn.append(object)
-		}
-		return arrayToReturn
 	}
 
 	// MARK: method for committing write to Realm

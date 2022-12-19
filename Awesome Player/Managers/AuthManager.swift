@@ -50,8 +50,8 @@ class AuthManager {
 			return false
 		}
 		let currentDate = Date()
-		let fiveMinutes: TimeInterval = 300
-		return currentDate.addingTimeInterval(fiveMinutes) >= expirationDate
+		let tenMinutes: TimeInterval = 600
+		return currentDate.addingTimeInterval(tenMinutes) >= expirationDate
 	}
 
 	// MARK: exchanging code for access token
@@ -64,7 +64,7 @@ class AuthManager {
 		}
 	}
 
-	// MARK: refreshing token of needed
+	// MARK: refreshing token if needed
 	func refreshIfNeeded(completion: @escaping ((Bool) -> Void)) {
 		guard !refreshingToken else {
 			return

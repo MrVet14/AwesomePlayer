@@ -47,7 +47,7 @@ class WelcomeViewController: UIViewController {
 			return
 		}
 
-		let mainVC = MainViewController()
+		let mainVC = UINavigationController(rootViewController: MainViewController())
 		mainVC.modalPresentationStyle = .fullScreen
 		present(mainVC, animated: true)
 	}
