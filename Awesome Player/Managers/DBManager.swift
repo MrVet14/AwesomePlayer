@@ -22,10 +22,10 @@ class DBManager {
 			/// creating object and assigning data
 			let user = UserObject()
 			user.country = data.country
-			user.display_name = data.display_name
+			user.displayName = data.display_name
 			user.email = data.email
 			user.id = data.id
-			user.imageURL = data.images[0].url
+			user.imageURL = data.images.first?.url ?? ""
 
 			/// adding entry to Realm
 			realm.add(user)
@@ -39,15 +39,8 @@ class DBManager {
 
 	// MARK: retrieving user data from realm
 	func getUserFromDB(completion: @escaping ((UserObject) -> Void)) {
-		let result = realm.objects(UserObject.self)
-		var returnObject: UserObject?
-		for object in result {
-			returnObject = object
-		}
-		guard returnObject != nil else {
-			return
-		}
-		completion(returnObject!)
+		guard let result = realm.objects(UserObject.self).first else { return }
+		completion(result)
 	}
 
 	// MARK: adding song to Realm, can be used for Recommended & Liked songs
@@ -61,9 +54,9 @@ class DBManager {
 
 			/// removing previous entries in realm
 			if typeOfPassedSongs == DBSongTypes.recommended {
-				realm.delete(realm.objects(SongObject.self).where { ($0.recommended == true) })
+				realm.delete(realm.objects(SongObject.self).where { $0.recommended == true })
 			} else {
-				realm.delete(realm.objects(SongObject.self).where { ($0.liked == true) })
+				realm.delete(realm.objects(SongObject.self).where { $0.liked == true })
 			}
 
 			/// adding parsed song from APICaller to Realm
@@ -76,23 +69,24 @@ class DBManager {
 				/// processing artist names
 				/// combining 'em if there's several
 				var artistName = ""
-				if song.artists.count == 1 {
+				switch song.artists.count {
+				case 1:
 					artistName = song.artists[0].name
-				} else if song.artists.count == 2 {
-					artistName = "\(song.artists[0]) & \(song.artists[1])"
-				} else {
-					artistName = "Numerous Artists"
+				case 2:
+					artistName = "\(song.artists[0].name) & \(song.artists[1].name)"
+				default:
+					artistName = L10n.numerousArtists
 				}
 
 				/// creating object and assigning data
 				let songToWrite = SongObject()
-				songToWrite.albumName = song.album!.name
-				songToWrite.albumCoverURL = song.album!.images[0].url
+				songToWrite.albumName = song.album?.name ?? ""
+				songToWrite.albumCoverURL = song.album?.images.first?.url ?? ""
 				songToWrite.artistName = artistName
 				songToWrite.explicit = song.explicit
 				songToWrite.id = song.id
 				songToWrite.name = song.name
-				songToWrite.preview_url = songPreviewURL
+				songToWrite.previewURL = songPreviewURL
 				songToWrite.liked = typeOfPassedSongs == DBSongTypes.liked
 				songToWrite.recommended = typeOfPassedSongs == DBSongTypes.recommended
 
@@ -121,7 +115,10 @@ class DBManager {
 
 	// MARK: marking song as liked
 	func likedSong(_ songID: String) {
-		let songObject = getSongObject(songID)
+		guard let songObject = getSongObject(songID) else {
+			print("No Object present")
+			return
+		}
 
 		do {
 			try realm.write {
@@ -134,7 +131,10 @@ class DBManager {
 
 	// MARK: removing song from liked
 	func dislikedSong(_ songID: String) {
-		let songObject = getSongObject(songID)
+		guard let songObject = getSongObject(songID) else {
+			print("No Object present")
+			return
+		}
 
 		do {
 			try realm.write {
@@ -146,10 +146,9 @@ class DBManager {
 	}
 
 	// MARK: getting song object to be user in likedSong() & dislikedSong() methods
-	func getSongObject(_ songID: String) -> SongObject {
+	func getSongObject(_ songID: String) -> SongObject? {
 		let result = realm.objects(SongObject.self).where { $0.id == songID }
-		let returnObject = result[0]
-		return returnObject
+		return result.first
 	}
 
 	// MARK: method for committing write to Realm

@@ -87,12 +87,18 @@ class APICaller {
 	}
 
 	// MARK: Printing out errors
-	func printError(_ msg: String, error: Error) {
+	func printError(
+		_ msg: String,
+		error: Error
+	) {
 		print(msg)
 		print(error.localizedDescription)
 	}
 
-	func debugResponse(_ msq: String, response: Response) {
+	func debugResponse(
+		_ msq: String,
+		response: Response
+	) {
 		print(msq)
 		print("Status code: \(response.statusCode)")
 		print("Request URL:", response.request as Any)
