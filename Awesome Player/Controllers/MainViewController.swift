@@ -47,13 +47,6 @@ class MainViewController: UIViewController {
 		settingsVC.navigationItem.largeTitleDisplayMode = .never
 		navigationController?.pushViewController(settingsVC, animated: true)
 	}
-	
-	@objc
-	func didTapDisconnect() {
-		AuthManager.shared.signOut { _ in
-			print("Signed Out")
-		}
-	}
 
 	// MARK: Getting Data Form API & Firebase, then storing & retrieving it from Realm
 	func loadTheData() {
@@ -90,5 +83,10 @@ class MainViewController: UIViewController {
 				}
 			}
 		}
+	}
+	
+	// MARK: Updating view with fresh data
+	func updateViewWithFreshData() {
+		
 	}
 }

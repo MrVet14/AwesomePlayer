@@ -147,7 +147,7 @@ class DBManager {
 
 	// MARK: getting song object to be user in likedSong() & dislikedSong() methods
 	func getSongObject(_ songID: String) -> SongObject {
-		let result = realm.objects(SongObject.self).where{ $0.id == songID }
+		let result = realm.objects(SongObject.self).where { $0.id == songID }
 		let returnObject = result[0]
 		return returnObject
 	}

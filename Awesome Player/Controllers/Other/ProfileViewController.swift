@@ -1,5 +1,5 @@
 import UIKit
-
+// swiftlint:disable all
 class ProfileViewController: UIViewController {
 	var userProfile: UserObject?
 

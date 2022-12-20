@@ -26,8 +26,9 @@ class FirebaseManager {
 		}
 	}
 
-	func addLikedSongToFirebase(_ songID: String,
-								completion: @escaping ((Bool) -> Void)
+	func addLikedSongToFirebase(
+		_ songID: String,
+		completion: @escaping ((Bool) -> Void)
 	) {
 		dataBase.document(getUserID()).collection("LikedSongs").document(songID).setData(["Song": true]) { error in
 			if error != nil {
@@ -37,8 +38,9 @@ class FirebaseManager {
 		}
 	}
 
-	func deleteUnlikedSongFromFirebase(_ songID: String,
-									   completion: @escaping ((Bool) -> Void)
+	func deleteUnlikedSongFromFirebase(
+		_ songID: String,
+		completion: @escaping ((Bool) -> Void)
 	) {
 		dataBase.document(getUserID()).collection("LikedSongs").document(songID).delete { error in
 			if error != nil {

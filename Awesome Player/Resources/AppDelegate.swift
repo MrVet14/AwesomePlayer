@@ -55,24 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //				print(foo)
 //			}
 //		}
-//		DBManager.shared.getUserFromDB { result in
-//			print(result)
-//		}
-//		DBManager.shared.getRecommendedSongsFromDB { result in
-//			print(result)
-//		}
-//		DBManager.shared.getLikedSongsFromDB { result in
-//			print(result)
-//		}
-//		FirebaseManager.shared.getData { result in
-//			print(result)
-//		}
-//		FirebaseManager.shared.addLikedSongToFirebase("2IHWabwhSEdpB5XEhaz9zx") { result in
-//			print(result)
-//		}
-//		FirebaseManager.shared.deleteUnlikedSongFromFirebase("7ouMYWpwJ422jRcDASZB7P") { result in
-//			print(result)
-//		}
 
         return true
     }

@@ -91,6 +91,7 @@ file_name:
     - Strings.swift
     - Constants.swift
     - Extensions.swift
+    - Settings.swift
 
 custom_rules:
   rule_id:
