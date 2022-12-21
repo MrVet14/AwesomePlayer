@@ -10,12 +10,15 @@ import Foundation
 // swiftlint:disable explicit_type_interface function_parameter_count identifier_name line_length
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
+  /// Аккаунт
+  internal static let account = L10n.tr("Localizable", "Account", fallback: "Аккаунт")
+  /// Вы уверены?
+  internal static let areYouSure = L10n.tr("Localizable", "Are you sure?", fallback: "Вы уверены?")
   /// Awesome Player
   internal static let awesomePlayer = L10n.tr("Localizable", "Awesome Player", fallback: "Awesome Player")
-  /// Localizable.strings
-  ///   Awesome Player
-  /// 
-  ///   Created by Vitali Vyucheiski on 11/17/22.
+  /// Отмена
+  internal static let cancel = L10n.tr("Localizable", "Cancel", fallback: "Отмена")
+  /// Подключите аккаунт Spotify
   internal static let connectYourSpotifyAccount = L10n.tr("Localizable", "Connect your Spotify account", fallback: "Подключите аккаунт Spotify")
   /// Продолжить со Spotify
   internal static let continueWithSpotify = L10n.tr("Localizable", "Continue with Spotify", fallback: "Продолжить со Spotify")
@@ -23,20 +26,30 @@ internal enum L10n {
   internal static let disconnect = L10n.tr("Localizable", "Disconnect", fallback: "Выйти")
   /// Скрыть
   internal static let dismiss = L10n.tr("Localizable", "Dismiss", fallback: "Скрыть")
+  /// При загрузке профиля произошла ошибка
+  internal static let failedToLoadUserData = L10n.tr("Localizable", "Failed to load User Data", fallback: "При загрузке профиля произошла ошибка")
   /// Привет
   internal static let hi = L10n.tr("Localizable", "Hi", fallback: "Привет")
   /// Несколько исполнителей
   internal static let numerousArtists = L10n.tr("Localizable", "Numerous Artists", fallback: "Несколько исполнителей")
   /// Профиль
   internal static let profile = L10n.tr("Localizable", "Profile", fallback: "Профиль")
+  /// Перезагрузить
+  internal static let reload = L10n.tr("Localizable", "Reload", fallback: "Перезагрузить")
   /// Настройки
   internal static let settings = L10n.tr("Localizable", "Settings", fallback: "Настройки")
   /// Войти
   internal static let signIn = L10n.tr("Localizable", "Sign In", fallback: "Войти")
+  /// Выйти
+  internal static let signOut = L10n.tr("Localizable", "Sign Out", fallback: "Выйти")
   /// Что-то пошло не так
   internal static let somethingWentWrong = L10n.tr("Localizable", "Something went wrong", fallback: "Что-то пошло не так")
   /// Попробуйте позже
   internal static let tryAgainLater = L10n.tr("Localizable", "Try again later", fallback: "Попробуйте позже")
+  /// Попробуйте перезагрузить приложение или нажмите кнопку 'Перезагрузить'
+  internal static let tryRestartingAppOrPressReload = L10n.tr("Localizable", "Try restarting app or press reload", fallback: "Попробуйте перезагрузить приложение или нажмите кнопку 'Перезагрузить'")
+  /// Открыть профиль
+  internal static let viewProfile = L10n.tr("Localizable", "View Profile", fallback: "Открыть профиль")
   /// Привет!
   internal static let welcome = L10n.tr("Localizable", "Welcome", fallback: "Привет!")
 }

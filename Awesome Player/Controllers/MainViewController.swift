@@ -3,11 +3,10 @@ import SnapKit
 import UIKit
 // swiftlint:disable all
 class MainViewController: UIViewController {
-	let waysToSayHi = ["Hi!", "Hello!", "Howdy!", "Buongiorno!", "Hey!", "How are you?", "What’s up?", "What’s new?", "Long time no see...", "I come in peace!", "Ahoy!"]
+	let waysToSayHi = ["Hello", "Привет", " 你好", "今日は", " 안녕하세요", "Bonjour", "Hola", "Hallo", "Ciao", "Ahoy!", "Aloha", "नमस्ते", "γεια σας", "Salve", "ᐊᐃᓐᖓᐃ", "Osiyo"]
 	
 	var recommendedSongs: [SongObject] = []
 	var likedSongs: [SongObject] = []
-	var userProfile: UserObject?
 
     // MARK: - Subviews
 
@@ -24,9 +23,8 @@ class MainViewController: UIViewController {
 		title = waysToSayHi.randomElement()
 		view.backgroundColor = .systemBackground
 
-		let accountButton = UIBarButtonItem(image: UIImage(systemName: "person.circle"), style: .plain, target: self, action: #selector(didTapProfile))
 		let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(didTapSettings))
-		navigationItem.rightBarButtonItems = [accountButton, settingsButton]
+		navigationItem.rightBarButtonItems = [settingsButton]
     }
 
 	// MARK: Laying out constraints
@@ -51,38 +49,60 @@ class MainViewController: UIViewController {
 	// MARK: Getting Data Form API & Firebase, then storing & retrieving it from Realm
 	func loadTheData() {
 		// getting user profile
-		APICaller.shared.loadUser { result in
-			print("Loading User data")
-			DBManager.shared.addUserToDB(result)
-			DBManager.shared.getUserFromDB { [weak self] result in
-				self?.userProfile = result
+		print("Loading User data")
+		APICaller.shared.loadUser { [weak self] result in
+			switch result {
+			case .success(let data):
+				DBManager.shared.addUserToDB(data)
+
+			case .failure(let error):
+				self?.handlingErrorDuringLoadingData(error: error)
 			}
 		}
 
 		// getting Recommended songs
-		APICaller.shared.loadRecommendedTracks { result in
+		APICaller.shared.loadRecommendedTracks { [weak self] result in
 			print("Loading recommended songs")
-			DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.recommended)
-			DBManager.shared.getRecommendedSongsFromDB { [weak self] result in
-				self?.recommendedSongs = result
+			switch result {
+			case .success(let data):
+				DBManager.shared.addSongsToDB(data.tracks, typeOfPassedSongs: DBSongTypes.recommended)
+				DBManager.shared.getRecommendedSongsFromDB { [weak self] result in
+					self?.recommendedSongs = result
+				}
+
+			case.failure(let error):
+				self?.handlingErrorDuringLoadingData(error: error)
 			}
 		}
 
-		// Add a check for a number of calls? if over 50? split call into 2
 		// getting Liked songs
-		FirebaseManager.shared.getData { result in
+		FirebaseManager.shared.getData { resultFromFirebase in
 			// checking firebase response, if there's any liked songs we load and store them
 			print("Checking if user have any liked songs")
-			if !result.isEmpty {
+			if !resultFromFirebase.isEmpty {
 				print("Loading liked songs")
-				APICaller.shared.loadSongs(result) { result in
-					DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.liked)
+				// Handling fetching data from Firebase and APICaller
+				LoadAllTheLikedSongsHelper.shared.getData(resultFromFirebase) { resultFromAPICaller in
+					DBManager.shared.addSongsToDB(resultFromAPICaller, typeOfPassedSongs: DBSongTypes.liked)
 					DBManager.shared.getLikedSongsFromDB { [weak self] result in
 						self?.likedSongs = result
 					}
 				}
 			}
 		}
+	}
+
+	// MARK: Handling possible errors
+	func handlingErrorDuringLoadingData(error: Error) {
+		print(error.localizedDescription)
+
+		let alert = UIAlertController(title: L10n.somethingWentWrong,
+									  message: L10n.tryRestartingAppOrPressReload,
+									  preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: L10n.reload, style: .default, handler: { [weak self] _ in
+			self?.loadTheData()
+		}))
+		present(alert, animated: true)
 	}
 	
 	// MARK: Updating view with fresh data

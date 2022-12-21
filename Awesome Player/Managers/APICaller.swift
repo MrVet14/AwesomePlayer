@@ -20,6 +20,7 @@ class APICaller {
 					// for debugging only
 					if 400...599 ~= response.statusCode {
 						self.debugResponse("----- Error loading songs -----", response: response)
+						//completion(.failure(response.statusCode as! Error))
 					}
 
 					let result = try JSONDecoder().decode(MultipleSongsResponse.self, from: response.data)
@@ -45,6 +46,7 @@ class APICaller {
 					// for debugging only
 					if 400...599 ~= response.statusCode {
 						self.debugResponse("----- Error loading recommended songs -----", response: response)
+						//completion(.failure(response.statusCode as! Error))
 					}
 
 					let result = try JSONDecoder().decode(MultipleSongsResponse.self, from: response.data)
@@ -70,6 +72,7 @@ class APICaller {
 					// for debugging only
 					if 400...599 ~= response.statusCode {
 						self.debugResponse("----- Error loading user -----", response: response)
+						//completion(.failure(response.statusCode as! Error))
 					}
 
 					let result = try JSONDecoder().decode(User.self, from: response.data)

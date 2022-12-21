@@ -1,17 +1,18 @@
+import Kingfisher
 import SnapKit
 import UIKit
 // swiftlint:disable all
 class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	var sections = [Section]()
 
-	// MARK: Creating view elements
+	// MARK: - Subviews
 	let tableView: UITableView = {
 		let tableView = UITableView(frame: .zero, style: .grouped)
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
 		return tableView
 	}()
 
-	// MARK: App lifesycle
+	// MARK: App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,16 +25,20 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
 	// MARK: Creating Models for tableView
 	func configureModels() {
-		sections.append(Section(title: "Profile", options: [Option(title: "View Profile", handler: { [weak self] in
+		sections.append(Section(title: 	L10n.profile, options: [
+			Option(title: L10n.viewProfile, handler: { [weak self] in
 			DispatchQueue.main.async {
 				self?.didTapProfile()
 			}
-		})]))
-		sections.append(Section(title: "Accaunt", options: [Option(title: "Sign Out", handler: { [weak self] in
+		})
+		]))
+		sections.append(Section(title: L10n.account, options: [
+			Option(title: L10n.signOut, handler: { [weak self] in
 			DispatchQueue.main.async {
 				self?.signOut()
 			}
-		})]))
+		})
+		]))
 	}
 
 	// MARK: Adding view elements to View & configuring them
@@ -51,7 +56,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 		tableView.frame = view.bounds
 	}
 
-	// MARK: tableView set up
+	// MARK: TableView set up
 	func numberOfSections(in tableView: UITableView) -> Int {
 		return sections.count
 	}
@@ -65,6 +70,11 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
 		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 		cell.textLabel?.text = cellModel.title
+
+		if cellModel.title == L10n.signOut {
+			cell.textLabel?.textColor = .systemRed
+		}
+
 		return cell
 	}
 
@@ -88,8 +98,19 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 	}
 	
 	func signOut() {
-		AuthManager.shared.signOut { _ in
-			print("Signed Out")
-		}
+		let alert = UIAlertController(title: L10n.signOut,
+									  message: L10n.areYouSure,
+									  preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel, handler: nil))
+		alert.addAction(UIAlertAction(title: L10n.signOut, style: .destructive, handler: { _ in
+			AuthManager.shared.signOut { [weak self] _ in
+				print("Signed Out")
+				let welcomeVC = UINavigationController(rootViewController: WelcomeViewController())
+				welcomeVC.navigationBar.prefersLargeTitles = true
+				welcomeVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
+				self?.navigationController?.pushViewController(welcomeVC, animated: true)
+			}
+		}))
+		present(alert, animated: true)
 	}
 }

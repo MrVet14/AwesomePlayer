@@ -1,11 +1,3 @@
-/* 
-  Localizable.strings
-  Awesome Player
-
-  Created by Vitali Vyucheiski on 11/17/22.
-  
-*/
-
 "Connect your Spotify account" = "Подключите аккаунт Spotify";
 "Continue with Spotify" = "Продолжить со Spotify";
 "Disconnect" = "Выйти";
@@ -15,7 +7,15 @@
 "Dismiss" = "Скрыть";
 "Awesome Player" = "Awesome Player";
 "Sign In" = "Войти";
+"Sign Out" = "Выйти";
 "Profile" = "Профиль";
+"View Profile" = "Открыть профиль";
 "Hi" = "Привет";
 "Settings" = "Настройки";
 "Numerous Artists" = "Несколько исполнителей";
+"Account" = "Аккаунт";
+"Failed to load User Data" = "При загрузке профиля произошла ошибка";
+"Are you sure?" = "Вы уверены?";
+"Cancel" = "Отмена";
+"Try restarting app or press reload" = "Попробуйте перезагрузить приложение или нажмите кнопку 'Перезагрузить'";
+"Reload" = "Перезагрузить";
