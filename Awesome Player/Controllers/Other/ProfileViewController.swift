@@ -1,10 +1,10 @@
 import Kingfisher
 import SnapKit
 import UIKit
-// swiftlint:disable all
-class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+
+class ProfileViewController: UIViewController {
 	var userProfile: UserObject?
-	
+
 	var model: [String] = []
 
 	// MARK: - Subviews
@@ -77,7 +77,9 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
 			make.center.equalToSuperview()
 		}
 	}
+}
 
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 	// MARK: TableView set up
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return model.count
@@ -95,21 +97,21 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
 			return
 		}
 
-		let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.width, height: view.width/1.5))
+		let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.width, height: view.width / 1.5))
 
-		let imageSize: CGFloat = headerView.height/1.5
+		let imageSize: CGFloat = headerView.height / 1.5
 		let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: imageSize, height: imageSize))
 
 		headerView.addSubview(imageView)
 		imageView.center = headerView.center
 		imageView.contentMode = .scaleAspectFit
-		imageView.kf.setImage(with: url,
-							  placeholder: UIImage(asset: Asset.anonymousUserJpg),
-							  options: [
-								.transition(.fade(1))
-							  ])
+		imageView.kf.setImage(
+			with: url,
+			placeholder: UIImage(asset: Asset.anonymousUserJpg),
+			options: [.transition(.fade(0.5))]
+		)
 		imageView.layer.masksToBounds = true
-		imageView.layer.cornerRadius = imageSize/2
+		imageView.layer.cornerRadius = imageSize / 2
 
 		tableView.tableHeaderView = headerView
 	}

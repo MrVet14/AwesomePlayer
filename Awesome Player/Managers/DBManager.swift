@@ -42,13 +42,14 @@ class DBManager {
 		_ passedSongData: [Song],
 		typeOfPassedSongs: String
 	) {
-		realm.beginWrite()
-
-		/// removing previous entries in realm
-		if typeOfPassedSongs == DBSongTypes.recommended {
-			realm.delete(realm.objects(SongObject.self).where { $0.recommended == true })
-		} else {
-			realm.delete(realm.objects(SongObject.self).where { $0.liked == true })
+		// Checking if song we try to add already exists in realm
+		// And adding theres IDs to an Array
+		var alreadyExistingSongs: [String] = []
+		for song in passedSongData {
+			guard let songObject = getSongObject(song.id) else {
+				continue
+			}
+			alreadyExistingSongs.append(songObject.id)
 		}
 
 		/// adding parsed song from APICaller to Realm
@@ -58,35 +59,56 @@ class DBManager {
 				continue
 			}
 
-			/// processing artist names
-			/// combining 'em if there's several
-			var artistName = ""
-			switch song.artists.count {
-			case 1:
-				artistName = song.artists[0].name
-			case 2:
-				artistName = "\(song.artists[0].name) & \(song.artists[1].name)"
-			default:
-				artistName = L10n.numerousArtists
+			// If song already in Realm, we just change one of the attributes
+			if alreadyExistingSongs.contains(song.id) {
+				print("The song is in realm and needs changing")
+				guard let songObject = getSongObject(song.id) else {
+					continue
+				}
+				do {
+					try realm.write {
+						/// If existing song was recommended, we just add liked attribute
+						if songObject.recommended {
+							songObject.liked = true
+						} /// The opposite of comment above
+						else if songObject.liked {
+							songObject.recommended = true
+						}
+					}
+				} catch {
+					print("Error while updating existing song", error.localizedDescription)
+				}
+			} // If song not in Realm, we create new object & add it to Realm
+			else {
+				print("That song not in realm yet, adding song")
+				realm.beginWrite()
+				/// creating object and assigning data
+				let songToWrite = SongObject()
+				songToWrite.albumName = song.album?.name ?? ""
+				songToWrite.albumCoverURL = song.album?.images.first?.url ?? ""
+				songToWrite.artistName = song.artistName
+				songToWrite.explicit = song.explicit
+				songToWrite.id = song.id
+				songToWrite.name = song.name
+				songToWrite.previewURL = songPreviewURL
+				songToWrite.liked = typeOfPassedSongs == DBSongTypes.liked
+				songToWrite.recommended = typeOfPassedSongs == DBSongTypes.recommended
+
+				realm.add(songToWrite)
+				realmCommitWrite()
 			}
-
-			/// creating object and assigning data
-			let songToWrite = SongObject()
-			songToWrite.albumName = song.album?.name ?? ""
-			songToWrite.albumCoverURL = song.album?.images.first?.url ?? ""
-			songToWrite.artistName = artistName
-			songToWrite.explicit = song.explicit
-			songToWrite.id = song.id
-			songToWrite.name = song.name
-			songToWrite.previewURL = songPreviewURL
-			songToWrite.liked = typeOfPassedSongs == DBSongTypes.liked
-			songToWrite.recommended = typeOfPassedSongs == DBSongTypes.recommended
-
-			/// finally adding entry to Realm
-			realm.add(songToWrite)
 		}
+	}
+
+	// MARK: Method for deleting all the song on App launch
+	func purgeAllSongsInRealmOnLaunch(completion: @escaping ((Bool) -> Void)) {
+		realm.beginWrite()
+
+		realm.delete(realm.objects(SongObject.self))
 
 		realmCommitWrite()
+
+		completion(true)
 	}
 
 	// MARK: retrieving Recommended songs from realm

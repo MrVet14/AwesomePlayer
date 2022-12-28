@@ -21,9 +21,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
 		if AuthManager.shared.isSignedIn {
 			AuthManager.shared.refreshIfNeeded { success in
-				print("Need to update AuthToken: \(!success)")
+				print("Need to update AuthToken: \(success)")
 			}
 			let mainVC = UINavigationController(rootViewController: rootViewController)
+			mainVC.navigationBar.prefersLargeTitles = true
+			mainVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
 			window.rootViewController = mainVC
 		} else {
 			let navVC = UINavigationController(rootViewController: WelcomeViewController())

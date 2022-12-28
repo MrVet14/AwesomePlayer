@@ -26,14 +26,20 @@ internal enum L10n {
   internal static let disconnect = L10n.tr("Localizable", "Disconnect", fallback: "Выйти")
   /// Скрыть
   internal static let dismiss = L10n.tr("Localizable", "Dismiss", fallback: "Скрыть")
+  /// EXPLICIT
+  internal static let explicit = L10n.tr("Localizable", "EXPLICIT", fallback: "EXPLICIT")
   /// При загрузке профиля произошла ошибка
   internal static let failedToLoadUserData = L10n.tr("Localizable", "Failed to load User Data", fallback: "При загрузке профиля произошла ошибка")
   /// Привет
   internal static let hi = L10n.tr("Localizable", "Hi", fallback: "Привет")
+  /// Понравившиеся
+  internal static let likedSongs = L10n.tr("Localizable", "Liked Songs", fallback: "Понравившиеся")
   /// Несколько исполнителей
   internal static let numerousArtists = L10n.tr("Localizable", "Numerous Artists", fallback: "Несколько исполнителей")
   /// Профиль
   internal static let profile = L10n.tr("Localizable", "Profile", fallback: "Профиль")
+  /// Рекомендованные
+  internal static let recommendedSongs = L10n.tr("Localizable", "Recommended Songs", fallback: "Рекомендованные")
   /// Перезагрузить
   internal static let reload = L10n.tr("Localizable", "Reload", fallback: "Перезагрузить")
   /// Настройки

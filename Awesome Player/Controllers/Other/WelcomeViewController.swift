@@ -1,3 +1,4 @@
+import SnapKit
 import UIKit
 
 class WelcomeViewController: UIViewController {
@@ -5,6 +6,7 @@ class WelcomeViewController: UIViewController {
 		let button = UIButton()
 		button.backgroundColor = UIColor(asset: Asset.spotifyGreen)
 		button.setTitle(L10n.connectYourSpotifyAccount, for: .normal)
+		button.titleLabel?.font = .boldSystemFont(ofSize: 20)
 		return button
 	}()
 
@@ -21,12 +23,12 @@ class WelcomeViewController: UIViewController {
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 
-		signInButton.frame = CGRect(
-			x: 20,
-			y: view.height - 50 - view.safeAreaInsets.bottom,
-			width: view.width - 40,
-			height: 50
-		)
+		signInButton.snp.makeConstraints { make in
+			make.height.equalTo(70)
+			make.leading.equalToSuperview().offset(20)
+			make.trailing.equalToSuperview().offset(-20)
+			make.bottom.equalToSuperview().offset(-30)
+		}
 	}
 
 	@objc

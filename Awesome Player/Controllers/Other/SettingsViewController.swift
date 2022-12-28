@@ -1,8 +1,8 @@
 import Kingfisher
 import SnapKit
 import UIKit
-// swiftlint:disable all
-class SettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+class SettingsViewController: UIViewController {
 	var sections = [Section]()
 
 	// MARK: - Subviews
@@ -25,7 +25,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
 	// MARK: Creating Models for tableView
 	func configureModels() {
-		sections.append(Section(title: 	L10n.profile, options: [
+		sections.append(Section(title: L10n.profile, options: [
 			Option(title: L10n.viewProfile, handler: { [weak self] in
 			DispatchQueue.main.async {
 				self?.didTapProfile()
@@ -48,7 +48,7 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 
 		view.addSubview(tableView)
 	}
-	
+
 	// MARK: Setting Constraints
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
@@ -56,6 +56,33 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 		tableView.frame = view.bounds
 	}
 
+	// MARK: Methods to interact with View
+	func didTapProfile() {
+		let profileVC = ProfileViewController()
+		profileVC.navigationItem.largeTitleDisplayMode = .never
+		navigationController?.pushViewController(profileVC, animated: true)
+	}
+
+	func signOut() {
+		let alert = UIAlertController(title: L10n.signOut, message: L10n.areYouSure, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel, handler: nil))
+		alert.addAction(UIAlertAction(title: L10n.signOut, style: .destructive, handler: { _ in
+			AuthManager.shared.signOut { [weak self] _ in
+				print("Signed Out")
+				let welcomeVC = UINavigationController(rootViewController: WelcomeViewController())
+				welcomeVC.navigationBar.prefersLargeTitles = true
+				welcomeVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
+				welcomeVC.modalPresentationStyle = .fullScreen
+				self?.present(welcomeVC, animated: true, completion: {
+					self?.navigationController?.popToRootViewController(animated: false)
+				})
+			}
+		}))
+		present(alert, animated: true)
+	}
+}
+
+extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
 	// MARK: TableView set up
 	func numberOfSections(in tableView: UITableView) -> Int {
 		return sections.count
@@ -84,33 +111,9 @@ class SettingsViewController: UIViewController, UITableViewDelegate, UITableView
 		let cellModel = sections[indexPath.section].options[indexPath.row]
 		cellModel.handler()
 	}
-	
+
 	func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 		let sectionModel = sections[section]
 		return sectionModel.title
-	}
-
-	// MARK: Methods to interact with View
-	func didTapProfile() {
-		let profileVC = ProfileViewController()
-		profileVC.navigationItem.largeTitleDisplayMode = .never
-		navigationController?.pushViewController(profileVC, animated: true)
-	}
-	
-	func signOut() {
-		let alert = UIAlertController(title: L10n.signOut,
-									  message: L10n.areYouSure,
-									  preferredStyle: .alert)
-		alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel, handler: nil))
-		alert.addAction(UIAlertAction(title: L10n.signOut, style: .destructive, handler: { _ in
-			AuthManager.shared.signOut { [weak self] _ in
-				print("Signed Out")
-				let welcomeVC = UINavigationController(rootViewController: WelcomeViewController())
-				welcomeVC.navigationBar.prefersLargeTitles = true
-				welcomeVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
-				self?.navigationController?.pushViewController(welcomeVC, animated: true)
-			}
-		}))
-		present(alert, animated: true)
 	}
 }
