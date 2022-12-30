@@ -70,8 +70,6 @@ class SettingsViewController: UIViewController {
 			AuthManager.shared.signOut { [weak self] _ in
 				print("Signed Out")
 				let welcomeVC = UINavigationController(rootViewController: WelcomeViewController())
-				welcomeVC.navigationBar.prefersLargeTitles = true
-				welcomeVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
 				welcomeVC.modalPresentationStyle = .fullScreen
 				self?.present(welcomeVC, animated: true, completion: {
 					self?.navigationController?.popToRootViewController(animated: false)

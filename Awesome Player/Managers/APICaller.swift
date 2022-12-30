@@ -107,7 +107,6 @@ class APICaller {
 }
 
 // MARK: Moya configuration
-
 enum SpotifyAPI {
 	case loadSongs(ids: [String]) // max 50 IDs
 	case loadRecommended

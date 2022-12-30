@@ -16,8 +16,6 @@ enum SectionType {
 }
 
 class MainViewController: UIViewController {
-	let waysToSayHi = ["Hello", "Привет", " 你好", "今日は", " 안녕하세요", "Bonjour", "Hola", "Hallo", "Ciao", "Ahoy!", "Aloha", "नमस्ते", "γεια σας", "Salve", "Osiyo"]
-
 	var recommendedSongs: [SongObject] = []
 	var likedSongs: [SongObject] = []
 
@@ -47,7 +45,7 @@ class MainViewController: UIViewController {
 
     // MARK: Adding different elements to view
     func setupViews() {
-		title = waysToSayHi.randomElement()
+		title = setTitleDependingOnTheTimeOfDay()
 		view.backgroundColor = .systemBackground
 
 		let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(didTapSettings))
@@ -69,6 +67,18 @@ class MainViewController: UIViewController {
 		super.viewDidLayoutSubviews()
 
 		collectionView.frame = view.bounds
+	}
+	
+	func setTitleDependingOnTheTimeOfDay() -> String {
+		// let hour = NSCalendar.currentCalendar().component(.Hour, fromDate: NSDate()) Swift 2 legacy
+		let hour = Calendar.current.component(.hour, from: Date())
+
+		switch hour {
+		case 6..<12 : return L10n.goodMorning
+		case 12..<17 : return L10n.goodAfternoon
+		case 17..<22 : return L10n.goodEvening
+		default: return L10n.goodNight
+		}
 	}
 
 	@objc

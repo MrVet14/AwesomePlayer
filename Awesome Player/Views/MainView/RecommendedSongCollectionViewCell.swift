@@ -98,7 +98,6 @@ class RecommendedSongCollectionViewCell: UICollectionViewCell {
 		songNameLabel.text = nil
 		artistNameLabel.text = nil
 		albumCoverImageView.image = nil
-		explicitLabel.text = nil
 	}
 
 	func configure(with viewModel: SongCellViewModel) {
@@ -107,6 +106,8 @@ class RecommendedSongCollectionViewCell: UICollectionViewCell {
 		albumCoverImageView.kf.setImage(with: URL(string: viewModel.albumCoverURL), options: [.transition(.fade(0.1))])
 		if viewModel.explicit {
 			explicitLabel.isHidden = false
+		} else {
+			explicitLabel.isHidden = true
 		}
 		if viewModel.liked {
 			likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)

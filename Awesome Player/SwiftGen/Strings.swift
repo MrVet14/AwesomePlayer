@@ -14,6 +14,9 @@ internal enum L10n {
   internal static let account = L10n.tr("Localizable", "Account", fallback: "Аккаунт")
   /// Вы уверены?
   internal static let areYouSure = L10n.tr("Localizable", "Are you sure?", fallback: "Вы уверены?")
+  /// Awesome player,
+  /// вместе в будущее!
+  internal static let awesomeMusicPlayerInTouchWithTomorrow = L10n.tr("Localizable", "AWESOME music player, in touch with tomorrow!", fallback: "Awesome player,\nвместе в будущее!")
   /// Awesome Player
   internal static let awesomePlayer = L10n.tr("Localizable", "Awesome Player", fallback: "Awesome Player")
   /// Отмена
@@ -30,6 +33,14 @@ internal enum L10n {
   internal static let explicit = L10n.tr("Localizable", "EXPLICIT", fallback: "EXPLICIT")
   /// При загрузке профиля произошла ошибка
   internal static let failedToLoadUserData = L10n.tr("Localizable", "Failed to load User Data", fallback: "При загрузке профиля произошла ошибка")
+  /// Добрый день!
+  internal static let goodAfternoon = L10n.tr("Localizable", "Good Afternoon", fallback: "Добрый день!")
+  /// Добрый Вечер!
+  internal static let goodEvening = L10n.tr("Localizable", "Good Evening", fallback: "Добрый Вечер!")
+  /// Доброе Утро!
+  internal static let goodMorning = L10n.tr("Localizable", "Good Morning", fallback: "Доброе Утро!")
+  /// Доброй Ночи!
+  internal static let goodNight = L10n.tr("Localizable", "Good Night", fallback: "Доброй Ночи!")
   /// Привет
   internal static let hi = L10n.tr("Localizable", "Hi", fallback: "Привет")
   /// Понравившиеся

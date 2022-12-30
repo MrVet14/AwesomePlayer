@@ -61,7 +61,6 @@ class DBManager {
 
 			// If song already in Realm, we just change one of the attributes
 			if alreadyExistingSongs.contains(song.id) {
-				print("The song is in realm and needs changing")
 				guard let songObject = getSongObject(song.id) else {
 					continue
 				}
@@ -80,7 +79,6 @@ class DBManager {
 				}
 			} // If song not in Realm, we create new object & add it to Realm
 			else {
-				print("That song not in realm yet, adding song")
 				realm.beginWrite()
 				/// creating object and assigning data
 				let songToWrite = SongObject()
