@@ -75,13 +75,13 @@ class LikedSongCollectionViewCell: UICollectionViewCell {
 		songNameLabel.snp.makeConstraints { make in
 			make.top.equalToSuperview().offset(20)
 			make.leading.equalTo(albumCoverImageView.snp.trailing).offset(10)
-			make.trailing.equalToSuperview().offset(-5)
+			make.trailing.equalToSuperview().offset(-10)
 		}
 
 		artistNameLabel.snp.makeConstraints { make in
 			make.top.equalTo(songNameLabel).offset(30)
 			make.leading.equalTo(songNameLabel)
-			make.trailing.equalToSuperview().offset(-5)
+			make.trailing.equalToSuperview().offset(-10)
 		}
 
 		explicitLabel.snp.makeConstraints { make in
@@ -99,9 +99,13 @@ class LikedSongCollectionViewCell: UICollectionViewCell {
 		songNameLabel.text = nil
 		artistNameLabel.text = nil
 		albumCoverImageView.image = nil
+		songNameLabel.snp.removeConstraints()
 	}
 
 	func configure(with viewModel: SongCellViewModel) {
+		if viewModel.id.isEmpty {
+			useDummyCellWithText()
+		}
 		songNameLabel.text = viewModel.name
 		artistNameLabel.text = viewModel.artistName
 		albumCoverImageView.kf.setImage(with: URL(string: viewModel.albumCoverURL), options: [.transition(.fade(0.1))])
@@ -112,6 +116,16 @@ class LikedSongCollectionViewCell: UICollectionViewCell {
 		}
 		if viewModel.liked {
 			likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+		}
+	}
+
+	func useDummyCellWithText() {
+		albumCoverImageView.isHidden = true
+		likeButton.isHidden = true
+		explicitLabel.isHidden = true
+
+		songNameLabel.snp.remakeConstraints { make in
+			make.leading.equalToSuperview().offset(10)
 		}
 	}
 
