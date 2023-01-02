@@ -38,4 +38,5 @@ enum KeychainError: Error {
 enum DBSongTypes {
 	internal static let liked = "liked"
 	internal static let recommended = "recommended"
+	internal static let inAPlaylist = "inAPlaylist"
 }

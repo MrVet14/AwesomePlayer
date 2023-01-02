@@ -4,6 +4,7 @@ import Foundation
 class FirebaseManager {
 	static let shared = FirebaseManager()
 
+	// MARK: Getting User ID to identify user in Firestore
 	lazy var userID: String = {
 		var returnID = "UserID"
 
@@ -14,10 +15,12 @@ class FirebaseManager {
 		return returnID
 	}()
 
+	// MARK: Path to Firestore Data Base
 	lazy var dataBase = Firestore.firestore().collection("Users").document(userID).collection("LikedSongs")
 
 	private init() {}
 
+	// MARK: Getting Liked Songs IDs form Firestore
 	func getData(completion: @escaping (([String]) -> Void)) {
 		var songsIDsToReturn: [String] = []
 
@@ -36,6 +39,7 @@ class FirebaseManager {
 		}
 	}
 
+	// MARK: Adding Liked Song ID to Firestore
 	func addLikedSongToFirebase(
 		_ songID: String,
 		completion: @escaping ((Bool) -> Void)
@@ -48,6 +52,7 @@ class FirebaseManager {
 		}
 	}
 
+	// MARK: Removing Liked Song ID from Firestore
 	func deleteUnlikedSongFromFirebase(
 		_ songID: String,
 		completion: @escaping ((Bool) -> Void)

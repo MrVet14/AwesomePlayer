@@ -226,7 +226,7 @@ extension SpotifyAPI: TargetType {
 		case .loadRecommended:
 			let parameters = [
 				"seed_genres": "pop,country,rock,alternative",
-				"limit": "20"
+				"limit": "50"
 			]
 			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
 
@@ -235,7 +235,7 @@ extension SpotifyAPI: TargetType {
 
 		case .getFeaturedPlaylists:
 			let parameters = [
-				"limit": "20"
+				"limit": "5"
 			]
 			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
 

@@ -84,17 +84,8 @@ class LikedSongsViewController: UIViewController {
 
 	// MARK: Getting Fresh Data from DB
 	func getUpdatedDataFromDB(completion: @escaping ((Bool) -> Void)) {
-		let group = DispatchGroup()
-		group.enter()
-
 		DBManager.shared.getLikedSongsFromDB { [weak self] likedSongsFromDB in
-			defer {
-				group.leave()
-			}
 			self?.likedSongs = likedSongsFromDB
-		}
-
-		group.notify(queue: .main) {
 			completion(true)
 		}
 	}
@@ -137,19 +128,10 @@ class LikedSongsViewController: UIViewController {
 		id: String,
 		liked: Bool
 	) {
-		let group = DispatchGroup()
-		group.enter()
-
 		TrackHandlerManager.shared.processLikeButtonTappedAction(
 			id: id,
 			liked: liked
 		) {
-			do {
-				group.leave()
-			}
-		}
-
-		group.notify(queue: .main) {
 			self.configureModel()
 		}
 	}
@@ -180,6 +162,12 @@ extension LikedSongsViewController: UICollectionViewDelegate, UICollectionViewDa
 		}
 
 		return cell
+	}
+
+	// MARK: Adding Action on Tap on Cell
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let song = likedSongs[indexPath.row]
+		print("Liked song with id: \(song.id) has been tapped")
 	}
 
 	// MARK: Creating Section Layout for Collection View

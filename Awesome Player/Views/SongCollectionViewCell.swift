@@ -1,3 +1,5 @@
+import Kingfisher
+import SnapKit
 import UIKit
 
 class SongCollectionViewCell: UICollectionViewCell {
@@ -5,6 +7,7 @@ class SongCollectionViewCell: UICollectionViewCell {
 
 	var likeButtonTapAction: (() -> Void)?
 
+	// MARK: Subviews
 	let albumCoverImageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.image = UIImage(systemName: "photo")
@@ -44,6 +47,7 @@ class SongCollectionViewCell: UICollectionViewCell {
 		return button
 	}()
 
+	// MARK: Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		contentView.backgroundColor = .secondarySystemBackground
@@ -61,6 +65,7 @@ class SongCollectionViewCell: UICollectionViewCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	// MARK: Laying out constraints
 	override func layoutSubviews() {
 		super.layoutSubviews()
 
@@ -93,6 +98,7 @@ class SongCollectionViewCell: UICollectionViewCell {
 		}
 	}
 
+	// MARK: Prepping cell for reuse
 	override func prepareForReuse() {
 		super.prepareForReuse()
 		songNameLabel.text = nil
@@ -100,6 +106,7 @@ class SongCollectionViewCell: UICollectionViewCell {
 		albumCoverImageView.image = nil
 	}
 
+	// MARK: Configuring Cell with Data
 	func configure(with viewModel: SongCellViewModel) {
 		songNameLabel.text = viewModel.name
 		artistNameLabel.text = viewModel.artistName
@@ -116,6 +123,7 @@ class SongCollectionViewCell: UICollectionViewCell {
 		}
 	}
 
+	// MARK: Handling Like Button Tap
 	@objc
 	func likeButtonTapped(_ sender: UIButton) {
 		likeButtonTapAction?()

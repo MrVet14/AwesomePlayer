@@ -40,7 +40,8 @@ class DBManager {
 	// MARK: Adding song to Realm, can be used for Recommended & Liked songs
 	func addSongsToDB(
 		_ passedSongData: [Song],
-		typeOfPassedSongs: String
+		typeOfPassedSongs: String,
+		playlistID: String
 	) {
 		// Checking if song we try to add already exists in realm
 		// And adding theres IDs to an Array
@@ -62,6 +63,9 @@ class DBManager {
 			// If song already in Realm, we just change one of the attributes
 			if alreadyExistingSongs.contains(song.id) {
 				guard let songObject = getSongObject(song.id) else {
+					continue
+				}
+				if songObject.isInAPlaylist && !songObject.liked {
 					continue
 				}
 				do {
@@ -91,6 +95,8 @@ class DBManager {
 				songToWrite.previewURL = songPreviewURL
 				songToWrite.liked = typeOfPassedSongs == DBSongTypes.liked
 				songToWrite.recommended = typeOfPassedSongs == DBSongTypes.recommended
+				songToWrite.isInAPlaylist = typeOfPassedSongs == DBSongTypes.inAPlaylist
+				songToWrite.associatedPlaylists = playlistID
 
 				realm.add(songToWrite)
 				realmCommitWrite()
@@ -111,10 +117,17 @@ class DBManager {
 
 		realm.add(playListToWrite)
 		realmCommitWrite()
+
+		var songFromPlaylistToSendToDB: [Song] = []
+		for item in playlist.tracks.items {
+			songFromPlaylistToSendToDB.append(item.track)
+		}
+
+		addSongsToDB(songFromPlaylistToSendToDB, typeOfPassedSongs: DBSongTypes.inAPlaylist, playlistID: playlist.id)
 	}
 
 	// MARK: Method for deleting all the song on App launch
-	func purgeAllSongsAndAlbumsInRealmOnLaunch(completion: @escaping ((Bool) -> Void)) {
+	func purgeAllSongsAndPlaylistsInRealmOnLaunch(completion: @escaping ((Bool) -> Void)) {
 		realm.beginWrite()
 
 		realm.delete(realm.objects(PlaylistObject.self))
@@ -137,9 +150,18 @@ class DBManager {
 		completion(Array(results))
 	}
 
-	// MARK: Retrieving Playlists songs from realm
+	// MARK: Retrieving Playlists from realm
 	func getPlaylistsFormDB(completion: @escaping (([PlaylistObject]) -> Void)) {
 		let results = realm.objects(PlaylistObject.self)
+		completion(Array(results))
+	}
+
+	// MARK: Retrieving Songs for a Playlist from realm
+	func getSongsForAPlaylist(
+		_ id: String,
+		completion: @escaping (([SongObject]) -> Void)
+	) {
+		let results = realm.objects(SongObject.self).where { $0.associatedPlaylists == id }
 		completion(Array(results))
 	}
 

@@ -1,6 +1,6 @@
 import SnapKit
 import UIKit
-// swiftlint:disable all
+
 enum MainViewSectionType {
 	case featuredPlaylists(viewModels: [PlaylistCellViewModel])
 	case recommendedSongs(viewModels: [SongCellViewModel])
@@ -92,8 +92,8 @@ class MainViewController: UIViewController {
 		group.enter()
 		group.enter()
 
-		// Purging all songs in realm on start
-		DBManager.shared.purgeAllSongsAndAlbumsInRealmOnLaunch { success in
+		// Purging all songs & playlists in realm on start
+		DBManager.shared.purgeAllSongsAndPlaylistsInRealmOnLaunch { success in
 			if success {
 				defer {
 					group.leave()
@@ -127,7 +127,7 @@ class MainViewController: UIViewController {
 						}
 					}
 				}
-				
+
 			case .failure(let error):
 				self?.handlingErrorDuringLoadingData(error: error)
 			}
@@ -141,7 +141,7 @@ class MainViewController: UIViewController {
 				defer {
 					group.leave()
 				}
-				DBManager.shared.addSongsToDB(data.tracks, typeOfPassedSongs: DBSongTypes.recommended)
+				DBManager.shared.addSongsToDB(data.tracks, typeOfPassedSongs: DBSongTypes.recommended, playlistID: "")
 
 			case.failure(let error):
 				self?.handlingErrorDuringLoadingData(error: error)
@@ -152,7 +152,12 @@ class MainViewController: UIViewController {
 		group.notify(queue: .main) {
 			self.configureModels()
 		}
-		
+
+		loadingAllNotSuperUrgentStuff()
+	}
+
+	// MARK: Loading Data that not used immediately
+	func loadingAllNotSuperUrgentStuff() {
 		// Getting user profile
 		APICaller.shared.loadUser { [weak self] userProfileResults in
 			switch userProfileResults {
@@ -163,14 +168,14 @@ class MainViewController: UIViewController {
 				self?.handlingErrorDuringLoadingData(error: error)
 			}
 		}
-		
+
 		// Getting Liked songs
 		FirebaseManager.shared.getData { resultFromFirebase in
 			// Checking firebase response, if there's any liked songs we load and store them
 			if !resultFromFirebase.isEmpty {
 				// Handling fetching data from Firebase and APICaller
 				LoadAllTheLikedSongsHelper.shared.getData(resultFromFirebase) { resultFromAPICaller in
-					DBManager.shared.addSongsToDB(resultFromAPICaller, typeOfPassedSongs: DBSongTypes.liked)
+					DBManager.shared.addSongsToDB(resultFromAPICaller, typeOfPassedSongs: DBSongTypes.liked, playlistID: "")
 				}
 			}
 		}
@@ -264,19 +269,10 @@ class MainViewController: UIViewController {
 		id: String,
 		liked: Bool
 	) {
-		let group = DispatchGroup()
-		group.enter()
-
 		TrackHandlerManager.shared.processLikeButtonTappedAction(
 			id: id,
 			liked: liked
 		) {
-			do {
-				group.leave()
-			}
-		}
-
-		group.notify(queue: .main) {
 			self.configureModels()
 		}
 	}
@@ -337,9 +333,30 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 			return cell
 		}
 	}
-	
+
+	// MARK: Adding Action on Tap on Cell
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		collectionView.deselectItem(at: indexPath, animated: true)
+		let section = sections[indexPath.section]
+		switch section {
+		case .featuredPlaylists:
+			let playlist = featuredPlaylists[indexPath.row]
+			let playlistVC = PlaylistViewController(playlist: playlist)
+			playlistVC.navigationItem.largeTitleDisplayMode = .never
+			navigationController?.pushViewController(playlistVC, animated: true)
+
+		case .recommendedSongs:
+			let song = recommendedSongs[indexPath.row]
+			print("Recommended song with id: \(song.id) has been tapped")
+		}
+	}
+
 	// MARK: Creating Headers for the Sections
-	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+	func collectionView
+	(_ collectionView: UICollectionView,
+	 viewForSupplementaryElementOfKind kind: String,
+	 at indexPath: IndexPath
+	) -> UICollectionReusableView {
 		guard let header = collectionView.dequeueReusableSupplementaryView(
 			ofKind: kind,
 			withReuseIdentifier: TitleHeaderCollectionReusableView.identifier,

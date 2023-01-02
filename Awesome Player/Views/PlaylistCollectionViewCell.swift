@@ -5,6 +5,7 @@ import UIKit
 class PlaylistCollectionViewCell: UICollectionViewCell {
 	static let identifier = "PlaylistCollectionViewCell"
 
+	// MARK: Subviews
 	let playlistCoverImageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.image = UIImage(systemName: "photo")
@@ -35,6 +36,7 @@ class PlaylistCollectionViewCell: UICollectionViewCell {
 		return label
 	}()
 
+	// MARK: Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		contentView.backgroundColor = .secondarySystemBackground
@@ -44,12 +46,14 @@ class PlaylistCollectionViewCell: UICollectionViewCell {
 		contentView.addSubview(descriptionLabel)
 		contentView.addSubview(numberOfTracksLabel)
 	}
+
 	// swiftlint:disable fatal_error
 	@available(*, unavailable)
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	// MARK: Laying out constraints
 	override func layoutSubviews() {
 		super.layoutSubviews()
 
@@ -77,6 +81,7 @@ class PlaylistCollectionViewCell: UICollectionViewCell {
 		}
 	}
 
+	// MARK: Prepping cell for reuse
 	override func prepareForReuse() {
 		super.prepareForReuse()
 		playlistNameLabel.text = nil
@@ -85,6 +90,7 @@ class PlaylistCollectionViewCell: UICollectionViewCell {
 		numberOfTracksLabel.text = nil
 	}
 
+	// MARK: Configuring Cell with Data
 	func configure(with viewModel: PlaylistCellViewModel) {
 		playlistNameLabel.text = viewModel.name
 		descriptionLabel.text = viewModel.description
