@@ -2,13 +2,13 @@ import SnapKit
 import UIKit
 // swiftlint:disable all
 enum MainViewSectionType {
-	case likedSongs(viewModels: [SongCellViewModel])
+	case featuredPlaylists(viewModels: [PlaylistCellViewModel])
 	case recommendedSongs(viewModels: [SongCellViewModel])
 
 	var title: String {
 		switch self {
-		case .likedSongs:
-			return L10n.likedSongs
+		case .featuredPlaylists:
+			return L10n.featuredPlaylists
 		case .recommendedSongs:
 			return L10n.recommendedSongs
 		}
@@ -16,8 +16,8 @@ enum MainViewSectionType {
 }
 
 class MainViewController: UIViewController {
+	var featuredPlaylists: [PlaylistObject] = []
 	var recommendedSongs: [SongObject] = []
-	var likedSongs: [SongObject] = []
 
 	var sections = [MainViewSectionType]()
 
@@ -28,13 +28,6 @@ class MainViewController: UIViewController {
 			return MainViewController.createSectionLayout(section: sectionIndex)
 	 })
 
-	let spinner: UIActivityIndicatorView = {
-		let spinner = UIActivityIndicatorView()
-		spinner.tintColor = .label
-		spinner.hidesWhenStopped = true
-		return spinner
-	}()
-
     // MARK: App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,9 +36,13 @@ class MainViewController: UIViewController {
 		loadTheData()
     }
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		configureModels()
+	}
+
     // MARK: Adding different elements to view
     func setupViews() {
-		title = setTitleDependingOnTheTimeOfDay()
 		view.backgroundColor = .systemBackground
 
 		let settingsButton = UIBarButtonItem(
@@ -63,17 +60,20 @@ class MainViewController: UIViewController {
 			forCellWithReuseIdentifier: "cell"
 		)
 		collectionView.register(
-			LikedSongCollectionViewCell.self,
-			forCellWithReuseIdentifier: LikedSongCollectionViewCell.identifier
+			PlaylistCollectionViewCell.self,
+			forCellWithReuseIdentifier: PlaylistCollectionViewCell.identifier
 		)
 		collectionView.register(
-			RecommendedSongCollectionViewCell.self,
-			forCellWithReuseIdentifier: RecommendedSongCollectionViewCell.identifier
+			SongCollectionViewCell.self,
+			forCellWithReuseIdentifier: SongCollectionViewCell.identifier
+		)
+		collectionView.register(
+			TitleHeaderCollectionReusableView.self,
+			forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+			withReuseIdentifier: TitleHeaderCollectionReusableView.identifier
 		)
 		collectionView.dataSource = self
 		collectionView.delegate = self
-
-		view.addSubview(spinner)
     }
 
 	// MARK: Laying out constraints
@@ -85,22 +85,6 @@ class MainViewController: UIViewController {
 		}
 	}
 
-	// MARK: Setting View Title depending on the time of the day
-	func setTitleDependingOnTheTimeOfDay() -> String {
-		let hour = Calendar.current.component(.hour, from: Date())
-
-		switch hour {
-		case 6..<12:
-			return L10n.goodMorning
-		case 12..<17:
-			return L10n.goodAfternoon
-		case 17..<22:
-			return L10n.goodEvening
-		default:
-			return L10n.goodNight
-		}
-	}
-
 	// MARK: Getting Data Form API & Firebase, then storing & retrieving it from Realm
 	func loadTheData() {
 		let group = DispatchGroup()
@@ -109,7 +93,7 @@ class MainViewController: UIViewController {
 		group.enter()
 
 		// Purging all songs in realm on start
-		DBManager.shared.purgeAllSongsInRealmOnLaunch { success in
+		DBManager.shared.purgeAllSongsAndAlbumsInRealmOnLaunch { success in
 			if success {
 				defer {
 					group.leave()
@@ -118,8 +102,58 @@ class MainViewController: UIViewController {
 			}
 		}
 
+		// Getting Featured Playlists
+		APICaller.shared.loadRecommendedPlaylists { [weak self] recommendedPlaylistsResult in
+			print("Loading Recommended Playlists")
+			switch recommendedPlaylistsResult {
+			case .success(let recommendedPlaylists):
+				var numberOfTimesRan = 0
+				for playlist in recommendedPlaylists.playlists.items {
+					// Getting Featured Playlists tracks by theres IDs
+					APICaller.shared.loadPlaylistDetails(playlist.id) { playlistDetailsResult in
+						switch playlistDetailsResult {
+						case .success(let playlistDetails):
+							// Adding Playlists to Realm and Retrieving Data from Realm as Objects
+							DBManager.shared.addPlaylistToRealm(playlistDetails)
+							numberOfTimesRan += 1
+							if numberOfTimesRan == recommendedPlaylists.playlists.items.count {
+								do {
+									group.leave()
+								}
+							}
+
+						case .failure(let error):
+							self?.handlingErrorDuringLoadingData(error: error)
+						}
+					}
+				}
+				
+			case .failure(let error):
+				self?.handlingErrorDuringLoadingData(error: error)
+			}
+		}
+
+		// Getting Recommended songs
+		APICaller.shared.loadRecommendedTracks { [weak self] recommendedSongsResults in
+			print("Loading Recommended songs")
+			switch recommendedSongsResults {
+			case .success(let data):
+				defer {
+					group.leave()
+				}
+				DBManager.shared.addSongsToDB(data.tracks, typeOfPassedSongs: DBSongTypes.recommended)
+
+			case.failure(let error):
+				self?.handlingErrorDuringLoadingData(error: error)
+			}
+		}
+
+		// Moving forward once all the data has been loaded
+		group.notify(queue: .main) {
+			self.configureModels()
+		}
+		
 		// Getting user profile
-		print("Loading User data")
 		APICaller.shared.loadUser { [weak self] userProfileResults in
 			switch userProfileResults {
 			case .success(let data):
@@ -129,51 +163,16 @@ class MainViewController: UIViewController {
 				self?.handlingErrorDuringLoadingData(error: error)
 			}
 		}
-
-		// Getting Recommended songs
-		APICaller.shared.loadRecommendedTracks { [weak self] recommendedSongsResults in
-			print("Loading recommended songs")
-			switch recommendedSongsResults {
-			case .success(let data):
-				DBManager.shared.addSongsToDB(data.tracks, typeOfPassedSongs: DBSongTypes.recommended)
-				DBManager.shared.getRecommendedSongsFromDB { [weak self] result in
-					defer {
-						group.leave()
-					}
-					self?.recommendedSongs = result
-				}
-
-			case.failure(let error):
-				self?.handlingErrorDuringLoadingData(error: error)
-			}
-		}
-
+		
 		// Getting Liked songs
-		FirebaseManager.shared.getData { [weak self] resultFromFirebase in
+		FirebaseManager.shared.getData { resultFromFirebase in
 			// Checking firebase response, if there's any liked songs we load and store them
-			print("Checking if user have any liked songs and loading if there's any")
 			if !resultFromFirebase.isEmpty {
 				// Handling fetching data from Firebase and APICaller
 				LoadAllTheLikedSongsHelper.shared.getData(resultFromFirebase) { resultFromAPICaller in
 					DBManager.shared.addSongsToDB(resultFromAPICaller, typeOfPassedSongs: DBSongTypes.liked)
-					DBManager.shared.getLikedSongsFromDB { result in
-						defer {
-							group.leave()
-						}
-						self?.likedSongs = result
-					}
 				}
-			} else {
-				defer {
-					group.leave()
-				}
-				print("User has no liked Songs")
 			}
-		}
-
-		// Moving forward once all the data has been loaded
-		group.notify(queue: .main) {
-			self.configureModels()
 		}
 	}
 
@@ -183,17 +182,17 @@ class MainViewController: UIViewController {
 		group.enter()
 		group.enter()
 
+		DBManager.shared.getPlaylistsFormDB { [weak self] result in
+			defer {
+				group.leave()
+			}
+			self?.featuredPlaylists = result
+		}
 		DBManager.shared.getRecommendedSongsFromDB { [weak self] result in
 			defer {
 				group.leave()
 			}
 			self?.recommendedSongs = result
-		}
-		DBManager.shared.getLikedSongsFromDB { [weak self] result in
-			defer {
-				group.leave()
-			}
-			self?.likedSongs = result
 		}
 
 		group.notify(queue: .main) {
@@ -201,35 +200,33 @@ class MainViewController: UIViewController {
 		}
 	}
 
-	// MARK: Creating of updating ViewModels from Song Data
+	// MARK: Creating or updating ViewModels
 	func configureModels() {
-		sections.removeAll()
-		if likedSongs.isEmpty {
-			sections.append(.likedSongs(viewModels: [SongCellViewModel(id: "", name: "You Don't Have Liked Songs", albumCoverURL: "", artistName: "Try exploring recommended songs", explicit: false, liked: false)]))
-		} else {
-			sections.append(.likedSongs(viewModels: likedSongs.compactMap({
-				return SongCellViewModel(
-					id: $0.id,
-					name: $0.name,
-					albumCoverURL: $0.albumCoverURL,
-					artistName: $0.artistName,
-					explicit: $0.explicit,
-					liked: $0.liked
-				)
-			})))
-		}
-		sections.append(.recommendedSongs(viewModels: recommendedSongs.compactMap({
-			return SongCellViewModel(
-				id: $0.id,
-				name: $0.name,
-				albumCoverURL: $0.albumCoverURL,
-				artistName: $0.artistName,
-				explicit: $0.explicit,
-				liked: $0.liked
-			)
-		})))
+		getUpdatedDataFromDB { [weak self] success in
+			if success {
+				self?.sections.removeAll()
+				self?.sections.append(.featuredPlaylists(viewModels: (self?.featuredPlaylists.compactMap({
+					return PlaylistCellViewModel(
+						name: $0.name,
+						playlistCoverURL: $0.image,
+						description: $0.playlistDescription,
+						numberOfTracks: $0.numberOfTracks
+					)
+				}))!))
+				self?.sections.append(.recommendedSongs(viewModels: (self?.recommendedSongs.compactMap({
+					return SongCellViewModel(
+						id: $0.id,
+						name: $0.name,
+						albumCoverURL: $0.albumCoverURL,
+						artistName: $0.artistName,
+						explicit: $0.explicit,
+						liked: $0.liked
+					)
+				}))!))
 
-		collectionView.reloadData()
+				self?.collectionView.reloadData()
+			}
+		}
 	}
 
 	// MARK: Handling possible errors
@@ -263,36 +260,24 @@ class MainViewController: UIViewController {
 	}
 
 	// Processing tap on like button
-	func processLikeButtonTappedAction(id: String, liked: Bool) {
+	func processLikeButtonTappedAction(
+		id: String,
+		liked: Bool
+	) {
 		let group = DispatchGroup()
 		group.enter()
 
-		if liked {
-			FirebaseManager.shared.deleteUnlikedSongFromFirebase(id) { success in
-				if success {
-					defer {
-						group.leave()
-					}
-					DBManager.shared.dislikedSong(id)
-				}
-			}
-		} else {
-			FirebaseManager.shared.addLikedSongToFirebase(id) { success in
-				if success {
-					defer {
-						group.leave()
-					}
-					DBManager.shared.likedSong(id)
-				}
+		TrackHandlerManager.shared.processLikeButtonTappedAction(
+			id: id,
+			liked: liked
+		) {
+			do {
+				group.leave()
 			}
 		}
 
 		group.notify(queue: .main) {
-			self.getUpdatedDataFromDB { [weak self] success in
-				if success {
-					self?.configureModels()
-				}
-			}
+			self.configureModels()
 		}
 	}
 }
@@ -303,7 +288,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		let type = sections[section]
 		switch type {
-		case .likedSongs(let viewModels):
+		case .featuredPlaylists(let viewModels):
 			return viewModels.count
 
 		case .recommendedSongs(let viewModels):
@@ -320,30 +305,23 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let type = sections[indexPath.section]
 		switch type {
-		case .likedSongs(let viewModels):
+		case .featuredPlaylists(let viewModels):
 			guard let cell = collectionView.dequeueReusableCell(
-				withReuseIdentifier: LikedSongCollectionViewCell.identifier,
-				for: indexPath) as? LikedSongCollectionViewCell
+				withReuseIdentifier: PlaylistCollectionViewCell.identifier,
+				for: indexPath) as? PlaylistCollectionViewCell
 			else {
 				return UICollectionViewCell()
 			}
 			let viewModel = viewModels[indexPath.row]
-			if viewModel.id == "" {
-				print(1234456)
-			}
 
 			cell.configure(with: viewModel)
-			cell.likeButtonTapAction = {
-				[weak self] () in
-				self?.processLikeButtonTappedAction(id: viewModel.id, liked: viewModel.liked)
-			}
 
 			return cell
 
 		case .recommendedSongs(let viewModels):
 			guard let cell = collectionView.dequeueReusableCell(
-				withReuseIdentifier: RecommendedSongCollectionViewCell.identifier,
-				for: indexPath) as? RecommendedSongCollectionViewCell
+				withReuseIdentifier: SongCollectionViewCell.identifier,
+				for: indexPath) as? SongCollectionViewCell
 			else {
 				return UICollectionViewCell()
 			}
@@ -359,9 +337,38 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 			return cell
 		}
 	}
+	
+	// MARK: Creating Headers for the Sections
+	func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+		guard let header = collectionView.dequeueReusableSupplementaryView(
+			ofKind: kind,
+			withReuseIdentifier: TitleHeaderCollectionReusableView.identifier,
+			for: indexPath
+		) as? TitleHeaderCollectionReusableView, kind == UICollectionView.elementKindSectionHeader else {
+			return UICollectionReusableView()
+		}
+		let section = indexPath.section
+
+		let title = sections[section].title
+		print(title)
+		header.configure(with: title)
+
+		return header
+	}
 
 	// MARK: Creating Section Layout for Collection View
 	static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
+		let supplementaryViews = [
+			NSCollectionLayoutBoundarySupplementaryItem(
+				layoutSize: NSCollectionLayoutSize(
+					widthDimension: .fractionalWidth(1),
+					heightDimension: .absolute(50)
+				),
+				elementKind: UICollectionView.elementKindSectionHeader,
+				alignment: .top
+			)
+		]
+
 		switch section {
 		// Liked Songs Section
 		case 0:
@@ -394,10 +401,11 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 			// Section
 			let section = NSCollectionLayoutSection(group: horizontalGroup)
 			section.orthogonalScrollingBehavior = .groupPaging
+			section.boundarySupplementaryItems = supplementaryViews
 			return section
 
 		// Recommended Songs Section
-		case 1:
+		default:
 			// Item
 			let item = NSCollectionLayoutItem(
 				layoutSize: NSCollectionLayoutSize(
@@ -418,29 +426,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 			// Section
 			let section = NSCollectionLayoutSection(group: group)
-			return section
-
-		default:
-			// Item
-			let item = NSCollectionLayoutItem(
-				layoutSize: NSCollectionLayoutSize(
-					widthDimension: .fractionalWidth(1.0),
-					heightDimension: .fractionalHeight(1.0))
-			)
-			item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-
-			// Group
-			let group = NSCollectionLayoutGroup.vertical(
-				layoutSize: NSCollectionLayoutSize(
-					widthDimension: .fractionalWidth(1.0),
-					heightDimension: .absolute(390)
-				),
-				subitem: item,
-				count: 1
-			)
-
-			// Section
-			let section = NSCollectionLayoutSection(group: group)
+			section.boundarySupplementaryItems = supplementaryViews
 			return section
 		}
 	}

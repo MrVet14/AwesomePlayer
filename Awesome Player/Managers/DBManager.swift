@@ -6,11 +6,11 @@ class DBManager {
 
 	private init() {}
 
-	// MARK: openning Realm
+	// MARK: Openning Realm
 	// swiftlint:disable force_try
 	let realm = try! Realm()
 
-	// MARK: adding user data to Realm
+	// MARK: Adding user data to Realm
 	func addUserToDB(_ passedUserData: User) {
 		realm.beginWrite()
 
@@ -37,7 +37,7 @@ class DBManager {
 		completion(result)
 	}
 
-	// MARK: adding song to Realm, can be used for Recommended & Liked songs
+	// MARK: Adding song to Realm, can be used for Recommended & Liked songs
 	func addSongsToDB(
 		_ passedSongData: [Song],
 		typeOfPassedSongs: String
@@ -52,9 +52,9 @@ class DBManager {
 			alreadyExistingSongs.append(songObject.id)
 		}
 
-		/// adding parsed song from APICaller to Realm
+		/// Adding parsed song from APICaller to Realm
 		for song in passedSongData {
-			/// checking if song has preview url, discarding entry if preview url not present
+			/// Checking if song has preview url, discarding entry if preview url not present
 			guard let songPreviewURL = song.preview_url else {
 				continue
 			}
@@ -98,10 +98,26 @@ class DBManager {
 		}
 	}
 
-	// MARK: Method for deleting all the song on App launch
-	func purgeAllSongsInRealmOnLaunch(completion: @escaping ((Bool) -> Void)) {
+	// MARK: Adding playlist to Realm,
+	func addPlaylistToRealm(_ playlist: PlaylistDetailsResponse) {
 		realm.beginWrite()
 
+		let playListToWrite = PlaylistObject()
+		playListToWrite.id = playlist.id
+		playListToWrite.playlistDescription = playlist.description
+		playListToWrite.name = playlist.name
+		playListToWrite.image = playlist.images.first?.url ?? ""
+		playListToWrite.numberOfTracks = playlist.tracks.items.count
+
+		realm.add(playListToWrite)
+		realmCommitWrite()
+	}
+
+	// MARK: Method for deleting all the song on App launch
+	func purgeAllSongsAndAlbumsInRealmOnLaunch(completion: @escaping ((Bool) -> Void)) {
+		realm.beginWrite()
+
+		realm.delete(realm.objects(PlaylistObject.self))
 		realm.delete(realm.objects(SongObject.self))
 
 		realmCommitWrite()
@@ -109,19 +125,25 @@ class DBManager {
 		completion(true)
 	}
 
-	// MARK: retrieving Recommended songs from realm
+	// MARK: Retrieving Recommended songs from realm
 	func getRecommendedSongsFromDB(completion: @escaping (([SongObject]) -> Void)) {
 		let results = realm.objects(SongObject.self).where { $0.recommended == true }
 		completion(Array(results))
 	}
 
-	// MARK: retrieving Liked songs from realm
+	// MARK: Retrieving Liked songs from realm
 	func getLikedSongsFromDB(completion: @escaping (([SongObject]) -> Void)) {
 		let results = realm.objects(SongObject.self).where { $0.liked == true }
 		completion(Array(results))
 	}
 
-	// MARK: marking song as liked
+	// MARK: Retrieving Playlists songs from realm
+	func getPlaylistsFormDB(completion: @escaping (([PlaylistObject]) -> Void)) {
+		let results = realm.objects(PlaylistObject.self)
+		completion(Array(results))
+	}
+
+	// MARK: Marking song as liked
 	func likedSong(_ songID: String) {
 		guard let songObject = getSongObject(songID) else {
 			print("No Object present")
@@ -137,7 +159,7 @@ class DBManager {
 		}
 	}
 
-	// MARK: removing song from liked
+	// MARK: Removing song from liked
 	func dislikedSong(_ songID: String) {
 		guard let songObject = getSongObject(songID) else {
 			print("No Object present")
@@ -153,13 +175,19 @@ class DBManager {
 		}
 	}
 
-	// MARK: getting song object to be user in likedSong() & dislikedSong() methods
+	// MARK: Getting song object to be easily used in methods & avoid repetition
 	func getSongObject(_ songID: String) -> SongObject? {
 		let result = realm.objects(SongObject.self).where { $0.id == songID }
 		return result.first
 	}
 
-	// MARK: method for committing write to Realm
+	// MARK: Getting playlist object to be easily used in methods & avoid repetition
+	func getPlaylistObject(_ playlistID: String) -> PlaylistObject? {
+		let result = realm.objects(PlaylistObject.self).where { $0.id == playlistID }
+		return result.first
+	}
+
+	// MARK: Method for committing write to Realm
 	func realmCommitWrite() {
 		do {
 			try realm.commitWrite()

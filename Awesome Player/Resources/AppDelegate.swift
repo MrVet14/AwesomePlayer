@@ -5,7 +5,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
-    lazy var rootViewController = MainViewController()
+    lazy var rootViewController = TabBarViewController()
 
     func application(
         _ application: UIApplication,
@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         FirebaseApp.configure()
 
-//		// MARK: For testing only
+		// MARK: For testing only
 //		AuthManager.shared.signOut { _ in
 //			print("Signed Out")
 //		}
@@ -23,10 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			AuthManager.shared.refreshIfNeeded { success in
 				print("Need to update AuthToken: \(success)")
 			}
-			let mainVC = UINavigationController(rootViewController: rootViewController)
-			mainVC.navigationBar.prefersLargeTitles = true
-			mainVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
-			window.rootViewController = mainVC
+			window.rootViewController = rootViewController
 		} else {
 			let navVC = UINavigationController(rootViewController: WelcomeViewController())
 			window.rootViewController = navVC
@@ -36,19 +33,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = window
 
 		// MARK: Section for testing logic
-		// swiftlint:disable line_length
+		// swiftlint:disable all
+
+//		APICaller.shared.loadRecommendedPlaylists { result in
+//			switch result {
+//			case .success(let response):
+//				for item in response.playlists.items {
+//					APICaller.shared.loadPlaylistDetails(item.id) { foo in
+//						switch foo {
+//						case .success(let success):
+////							var trackNumber = 0
+////							for track in success.tracks.items {
+////								print("track #\(trackNumber): ", track)
+////								trackNumber += 1
+////							}
+//							break
+//
+//						case .failure(let failure):
+//							print(failure.localizedDescription)
+//						}
+//					}
+//				}
+//			case .failure(let error):
+//				print(error.localizedDescription)
+//			}
+//		}
+
+//		APICaller.shared.loadPlaylistDetails("37i9dQZF1DX9XIFQuFvzM4") { result in
+//			switch result {
+//			case .success(let response):
+//				print(response.id)
+//			case .failure(let error):
+//				print(error.localizedDescription)
+//			}
+//		}
+//
 //		APICaller.shared.loadSongs(["7ouMYWpwJ422jRcDASZB7P", "4VqPOruhp5EdPBeR92t6lQ", "2takcwOaAZWiXQijPHIx7B"]) { result in
 //			DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.liked)
 //		}
+//
 //		APICaller.shared.loadRecommendedTracks { result in
 //			DBManager.shared.addSongsToDB(result, typeOfPassedSongs: DBSongTypes.recommended)
 //			DBManager.shared.getRecommendedSongsFromDB { foo in
 //				print(foo)
 //			}
 //		}
+//
 //		APICaller.shared.loadASong("7ouMYWpwJ422jRcDASZB7P") { foo in
 //			print(foo)
 //		}
+//
 //		APICaller.shared.loadUser { result in
 //			DBManager.shared.addUserToDB(result)
 //			DBManager.shared.getUserFromDB { foo in

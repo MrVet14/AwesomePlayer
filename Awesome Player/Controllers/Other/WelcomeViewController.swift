@@ -148,9 +148,7 @@ class WelcomeViewController: UIViewController {
 		}
 
 		timer?.invalidate()
-		let mainVC = UINavigationController(rootViewController: MainViewController())
-		mainVC.navigationBar.prefersLargeTitles = true
-		mainVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
+		let mainVC = TabBarViewController()
 		mainVC.modalPresentationStyle = .fullScreen
 		present(mainVC, animated: true)
 	}

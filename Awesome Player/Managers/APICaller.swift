@@ -86,6 +86,57 @@ class APICaller {
 		}
 	}
 
+	func loadRecommendedPlaylists(completion: @escaping (Result<FeaturedPlaylistsResponse, Error>) -> Void) {
+		provider.request(.getFeaturedPlaylists) { result in
+			switch result {
+			case.success(let response):
+				// for debugging only
+				if 400...599 ~= response.statusCode {
+					self.debugResponse("Failed to load Recommended Playlists", response: response)
+				}
+
+				do {
+					let result = try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: response.data)
+					completion(.success(result))
+				} catch {
+					self.printError("Failed to parce Recommended Playlists", error: error)
+					completion(.failure(error))
+				}
+
+			case .failure(let error):
+				self.printError("Failed to load Recommended Playlists", error: error)
+				completion(.failure(error))
+			}
+		}
+	}
+
+	func loadPlaylistDetails(
+		_ playlistID: String,
+		completion: @escaping (Result<PlaylistDetailsResponse, Error>) -> Void
+	) {
+		provider.request(.getPlaylistDetails(id: playlistID)) { result in
+			switch result {
+			case .success(let response):
+				// for debugging only
+				if 400...599 ~= response.statusCode {
+					self.debugResponse("Failed to load Recommended Playlists", response: response)
+				}
+
+				do {
+					let result = try JSONDecoder().decode(PlaylistDetailsResponse.self, from: response.data)
+					completion(.success(result))
+				} catch {
+					self.printError("Failed to parce Recommended Playlists", error: error)
+					completion(.failure(error))
+				}
+
+			case .failure(let error):
+				self.printError("Failed to load Recommended Playlists", error: error)
+				completion(.failure(error))
+			}
+		}
+	}
+
 	// MARK: Printing out errors
 	func printError(
 		_ msg: String,
@@ -111,6 +162,8 @@ enum SpotifyAPI {
 	case loadSongs(ids: [String]) // max 50 IDs
 	case loadRecommended
 	case loadUser
+	case getFeaturedPlaylists
+	case getPlaylistDetails(id: String)
 }
 
 extension SpotifyAPI: TargetType {
@@ -128,7 +181,13 @@ extension SpotifyAPI: TargetType {
 			return "/recommendations"
 
 		case .loadUser:
-			return"/me"
+			return "/me"
+
+		case .getFeaturedPlaylists:
+			return "/browse/featured-playlists"
+
+		case .getPlaylistDetails(let id):
+			return "/playlists/\(id)"
 		}
 	}
 
@@ -166,15 +225,21 @@ extension SpotifyAPI: TargetType {
 
 		case .loadRecommended:
 			let parameters = [
-				// Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres
-				// "seed_artists": "",
-				"seed_genres": "pop,country",
-				// "seed_tracks": "",
-				"limit": "100"
+				"seed_genres": "pop,country,rock,alternative",
+				"limit": "20"
 			]
 			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
 
 		case .loadUser:
+			return .requestPlain
+
+		case .getFeaturedPlaylists:
+			let parameters = [
+				"limit": "20"
+			]
+			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
+
+		case .getPlaylistDetails:
 			return .requestPlain
 		}
 	}

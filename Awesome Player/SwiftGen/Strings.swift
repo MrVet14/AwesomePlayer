@@ -31,8 +31,12 @@ internal enum L10n {
   internal static let dismiss = L10n.tr("Localizable", "Dismiss", fallback: "Скрыть")
   /// EXPLICIT
   internal static let explicit = L10n.tr("Localizable", "EXPLICIT", fallback: "EXPLICIT")
+  /// Исследовать
+  internal static let explore = L10n.tr("Localizable", "Explore", fallback: "Исследовать")
   /// При загрузке профиля произошла ошибка
   internal static let failedToLoadUserData = L10n.tr("Localizable", "Failed to load User Data", fallback: "При загрузке профиля произошла ошибка")
+  /// Трендовые плей-листы
+  internal static let featuredPlaylists = L10n.tr("Localizable", "Featured Playlists", fallback: "Трендовые плей-листы")
   /// Добрый день!
   internal static let goodAfternoon = L10n.tr("Localizable", "Good Afternoon", fallback: "Добрый день!")
   /// Добрый Вечер!
@@ -45,6 +49,8 @@ internal enum L10n {
   internal static let hi = L10n.tr("Localizable", "Hi", fallback: "Привет")
   /// Понравившиеся
   internal static let likedSongs = L10n.tr("Localizable", "Liked Songs", fallback: "Понравившиеся")
+  /// Понравившиеся песни отсутствуют
+  internal static let noLikedSongs = L10n.tr("Localizable", "No liked songs", fallback: "Понравившиеся песни отсутствуют")
   /// Несколько исполнителей
   internal static let numerousArtists = L10n.tr("Localizable", "Numerous Artists", fallback: "Несколько исполнителей")
   /// Профиль
@@ -63,6 +69,8 @@ internal enum L10n {
   internal static let somethingWentWrong = L10n.tr("Localizable", "Something went wrong", fallback: "Что-то пошло не так")
   /// Попробуйте позже
   internal static let tryAgainLater = L10n.tr("Localizable", "Try again later", fallback: "Попробуйте позже")
+  /// Посмотри на рекомендованные треки
+  internal static let tryExploringOurRecommendationList = L10n.tr("Localizable", "Try exploring our recommendation list", fallback: "Посмотри на рекомендованные треки")
   /// Попробуйте перезагрузить приложение или нажмите кнопку 'Перезагрузить'
   internal static let tryRestartingAppOrPressReload = L10n.tr("Localizable", "Try restarting app or press reload", fallback: "Попробуйте перезагрузить приложение или нажмите кнопку 'Перезагрузить'")
   /// Открыть профиль

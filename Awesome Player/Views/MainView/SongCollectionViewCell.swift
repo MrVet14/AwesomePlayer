@@ -1,6 +1,6 @@
 import UIKit
 
-class RecommendedSongCollectionViewCell: UICollectionViewCell {
+class SongCollectionViewCell: UICollectionViewCell {
 	static let identifier = "RecommendedSongCollectionViewCell"
 
 	var likeButtonTapAction: (() -> Void)?

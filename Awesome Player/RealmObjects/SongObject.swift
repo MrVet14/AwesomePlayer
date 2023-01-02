@@ -11,4 +11,6 @@ class SongObject: Object {
 	@Persisted var explicit = false
 	@Persisted var liked = false
 	@Persisted var recommended = false
+	@Persisted var isInAPlaylist = false
+	@Persisted var associatedPlaylists: String = ""
 }
