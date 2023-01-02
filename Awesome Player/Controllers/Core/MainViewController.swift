@@ -28,6 +28,14 @@ class MainViewController: UIViewController {
 			return MainViewController.createSectionLayout(section: sectionIndex)
 	 })
 
+	lazy var indicatorView: UIActivityIndicatorView = {
+		let view = UIActivityIndicatorView(style: .medium)
+		view.color = .white
+		view.hidesWhenStopped = true
+		view.startAnimating()
+		return view
+	}()
+
     // MARK: App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +82,10 @@ class MainViewController: UIViewController {
 		)
 		collectionView.dataSource = self
 		collectionView.delegate = self
+
+		collectionView.isHidden = true
+
+		view.addSubview(indicatorView)
     }
 
 	// MARK: Laying out constraints
@@ -82,6 +94,10 @@ class MainViewController: UIViewController {
 
 		collectionView.snp.makeConstraints { make in
 			make.edges.equalToSuperview()
+		}
+
+		indicatorView.snp.makeConstraints { make in
+			make.center.equalToSuperview()
 		}
 	}
 
@@ -95,16 +111,14 @@ class MainViewController: UIViewController {
 		// Purging all songs & playlists in realm on start
 		DBManager.shared.purgeAllSongsAndPlaylistsInRealmOnLaunch { success in
 			if success {
-				defer {
+				do {
 					group.leave()
 				}
-				print("Purged all songs in Realm")
 			}
 		}
 
 		// Getting Featured Playlists
 		APICaller.shared.loadRecommendedPlaylists { [weak self] recommendedPlaylistsResult in
-			print("Loading Recommended Playlists")
 			switch recommendedPlaylistsResult {
 			case .success(let recommendedPlaylists):
 				var numberOfTimesRan = 0
@@ -135,7 +149,6 @@ class MainViewController: UIViewController {
 
 		// Getting Recommended songs
 		APICaller.shared.loadRecommendedTracks { [weak self] recommendedSongsResults in
-			print("Loading Recommended songs")
 			switch recommendedSongsResults {
 			case .success(let data):
 				defer {
@@ -148,8 +161,11 @@ class MainViewController: UIViewController {
 			}
 		}
 
-		// Moving forward once all the data has been loaded
+		// Creating Models, hiding indicator & showing collection view once all the data has been loaded
 		group.notify(queue: .main) {
+			self.indicatorView.stopAnimating()
+			self.collectionView.isHidden = false
+
 			self.configureModels()
 		}
 
@@ -367,7 +383,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 		let section = indexPath.section
 
 		let title = sections[section].title
-		print(title)
 		header.configure(with: title)
 
 		return header
@@ -375,6 +390,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 	// MARK: Creating Section Layout for Collection View
 	static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
+		// Section Header
 		let supplementaryViews = [
 			NSCollectionLayoutBoundarySupplementaryItem(
 				layoutSize: NSCollectionLayoutSize(
@@ -386,17 +402,17 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 			)
 		]
 
+		// Item
+		let item = NSCollectionLayoutItem(
+			layoutSize: NSCollectionLayoutSize(
+				widthDimension: .fractionalWidth(1.0),
+				heightDimension: .fractionalHeight(1.0))
+		)
+		item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+
 		switch section {
 		// Liked Songs Section
 		case 0:
-			// Item
-			let item = NSCollectionLayoutItem(
-				layoutSize: NSCollectionLayoutSize(
-					widthDimension: .fractionalWidth(1.0),
-					heightDimension: .fractionalHeight(1.0))
-			)
-			item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-
 			// Group
 			let verticalGroup = NSCollectionLayoutGroup.vertical(
 				layoutSize: NSCollectionLayoutSize(
@@ -423,14 +439,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 		// Recommended Songs Section
 		default:
-			// Item
-			let item = NSCollectionLayoutItem(
-				layoutSize: NSCollectionLayoutSize(
-					widthDimension: .fractionalWidth(1.0),
-					heightDimension: .fractionalWidth(1.0))
-			)
-			item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-
 			// Group
 			let group = NSCollectionLayoutGroup.vertical(
 				layoutSize: NSCollectionLayoutSize(
