@@ -6,6 +6,11 @@ class APICaller {
 
 	let provider = MoyaProvider<SpotifyAPI>()
 
+	// MARK: Max number is 100
+	let numberOfRecommendedSongsToLoad = 100
+	// MARK: Max number is 50
+	let numberOfFeaturedPlaylistsToLoad = 20
+
 	private init() {}
 
 	// MARK: Loading a bunch of songs
@@ -229,7 +234,7 @@ extension SpotifyAPI: TargetType {
 		case .loadRecommended:
 			let parameters = [
 				"seed_genres": "pop,country,rock,alternative",
-				"limit": "\(APIConstants.numberOfRecommendedSongsToLoad)"
+				"limit": "\(APICaller.shared.numberOfRecommendedSongsToLoad)"
 			]
 			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
 
@@ -238,7 +243,7 @@ extension SpotifyAPI: TargetType {
 
 		case .getFeaturedPlaylists:
 			let parameters = [
-				"limit": "\(APIConstants.numberOfFeaturedPlaylistsToLoad)"
+				"limit": "\(APICaller.shared.numberOfFeaturedPlaylistsToLoad)"
 			]
 			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
 

@@ -73,6 +73,8 @@ internal enum L10n {
   internal static let signOut = L10n.tr("Localizable", "Sign Out", fallback: "Выйти")
   /// Что-то пошло не так
   internal static let somethingWentWrong = L10n.tr("Localizable", "Something went wrong", fallback: "Что-то пошло не так")
+  /// Песни
+  internal static let tracks = L10n.tr("Localizable", "Tracks", fallback: "Песни")
   /// Попробуйте позже
   internal static let tryAgainLater = L10n.tr("Localizable", "Try again later", fallback: "Попробуйте позже")
   /// Посмотри на рекомендованные треки

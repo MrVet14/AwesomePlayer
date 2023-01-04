@@ -94,7 +94,7 @@ class PlaylistCollectionViewCell: UICollectionViewCell {
 	func configure(with viewModel: PlaylistCellViewModel) {
 		playlistNameLabel.text = viewModel.name
 		descriptionLabel.text = viewModel.description
-		numberOfTracksLabel.text = "Tracks: \(viewModel.numberOfTracks)"
+		numberOfTracksLabel.text = "\(L10n.tracks): \(viewModel.numberOfTracks)"
 		playlistCoverImageView.kf.setImage(with: URL(string: viewModel.playlistCoverURL), options: [.transition(.fade(0.1))])
 	}
 }

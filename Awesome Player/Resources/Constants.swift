@@ -22,10 +22,6 @@ enum PlistBundleParameters {
 enum APIConstants {
 	static let spotifyWebAPIBaseUrl = "spotifyWebAPIBaseUrl"
 	static let loadSongsAPILimit = 50
-	// MARK: Max number is 100
-	static let numberOfRecommendedSongsToLoad = 100
-	// MARK: Max number is 50
-	static let numberOfFeaturedPlaylistsToLoad = 20
 }
 
 enum KeychainError: Error {
