@@ -68,8 +68,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 			playlistVC.playlist = playlist
 			playlistVC.navigationItem.largeTitleDisplayMode = .never
 			navigationController?.pushViewController(playlistVC, animated: true)
-			playlistVC.hasBeenLoaded = {
-				[weak self] in
+			playlistVC.hasBeenLoaded = { [weak self] in
 				self?.alreadyLoadedPlaylists.append(playlist.id)
 			}
 

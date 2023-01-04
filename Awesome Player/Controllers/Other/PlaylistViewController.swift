@@ -212,8 +212,7 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
 		let viewModel = playlistSongViewModel[indexPath.row]
 
 		cell.configure(with: viewModel)
-		cell.likeButtonTapAction = {
-			[weak self] () in
+		cell.likeButtonTapAction = { [weak self] in
 			self?.processLikeButtonTappedAction(id: viewModel.id, liked: viewModel.liked)
 		}
 

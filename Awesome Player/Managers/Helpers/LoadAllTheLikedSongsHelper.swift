@@ -19,8 +19,8 @@ class LoadAllTheLikedSongsHelper {
 		}
 
 		var numberOfTimesMethodRan = 0
-		makeAPICall { result, success in
-			if success {
+		makeAPICall { result in
+			if !result.isEmpty {
 				if numberOfTimesMethodRan == numberOfCallsNeededToFinishTask {
 					completion(result)
 				}
@@ -30,7 +30,7 @@ class LoadAllTheLikedSongsHelper {
 	}
 
 	// MARK: Breaking all the songs, making calls to API & returning results as solid array
-	func makeAPICall(completion: @escaping (([Song], Bool) -> Void)) {
+	func makeAPICall(completion: @escaping (([Song]) -> Void)) {
 		var songDataToPassBack: [Song] = []
 
 		repeat {
@@ -54,9 +54,9 @@ class LoadAllTheLikedSongsHelper {
 						return
 					}
 					if self.allTheSongsToLoad.isEmpty {
-						completion(songDataToPassBack, true)
+						completion(songDataToPassBack)
 					} else {
-						completion([], false)
+						completion([])
 					}
 
 				case .failure(let error):
