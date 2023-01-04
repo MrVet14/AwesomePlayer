@@ -19,8 +19,8 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		loadData()
 		setupViews()
+		loadData()
 
 		tableView.dataSource = self
 		tableView.delegate = self
@@ -56,11 +56,13 @@ class ProfileViewController: UIViewController {
 		if userProfile == nil {
 			failedToGetUser()
 		}
-		self.model.append("Full Name: \(model.displayName)")
-		self.model.append("Email Address: \(model.email)")
-		self.model.append("User ID: \(model.id)")
-		self.model.append("Country: \(model.country)")
+
+		self.model.append("\(L10n.fullName): \(model.displayName)")
+		self.model.append("\(L10n.emailAddress): \(model.email)")
+		self.model.append("\(L10n.userID): \(model.id)")
+		self.model.append("\(L10n.country): \(model.country)")
 		createTableHeader(with: model.imageURL)
+
 		tableView.isHidden = false
 		tableView.reloadData()
 	}

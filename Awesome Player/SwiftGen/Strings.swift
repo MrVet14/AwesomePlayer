@@ -25,10 +25,14 @@ internal enum L10n {
   internal static let connectYourSpotifyAccount = L10n.tr("Localizable", "Connect your Spotify account", fallback: "Подключите аккаунт Spotify")
   /// Продолжить со Spotify
   internal static let continueWithSpotify = L10n.tr("Localizable", "Continue with Spotify", fallback: "Продолжить со Spotify")
+  /// Страна
+  internal static let country = L10n.tr("Localizable", "Country", fallback: "Страна")
   /// Выйти
   internal static let disconnect = L10n.tr("Localizable", "Disconnect", fallback: "Выйти")
   /// Скрыть
   internal static let dismiss = L10n.tr("Localizable", "Dismiss", fallback: "Скрыть")
+  /// E-mail
+  internal static let emailAddress = L10n.tr("Localizable", "Email Address", fallback: "E-mail")
   /// EXPLICIT
   internal static let explicit = L10n.tr("Localizable", "EXPLICIT", fallback: "EXPLICIT")
   /// Исследовать
@@ -37,6 +41,8 @@ internal enum L10n {
   internal static let failedToLoadUserData = L10n.tr("Localizable", "Failed to load User Data", fallback: "При загрузке профиля произошла ошибка")
   /// Трендовые плей-листы
   internal static let featuredPlaylists = L10n.tr("Localizable", "Featured Playlists", fallback: "Трендовые плей-листы")
+  /// Имя
+  internal static let fullName = L10n.tr("Localizable", "Full Name", fallback: "Имя")
   /// Добрый день!
   internal static let goodAfternoon = L10n.tr("Localizable", "Good Afternoon", fallback: "Добрый день!")
   /// Добрый Вечер!
@@ -73,6 +79,8 @@ internal enum L10n {
   internal static let tryExploringOurRecommendationList = L10n.tr("Localizable", "Try exploring our recommendation list", fallback: "Посмотри на рекомендованные треки")
   /// Попробуйте перезагрузить приложение или нажмите кнопку 'Перезагрузить'
   internal static let tryRestartingAppOrPressReload = L10n.tr("Localizable", "Try restarting app or press reload", fallback: "Попробуйте перезагрузить приложение или нажмите кнопку 'Перезагрузить'")
+  /// ID Пользователя
+  internal static let userID = L10n.tr("Localizable", "User ID", fallback: "ID Пользователя")
   /// Открыть профиль
   internal static let viewProfile = L10n.tr("Localizable", "View Profile", fallback: "Открыть профиль")
   /// Привет!

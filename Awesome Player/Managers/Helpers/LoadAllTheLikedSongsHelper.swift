@@ -5,6 +5,7 @@ class LoadAllTheLikedSongsHelper {
 
 	private init() {}
 
+	let apiLimit = APIConstants.loadSongsAPILimit
 	var allTheSongsToLoad: [String] = []
 	var aBatchToLoad: [String] = []
 
@@ -13,9 +14,8 @@ class LoadAllTheLikedSongsHelper {
 		completion: @escaping (([Song]) -> Void)
 	) {
 		allTheSongsToLoad = ids
-		// Костыль, но работает, попозже обязательно переделаю
 		var numberOfCallsNeededToFinishTask: Int {
-			return ids.count / 50
+			return ids.count / apiLimit
 		}
 
 		var numberOfTimesMethodRan = 0
@@ -36,8 +36,8 @@ class LoadAllTheLikedSongsHelper {
 		repeat {
 			aBatchToLoad.removeAll()
 
-			if allTheSongsToLoad.count > 50 {
-				while aBatchToLoad.count < 50 {
+			if allTheSongsToLoad.count > apiLimit {
+				while aBatchToLoad.count < apiLimit {
 					aBatchToLoad.append(allTheSongsToLoad[0])
 					allTheSongsToLoad.removeFirst()
 				}
@@ -50,7 +50,10 @@ class LoadAllTheLikedSongsHelper {
 				switch result {
 				case .success(let data):
 					songDataToPassBack += data.tracks
-					if self!.allTheSongsToLoad.isEmpty {
+					guard let self = self else {
+						return
+					}
+					if self.allTheSongsToLoad.isEmpty {
 						completion(songDataToPassBack, true)
 					} else {
 						completion([], false)

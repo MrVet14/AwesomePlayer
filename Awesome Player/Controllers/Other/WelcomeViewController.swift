@@ -62,7 +62,7 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		self.timer = Timer.scheduledTimer(
-			timeInterval: 3.0,
+			timeInterval: 2.0,
 			target: self,
 			selector: #selector(changeTitle),
 			userInfo: nil,
