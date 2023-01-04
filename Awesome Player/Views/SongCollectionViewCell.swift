@@ -111,16 +111,11 @@ class SongCollectionViewCell: UICollectionViewCell {
 		songNameLabel.text = viewModel.name
 		artistNameLabel.text = viewModel.artistName
 		albumCoverImageView.kf.setImage(with: URL(string: viewModel.albumCoverURL), options: [.transition(.fade(0.1))])
-		if viewModel.explicit {
-			explicitLabel.isHidden = false
-		} else {
-			explicitLabel.isHidden = true
-		}
-		if viewModel.liked {
-			likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-		} else {
-			likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-		}
+		explicitLabel.isHidden = !viewModel.explicit
+		likeButton.setImage(UIImage(
+			systemName: viewModel.liked ? "heart.fill" : "heart"),
+			for: .normal
+		)
 	}
 
 	// MARK: Handling Like Button Tap

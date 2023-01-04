@@ -16,8 +16,8 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		configureModels()
 		setupViews()
+		configureModels()
 
 		tableView.dataSource = self
 		tableView.delegate = self
@@ -68,7 +68,6 @@ class SettingsViewController: UIViewController {
 		alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel, handler: nil))
 		alert.addAction(UIAlertAction(title: L10n.signOut, style: .destructive, handler: { _ in
 			AuthManager.shared.signOut { [weak self] _ in
-				print("Signed Out")
 				let welcomeVC = UINavigationController(rootViewController: WelcomeViewController())
 				welcomeVC.modalPresentationStyle = .fullScreen
 				self?.present(welcomeVC, animated: true, completion: {

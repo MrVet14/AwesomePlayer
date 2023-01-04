@@ -2,9 +2,13 @@ import SnapKit
 import UIKit
 
 class PlaylistViewController: UIViewController {
-	let playlist: PlaylistObject
+	// swiftlint:disable redundant_type_annotation
+	var playlist: PlaylistObject = PlaylistObject()
 	var playlistSongs: [SongObject] = []
 	var playlistSongViewModel: [SongCellViewModel] = []
+	var alreadyLoaded = false
+
+	var hasBeenLoaded: (() -> Void)?
 
 	// MARK: Subviews
 	var collectionView = UICollectionView(
@@ -43,24 +47,24 @@ class PlaylistViewController: UIViewController {
 			return section
 		})
 
-	// MARK: Init
-	init(playlist: PlaylistObject) {
-		self.playlist = playlist
-		super.init(nibName: nil, bundle: nil)
-	}
-
-	// swiftlint:disable fatal_error
-	@available(*, unavailable)
-	required init?(coder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
-	}
+	lazy var indicatorView: UIActivityIndicatorView = {
+		let view = UIActivityIndicatorView(style: .medium)
+		view.color = .white
+		view.hidesWhenStopped = true
+		view.startAnimating()
+		return view
+	}()
 
 	// MARK: Apps life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		configureModel()
 		setUpViews()
+		if alreadyLoaded {
+			configureModel()
+		} else {
+			loadData()
+		}
     }
 
 	// MARK: Adding view elements to View & configuring them
@@ -84,6 +88,9 @@ class PlaylistViewController: UIViewController {
 		)
 		collectionView.dataSource = self
 		collectionView.delegate = self
+		collectionView.isHidden = true
+
+		view.addSubview(indicatorView)
 	}
 
 	// MARK: Setting Constraints
@@ -93,33 +100,61 @@ class PlaylistViewController: UIViewController {
 		collectionView.snp.makeConstraints { make in
 			make.edges.equalToSuperview()
 		}
+
+		indicatorView.snp.makeConstraints { make in
+			make.center.equalToSuperview()
+		}
+	}
+
+	// MARK: Loading Data for Playlist
+	func loadData() {
+		// Getting play list sons from API
+		APICaller.shared.loadPlaylistDetails(playlist.id) { [weak self] playlistDetailsResult in
+			switch playlistDetailsResult {
+			case .success(let playlistDetails):
+				// Adding Songs to Realm & Creating Models
+				DBManager.shared.addPlaylistSongsToRealm(playlistDetails)
+				self?.configureModel()
+				// letting MainVC know that playlist has been downloaded
+				self?.hasBeenLoaded?()
+
+			case .failure(let error):
+				self?.handlingErrorDuringLoadingData(error: error)
+			}
+		}
 	}
 
 	// MARK: Loading Data
-	func getDataFromDB(completion: @escaping ((Bool) -> Void)) {
+	func getDataFromDB(completion: @escaping (() -> Void)) {
 		DBManager.shared.getSongsForAPlaylist(playlist.id) { [weak self] result in
 			self?.playlistSongs = result
-			completion(true)
+			completion()
 		}
 	}
 
 	// MARK: Updating or creating View Models
 	func configureModel() {
-		getDataFromDB { [weak self] success in
-			if success {
-				self?.playlistSongViewModel.removeAll()
-				self?.playlistSongViewModel.append(contentsOf: (self?.playlistSongs.compactMap({
-					return SongCellViewModel(
-						id: $0.id,
-						name: $0.name,
-						albumCoverURL: $0.albumCoverURL,
-						artistName: $0.artistName,
-						explicit: $0.explicit,
-						liked: $0.liked)
-				}))!)
-
-				self?.collectionView.reloadData()
+		getDataFromDB { [weak self] in
+			guard let self = self else {
+				return
 			}
+
+			self.playlistSongViewModel.removeAll()
+			let viewModelToReturn = self.playlistSongs.compactMap({
+				return SongCellViewModel(
+					id: $0.id,
+					name: $0.name,
+					albumCoverURL: $0.albumCoverURL,
+					artistName: $0.artistName,
+					explicit: $0.explicit,
+					liked: $0.liked)
+			})
+			self.playlistSongViewModel.append(contentsOf: viewModelToReturn)
+
+			self.indicatorView.isHidden = true
+			self.collectionView.isHidden = false
+
+			self.collectionView.reloadData()
 		}
 	}
 
@@ -135,6 +170,26 @@ class PlaylistViewController: UIViewController {
 		) {
 			self.configureModel()
 		}
+	}
+
+	func handlingErrorDuringLoadingData(error: Error) {
+		print(error.localizedDescription)
+
+		let alert = UIAlertController(
+			title: L10n.somethingWentWrong,
+			message: L10n.tryRestartingAppOrPressReload,
+			preferredStyle: .alert
+		)
+		alert.addAction(
+			UIAlertAction(
+				title: L10n.reload,
+				style: .default,
+				handler: { [weak self] _ in
+					self?.loadData()
+				}
+			)
+		)
+		present(alert, animated: true)
 	}
 }
 

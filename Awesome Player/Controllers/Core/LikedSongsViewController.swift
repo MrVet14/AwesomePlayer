@@ -31,12 +31,20 @@ class LikedSongsViewController: UIViewController {
 		return label
 	}()
 
+	lazy var indicatorView: UIActivityIndicatorView = {
+		let view = UIActivityIndicatorView(style: .medium)
+		view.color = .white
+		view.hidesWhenStopped = true
+		view.startAnimating()
+		return view
+	}()
+
 	// MARK: App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		configureModel()
 		setupViews()
+		configureModel()
     }
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -62,6 +70,7 @@ class LikedSongsViewController: UIViewController {
 
 		view.addSubview(noLikedSongsLabel)
 		view.addSubview(noLikedSongsSubLabel)
+		view.addSubview(indicatorView)
 	}
 
 	// MARK: Setting Constraints
@@ -80,44 +89,51 @@ class LikedSongsViewController: UIViewController {
 			make.centerX.equalToSuperview()
 			make.top.equalTo(noLikedSongsLabel.snp.bottom).offset(10)
 		}
+
+		indicatorView.snp.makeConstraints { make in
+			make.center.equalToSuperview()
+		}
 	}
 
 	// MARK: Getting Fresh Data from DB
-	func getUpdatedDataFromDB(completion: @escaping ((Bool) -> Void)) {
+	func getUpdatedDataFromDB(completion: @escaping (() -> Void)) {
 		DBManager.shared.getLikedSongsFromDB { [weak self] likedSongsFromDB in
 			self?.likedSongs = likedSongsFromDB
-			completion(true)
+			completion()
 		}
 	}
 
 	// MARK: Creating or updating ViewModels
 	func configureModel() {
-		getUpdatedDataFromDB { [weak self] success in
-			if success {
-				// Used .count, because .isEmpty not working in closure
-				// swiftlint:disable empty_count
-				if self?.likedSongs.count == 0 {
-					self?.collectionView.isHidden = true
-					self?.noLikedSongsLabel.isHidden = false
-					self?.noLikedSongsSubLabel.isHidden = false
-				} else {
-					self?.collectionView.isHidden = false
-					self?.noLikedSongsLabel.isHidden = true
-					self?.noLikedSongsSubLabel.isHidden = true
+		getUpdatedDataFromDB { [weak self] in
+			guard let self = self else {
+				return
+			}
 
-					self?.likedSongsViewModels.removeAll()
-					self?.likedSongsViewModels.append(contentsOf: (self?.likedSongs.compactMap({
-						return SongCellViewModel(
-							id: $0.id,
-							name: $0.name,
-							albumCoverURL: $0.albumCoverURL,
-							artistName: $0.artistName,
-							explicit: $0.explicit,
-							liked: $0.liked)
-					}))!)
+			self.indicatorView.isHidden = true
 
-					self?.collectionView.reloadData()
-				}
+			if self.likedSongs.isEmpty == true {
+				self.collectionView.isHidden = true
+				self.noLikedSongsLabel.isHidden = false
+				self.noLikedSongsSubLabel.isHidden = false
+			} else {
+				self.collectionView.isHidden = false
+				self.noLikedSongsLabel.isHidden = true
+				self.noLikedSongsSubLabel.isHidden = true
+
+				self.likedSongsViewModels.removeAll()
+				let viewModelToReturn = self.likedSongs.compactMap({
+					return SongCellViewModel(
+						id: $0.id,
+						name: $0.name,
+						albumCoverURL: $0.albumCoverURL,
+						artistName: $0.artistName,
+						explicit: $0.explicit,
+						liked: $0.liked)
+				})
+				self.likedSongsViewModels.append(contentsOf: viewModelToReturn)
+
+				self.collectionView.reloadData()
 			}
 		}
 	}

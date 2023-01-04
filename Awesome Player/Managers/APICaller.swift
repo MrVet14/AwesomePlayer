@@ -99,7 +99,7 @@ class APICaller {
 					let result = try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
-					self.printError("Failed to parce Recommended Playlists", error: error)
+					self.printError("Failed to parse Recommended Playlists", error: error)
 					completion(.failure(error))
 				}
 
@@ -119,19 +119,19 @@ class APICaller {
 			case .success(let response):
 				// for debugging only
 				if 400...599 ~= response.statusCode {
-					self.debugResponse("Failed to load Recommended Playlists", response: response)
+					self.debugResponse("Failed to load Playlist Details", response: response)
 				}
 
 				do {
 					let result = try JSONDecoder().decode(PlaylistDetailsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
-					self.printError("Failed to parce Recommended Playlists", error: error)
+					self.printError("Failed to parse Playlist Details", error: error)
 					completion(.failure(error))
 				}
 
 			case .failure(let error):
-				self.printError("Failed to load Recommended Playlists", error: error)
+				self.printError("Failed to load Playlist Details", error: error)
 				completion(.failure(error))
 			}
 		}
@@ -153,6 +153,7 @@ class APICaller {
 		print(msq)
 		print("Status code: \(response.statusCode)")
 		print("Request URL:", response.request as Any)
+		print("Request Description:", response.description)
 		print("Data:", String(bytes: response.data, encoding: .utf8) as Any)
 	}
 }
@@ -200,17 +201,19 @@ extension SpotifyAPI: TargetType {
 
 		switch self {
 		case .loadSongs(ids: var ids):
+			let apiLimit = APIConstants.loadSongsAPILimit
+
 			// MARK: Checking if number of passed IDs is greater than 50
-			if ids.count > 50 {
-				if ids.count > 100 {
+			if ids.count > apiLimit {
+				if ids.count > (apiLimit * 2) {
 					var newSetOfIDs: [String] = []
-					for posInArr in 0..<50 {
+					for posInArr in 0..<apiLimit {
 						newSetOfIDs.append(ids[posInArr])
 					}
 					ids = newSetOfIDs
 				} else {
-					while ids.count > 50 {
-						ids.remove(at: 50)
+					while ids.count > apiLimit {
+						ids.remove(at: apiLimit)
 					}
 				}
 				print("""
@@ -226,7 +229,7 @@ extension SpotifyAPI: TargetType {
 		case .loadRecommended:
 			let parameters = [
 				"seed_genres": "pop,country,rock,alternative",
-				"limit": "50"
+				"limit": "\(APIConstants.numberOfRecommendedSongsToLoad)"
 			]
 			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
 
@@ -235,7 +238,7 @@ extension SpotifyAPI: TargetType {
 
 		case .getFeaturedPlaylists:
 			let parameters = [
-				"limit": "5"
+				"limit": "\(APIConstants.numberOfFeaturedPlaylistsToLoad)"
 			]
 			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
 
