@@ -3,7 +3,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
-    lazy var rootViewController = MainViewController()
+    lazy var rootViewController = TabBarViewController()
 
     func scene(
 		_ scene: UIScene, willConnectTo session: UISceneSession,
@@ -13,12 +13,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
 		if AuthManager.shared.isSignedIn {
-			let mainVC = UINavigationController(rootViewController: rootViewController)
-			window.rootViewController = mainVC
+			window.rootViewController = rootViewController
 		} else {
 			let navVC = UINavigationController(rootViewController: WelcomeViewController())
-			navVC.navigationBar.prefersLargeTitles = true
-			navVC.viewControllers.first?.navigationItem.largeTitleDisplayMode = .always
 			window.rootViewController = navVC
 		}
         window.makeKeyAndVisible()

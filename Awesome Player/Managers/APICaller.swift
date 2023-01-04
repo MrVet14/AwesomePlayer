@@ -6,6 +6,11 @@ class APICaller {
 
 	let provider = MoyaProvider<SpotifyAPI>()
 
+	// MARK: Max number is 100
+	let numberOfRecommendedSongsToLoad = 100
+	// MARK: Max number is 50
+	let numberOfFeaturedPlaylistsToLoad = 20
+
 	private init() {}
 
 	// MARK: Loading a bunch of songs
@@ -86,6 +91,57 @@ class APICaller {
 		}
 	}
 
+	func loadRecommendedPlaylists(completion: @escaping (Result<FeaturedPlaylistsResponse, Error>) -> Void) {
+		provider.request(.getFeaturedPlaylists) { result in
+			switch result {
+			case.success(let response):
+				// for debugging only
+				if 400...599 ~= response.statusCode {
+					self.debugResponse("Failed to load Recommended Playlists", response: response)
+				}
+
+				do {
+					let result = try JSONDecoder().decode(FeaturedPlaylistsResponse.self, from: response.data)
+					completion(.success(result))
+				} catch {
+					self.printError("Failed to parse Recommended Playlists", error: error)
+					completion(.failure(error))
+				}
+
+			case .failure(let error):
+				self.printError("Failed to load Recommended Playlists", error: error)
+				completion(.failure(error))
+			}
+		}
+	}
+
+	func loadPlaylistDetails(
+		_ playlistID: String,
+		completion: @escaping (Result<PlaylistDetailsResponse, Error>) -> Void
+	) {
+		provider.request(.getPlaylistDetails(id: playlistID)) { result in
+			switch result {
+			case .success(let response):
+				// for debugging only
+				if 400...599 ~= response.statusCode {
+					self.debugResponse("Failed to load Playlist Details", response: response)
+				}
+
+				do {
+					let result = try JSONDecoder().decode(PlaylistDetailsResponse.self, from: response.data)
+					completion(.success(result))
+				} catch {
+					self.printError("Failed to parse Playlist Details", error: error)
+					completion(.failure(error))
+				}
+
+			case .failure(let error):
+				self.printError("Failed to load Playlist Details", error: error)
+				completion(.failure(error))
+			}
+		}
+	}
+
 	// MARK: Printing out errors
 	func printError(
 		_ msg: String,
@@ -102,16 +158,18 @@ class APICaller {
 		print(msq)
 		print("Status code: \(response.statusCode)")
 		print("Request URL:", response.request as Any)
+		print("Request Description:", response.description)
 		print("Data:", String(bytes: response.data, encoding: .utf8) as Any)
 	}
 }
 
 // MARK: Moya configuration
-
 enum SpotifyAPI {
 	case loadSongs(ids: [String]) // max 50 IDs
 	case loadRecommended
 	case loadUser
+	case getFeaturedPlaylists
+	case getPlaylistDetails(id: String)
 }
 
 extension SpotifyAPI: TargetType {
@@ -129,7 +187,13 @@ extension SpotifyAPI: TargetType {
 			return "/recommendations"
 
 		case .loadUser:
-			return"/me"
+			return "/me"
+
+		case .getFeaturedPlaylists:
+			return "/browse/featured-playlists"
+
+		case .getPlaylistDetails(let id):
+			return "/playlists/\(id)"
 		}
 	}
 
@@ -142,17 +206,19 @@ extension SpotifyAPI: TargetType {
 
 		switch self {
 		case .loadSongs(ids: var ids):
+			let apiLimit = APIConstants.loadSongsAPILimit
+
 			// MARK: Checking if number of passed IDs is greater than 50
-			if ids.count > 50 {
-				if ids.count > 100 {
+			if ids.count > apiLimit {
+				if ids.count > (apiLimit * 2) {
 					var newSetOfIDs: [String] = []
-					for posInArr in 0..<50 {
+					for posInArr in 0..<apiLimit {
 						newSetOfIDs.append(ids[posInArr])
 					}
 					ids = newSetOfIDs
 				} else {
-					while ids.count > 50 {
-						ids.remove(at: 50)
+					while ids.count > apiLimit {
+						ids.remove(at: apiLimit)
 					}
 				}
 				print("""
@@ -167,15 +233,21 @@ extension SpotifyAPI: TargetType {
 
 		case .loadRecommended:
 			let parameters = [
-				// Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres
-				// "seed_artists": "",
-				"seed_genres": "pop,country",
-				// "seed_tracks": "",
-				"limit": "10"
+				"seed_genres": "pop,country,rock,alternative",
+				"limit": "\(APICaller.shared.numberOfRecommendedSongsToLoad)"
 			]
 			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
 
 		case .loadUser:
+			return .requestPlain
+
+		case .getFeaturedPlaylists:
+			let parameters = [
+				"limit": "\(APICaller.shared.numberOfFeaturedPlaylistsToLoad)"
+			]
+			return .requestParameters(parameters: parameters, encoding: encodingQueryString)
+
+		case .getPlaylistDetails:
 			return .requestPlain
 		}
 	}

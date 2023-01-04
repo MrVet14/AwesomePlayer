@@ -71,7 +71,7 @@ class AuthManager {
 		}
 
 		guard shouldRefreshToken else {
-			completion(true)
+			completion(false)
 			return
 		}
 

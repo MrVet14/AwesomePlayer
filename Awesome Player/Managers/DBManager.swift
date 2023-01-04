@@ -6,35 +6,29 @@ class DBManager {
 
 	private init() {}
 
-	// MARK: openning Realm
+	// MARK: Openning Realm
 	// swiftlint:disable force_try
 	let realm = try! Realm()
 
-	// MARK: adding user data to Realm
-	func addUserToDB(_ passedUserData: Result<User, any Error>) {
-		switch passedUserData {
-		case .success(let data):
-			realm.beginWrite()
+	// MARK: Adding user data to Realm
+	func addUserToDB(_ passedUserData: User) {
+		realm.beginWrite()
 
-			/// removing previous entries in realm
-			realm.delete(realm.objects(UserObject.self))
+		/// removing previous entries in realm
+		realm.delete(realm.objects(UserObject.self))
 
-			/// creating object and assigning data
-			let user = UserObject()
-			user.country = data.country
-			user.displayName = data.display_name
-			user.email = data.email
-			user.id = data.id
-			user.imageURL = data.images.first?.url ?? ""
+		/// creating object and assigning data
+		let user = UserObject()
+		user.country = passedUserData.country
+		user.displayName = passedUserData.display_name
+		user.email = passedUserData.email
+		user.id = passedUserData.id
+		user.imageURL = passedUserData.images.first?.url ?? ""
 
-			/// adding entry to Realm
-			realm.add(user)
+		/// adding entry to Realm
+		realm.add(user)
 
-			realmCommitWrite()
-
-		case .failure(let error):
-			print(error.localizedDescription)
-		}
+		realmCommitWrite()
 	}
 
 	// MARK: retrieving user data from realm
@@ -43,77 +37,128 @@ class DBManager {
 		completion(result)
 	}
 
-	// MARK: adding song to Realm, can be used for Recommended & Liked songs
+	// MARK: Adding song to Realm
 	func addSongsToDB(
-		_ passedSongData: Result<MultipleSongsResponse, any Error>,
-		typeOfPassedSongs: String
+		_ passedSongData: [Song],
+		typeOfPassedSongs: String,
+		playlistID: String
 	) {
-		switch passedSongData {
-		case .success(let result):
-			realm.beginWrite()
-
-			/// removing previous entries in realm
-			if typeOfPassedSongs == DBSongTypes.recommended {
-				realm.delete(realm.objects(SongObject.self).where { $0.recommended == true })
-			} else {
-				realm.delete(realm.objects(SongObject.self).where { $0.liked == true })
+		// Adding parsed song from APICaller to Realm
+		for song in passedSongData {
+			// Checking if song has preview url, discarding entry if preview url not present
+			guard let songPreviewURL = song.preview_url else {
+				continue
 			}
 
-			/// adding parsed song from APICaller to Realm
-			for song in result.tracks {
-				/// checking if song has preview url, discarding entry if preview url not present
-				guard let songPreviewURL = song.preview_url else {
-					continue
+			// Checking if song we try to add already exists in realm
+			if let existingSongObject = getSongObject(song.id) {
+				do {
+					try realm.write {
+						// Checking if existing song associated with a playlist
+						// If not, we're assigning it to one
+						if existingSongObject.associatedPlaylists.isEmpty && !playlistID.isEmpty {
+							existingSongObject.associatedPlaylists = playlistID
+						} else if !existingSongObject.isInAPlaylist {
+							// If existing song was recommended, we just add liked attribute
+							if existingSongObject.recommended {
+								existingSongObject.liked = true
+							} // The opposite of comment above
+							else if existingSongObject.liked {
+								existingSongObject.recommended = true
+							}
+						}
+					}
+				} catch {
+					print("Error while updating existing song", error.localizedDescription)
 				}
-
-				/// processing artist names
-				/// combining 'em if there's several
-				var artistName = ""
-				switch song.artists.count {
-				case 1:
-					artistName = song.artists[0].name
-				case 2:
-					artistName = "\(song.artists[0].name) & \(song.artists[1].name)"
-				default:
-					artistName = L10n.numerousArtists
-				}
-
+			} // If song not in Realm, we create new object & add it to Realm
+			else {
+				realm.beginWrite()
 				/// creating object and assigning data
 				let songToWrite = SongObject()
 				songToWrite.albumName = song.album?.name ?? ""
 				songToWrite.albumCoverURL = song.album?.images.first?.url ?? ""
-				songToWrite.artistName = artistName
+				songToWrite.artistName = song.artistName
 				songToWrite.explicit = song.explicit
 				songToWrite.id = song.id
 				songToWrite.name = song.name
 				songToWrite.previewURL = songPreviewURL
 				songToWrite.liked = typeOfPassedSongs == DBSongTypes.liked
 				songToWrite.recommended = typeOfPassedSongs == DBSongTypes.recommended
+				songToWrite.isInAPlaylist = typeOfPassedSongs == DBSongTypes.inAPlaylist
+				songToWrite.associatedPlaylists = playlistID
 
-				/// finally adding entry to Realm
 				realm.add(songToWrite)
+				realmCommitWrite()
 			}
-
-			realmCommitWrite()
-
-		case .failure(let error):
-			print(error.localizedDescription)
 		}
 	}
 
-	// MARK: retrieving Recommended songs from realm
+	// MARK: Adding Featured Playlists to Realm
+	func addFeaturedPlaylistsToRealm(_ playlists: FeaturedPlaylistsResponse) {
+		for playlist in playlists.playlists.items {
+			realm.beginWrite()
+
+			let playlistToWrite = PlaylistObject()
+			playlistToWrite.id = playlist.id
+			playlistToWrite.playlistDescription = playlist.description
+			playlistToWrite.name = playlist.name
+			playlistToWrite.image = playlist.images.first?.url ?? ""
+			playlistToWrite.numberOfTracks = playlist.tracks.total
+
+			realm.add(playlistToWrite)
+			realmCommitWrite()
+		}
+	}
+
+	// MARK: Adding Playlist Songs to Realm,
+	func addPlaylistSongsToRealm(_ playlist: PlaylistDetailsResponse) {
+		let songFromPlaylistToSendToDB = playlist.tracks.items.compactMap {
+			return $0.track
+		}
+		addSongsToDB(songFromPlaylistToSendToDB, typeOfPassedSongs: DBSongTypes.inAPlaylist, playlistID: playlist.id)
+	}
+
+	// MARK: Method for deleting all the song on App launch
+	func purgeAllSongsAndPlaylistsInRealmOnLaunch(completion: @escaping ((Bool) -> Void)) {
+		realm.beginWrite()
+
+		realm.delete(realm.objects(PlaylistObject.self))
+		realm.delete(realm.objects(SongObject.self))
+
+		realmCommitWrite()
+
+		completion(true)
+	}
+
+	// MARK: Retrieving Recommended songs from realm
 	func getRecommendedSongsFromDB(completion: @escaping (([SongObject]) -> Void)) {
 		let results = realm.objects(SongObject.self).where { $0.recommended == true }
 		completion(Array(results))
 	}
 
-	// MARK: retrieving Liked songs from realm
+	// MARK: Retrieving Liked songs from realm
 	func getLikedSongsFromDB(completion: @escaping (([SongObject]) -> Void)) {
 		let results = realm.objects(SongObject.self).where { $0.liked == true }
 		completion(Array(results))
 	}
 
-	// MARK: marking song as liked
+	// MARK: Retrieving Featured Playlists from realm
+	func getFeaturedPlaylistsFromDB(completion: @escaping (([PlaylistObject]) -> Void)) {
+		let result = realm.objects(PlaylistObject.self)
+		completion(Array(result))
+	}
+
+	// MARK: Retrieving Songs for a Playlist from realm
+	func getSongsForAPlaylist(
+		_ id: String,
+		completion: @escaping (([SongObject]) -> Void)
+	) {
+		let results = realm.objects(SongObject.self).where { $0.associatedPlaylists == id }
+		completion(Array(results))
+	}
+
+	// MARK: Marking song as liked
 	func likedSong(_ songID: String) {
 		guard let songObject = getSongObject(songID) else {
 			print("No Object present")
@@ -129,7 +174,7 @@ class DBManager {
 		}
 	}
 
-	// MARK: removing song from liked
+	// MARK: Removing song from liked
 	func dislikedSong(_ songID: String) {
 		guard let songObject = getSongObject(songID) else {
 			print("No Object present")
@@ -145,13 +190,19 @@ class DBManager {
 		}
 	}
 
-	// MARK: getting song object to be user in likedSong() & dislikedSong() methods
+	// MARK: Getting song object to be easily used in methods & avoid repetition
 	func getSongObject(_ songID: String) -> SongObject? {
 		let result = realm.objects(SongObject.self).where { $0.id == songID }
 		return result.first
 	}
 
-	// MARK: method for committing write to Realm
+	// MARK: Getting playlist object to be easily used in methods & avoid repetition
+	func getPlaylistObject(_ playlistID: String) -> PlaylistObject? {
+		let result = realm.objects(PlaylistObject.self).where { $0.id == playlistID }
+		return result.first
+	}
+
+	// MARK: Method for committing write to Realm
 	func realmCommitWrite() {
 		do {
 			try realm.commitWrite()
