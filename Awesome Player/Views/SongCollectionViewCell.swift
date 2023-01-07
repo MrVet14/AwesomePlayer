@@ -42,7 +42,6 @@ class SongCollectionViewCell: UICollectionViewCell {
 	let likeButton: UIButton = {
 		let button = UIButton()
 		button.setImage(UIImage(systemName: "heart"), for: .normal)
-		button.imageView?.contentMode = .scaleAspectFit
 		button.tintColor = .label
 		return button
 	}()
@@ -112,8 +111,14 @@ class SongCollectionViewCell: UICollectionViewCell {
 		artistNameLabel.text = viewModel.artistName
 		albumCoverImageView.kf.setImage(with: URL(string: viewModel.albumCoverURL), options: [.transition(.fade(0.1))])
 		explicitLabel.isHidden = !viewModel.explicit
-		likeButton.setImage(UIImage(
-			systemName: viewModel.liked ? "heart.fill" : "heart"),
+		likeButton.setImage(
+			UIImage(
+				systemName: viewModel.liked ? "heart.fill" : "heart",
+				withConfiguration:
+					UIImage.SymbolConfiguration(
+					pointSize: 22, weight: .regular
+				)
+			),
 			for: .normal
 		)
 	}

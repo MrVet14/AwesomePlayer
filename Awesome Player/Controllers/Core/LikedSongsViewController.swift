@@ -183,7 +183,7 @@ extension LikedSongsViewController: UICollectionViewDelegate, UICollectionViewDa
 	// MARK: Adding Action on Tap on Cell
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let song = likedSongs[indexPath.row]
-		print("Liked song with id: \(song.id) has been tapped")
+		PlayerManager.shared.startPlayback(from: self, song: song)
 	}
 
 	// MARK: Creating Section Layout for Collection View

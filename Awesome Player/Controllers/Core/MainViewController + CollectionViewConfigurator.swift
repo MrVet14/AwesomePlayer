@@ -74,7 +74,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 		case .recommendedSongs:
 			let song = recommendedSongs[indexPath.row]
-			print("Recommended song with id: \(song.id) has been tapped")
+			PlayerManager.shared.startPlayback(from: self, song: song)
 		}
 	}
 
@@ -122,7 +122,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 		item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
 
 		switch section {
-		// Liked Songs Section
+		// MARK: Featured Playlists Section
 		case 0:
 			// Group
 			let verticalGroup = NSCollectionLayoutGroup.vertical(
@@ -148,7 +148,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 			section.boundarySupplementaryItems = supplementaryViews
 			return section
 
-		// Recommended Songs Section
+		// MARK: Recommended Songs Section
 		default:
 			// Group
 			let group = NSCollectionLayoutGroup.vertical(

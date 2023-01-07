@@ -2,8 +2,7 @@ import SnapKit
 import UIKit
 
 class PlaylistViewController: UIViewController {
-	// swiftlint:disable redundant_type_annotation
-	var playlist: PlaylistObject = PlaylistObject()
+	var playlist = PlaylistObject()
 	var playlistSongs: [SongObject] = []
 	var playlistSongViewModel: [SongCellViewModel] = []
 	var alreadyLoaded = false
@@ -247,6 +246,6 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
 		let song = playlistSongs[indexPath.row]
-		print("Playlist song with id: \(song.id) has been tapped")
+		PlayerManager.shared.startPlayback(from: self, song: song)
 	}
 }
