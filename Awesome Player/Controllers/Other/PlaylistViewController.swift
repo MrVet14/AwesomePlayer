@@ -246,6 +246,6 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
 		let song = playlistSongs[indexPath.row]
-		PlayerManager.shared.startPlayback(from: self, song: song)
+		PlayerManager.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: playlistSongs, song: song)
 	}
 }

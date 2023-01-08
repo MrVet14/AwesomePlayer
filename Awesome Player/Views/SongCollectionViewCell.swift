@@ -52,10 +52,10 @@ class SongCollectionViewCell: UICollectionViewCell {
 		contentView.backgroundColor = .secondarySystemBackground
 		contentView.clipsToBounds = true
 		contentView.addSubview(albumCoverImageView)
+		contentView.addSubview(likeButton)
 		contentView.addSubview(songNameLabel)
 		contentView.addSubview(artistNameLabel)
 		contentView.addSubview(explicitLabel)
-		contentView.addSubview(likeButton)
 		likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
 	}
 	// swiftlint:disable fatal_error
@@ -92,7 +92,7 @@ class SongCollectionViewCell: UICollectionViewCell {
 		}
 
 		likeButton.snp.makeConstraints { make in
-			make.bottom.equalToSuperview().offset(-10)
+			make.bottom.equalToSuperview().offset(-13)
 			make.trailing.equalToSuperview().offset(-10)
 		}
 	}
@@ -116,7 +116,7 @@ class SongCollectionViewCell: UICollectionViewCell {
 				systemName: viewModel.liked ? "heart.fill" : "heart",
 				withConfiguration:
 					UIImage.SymbolConfiguration(
-					pointSize: 22, weight: .regular
+					pointSize: 24, weight: .regular
 				)
 			),
 			for: .normal

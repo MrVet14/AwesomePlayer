@@ -172,8 +172,7 @@ extension LikedSongsViewController: UICollectionViewDelegate, UICollectionViewDa
 		let viewModel = likedSongsViewModels[indexPath.row]
 
 		cell.configure(with: viewModel)
-		cell.likeButtonTapAction = {
-			[weak self] () in
+		cell.likeButtonTapAction = { [weak self] in
 			self?.processLikeButtonTappedAction(id: viewModel.id, liked: viewModel.liked)
 		}
 
@@ -183,7 +182,7 @@ extension LikedSongsViewController: UICollectionViewDelegate, UICollectionViewDa
 	// MARK: Adding Action on Tap on Cell
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let song = likedSongs[indexPath.row]
-		PlayerManager.shared.startPlayback(from: self, song: song)
+		PlayerManager.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: likedSongs, song: song)
 	}
 
 	// MARK: Creating Section Layout for Collection View

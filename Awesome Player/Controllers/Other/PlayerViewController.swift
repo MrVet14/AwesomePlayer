@@ -5,6 +5,12 @@ import UIKit
 class PlayerViewController: UIViewController {
 	var songToDisplay = SongObject()
 
+	var didTapPlayPause: (() -> Void)?
+	var didTapBack: (() -> Void)?
+	var didTapNext: (() -> Void)?
+
+	var playerPlaying = true
+
 	// MARK: - Subviews
 	let blurredBackground: UIVisualEffectView = {
 		let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.regular)
@@ -119,8 +125,9 @@ class PlayerViewController: UIViewController {
 		likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
     }
 
-	override func viewWillDisappear(_ animated: Bool) {
-		super.viewWillDisappear(animated)
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+		self.dismiss(animated: animated)
 	}
 
 	// MARK: Adding view elements to View & configuring them
@@ -217,14 +224,25 @@ class PlayerViewController: UIViewController {
 	// MARK: Logic for the controller
 	@objc
 	func didTapPlayPauseButton() {
+		didTapPlayPause?()
+		playerPlaying.toggle()
+		playPauseButton.setImage(
+			UIImage(
+				systemName: playerPlaying ? "pause" : "play.fill",
+				withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
+			),
+			for: .normal
+		)
 	}
 
 	@objc
 	func didTapBackButton() {
+		didTapBack?()
 	}
 
 	@objc
 	func didTapNextButton() {
+		didTapNext?()
 	}
 
 	@objc

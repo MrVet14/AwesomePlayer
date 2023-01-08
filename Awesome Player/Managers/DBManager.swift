@@ -58,6 +58,7 @@ class DBManager {
 						// If not, we're assigning it to one
 						if existingSongObject.associatedPlaylists.isEmpty && !playlistID.isEmpty {
 							existingSongObject.associatedPlaylists = playlistID
+							existingSongObject.isInAPlaylist = true
 						} else if !existingSongObject.isInAPlaylist {
 							// If existing song was recommended, we just add liked attribute
 							if existingSongObject.recommended {

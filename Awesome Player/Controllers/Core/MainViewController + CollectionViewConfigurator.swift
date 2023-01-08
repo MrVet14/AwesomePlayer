@@ -47,8 +47,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 			let viewModel = viewModels[indexPath.row]
 
 			cell.configure(with: viewModel)
-			cell.likeButtonTapAction = {
-				[weak self] () in
+			cell.likeButtonTapAction = { [weak self] in
 				self?.processLikeButtonTappedAction(id: viewModel.id, liked: viewModel.liked)
 			}
 
@@ -74,7 +73,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 		case .recommendedSongs:
 			let song = recommendedSongs[indexPath.row]
-			PlayerManager.shared.startPlayback(from: self, song: song)
+			PlayerManager.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: recommendedSongs, song: song)
 		}
 	}
 
