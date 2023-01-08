@@ -21,6 +21,7 @@ enum PlistBundleParameters {
 
 enum APIConstants {
 	static let spotifyWebAPIBaseUrl = "spotifyWebAPIBaseUrl"
+	static let baseURLForSharingSongs = "https://open.spotify.com/track/"
 	static let loadSongsAPILimit = 50
 }
 

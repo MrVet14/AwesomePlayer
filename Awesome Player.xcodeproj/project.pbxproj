@@ -54,6 +54,7 @@
 		51ABF8FC2962B6B70057664F /* TitleHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51ABF8FB2962B6B70057664F /* TitleHeaderCollectionReusableView.swift */; };
 		51ABF8FE2962E6700057664F /* PlaylistHeaderViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51ABF8FD2962E6700057664F /* PlaylistHeaderViewViewModel.swift */; };
 		51ABF9002962E6F50057664F /* PlaylistHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51ABF8FF2962E6F50057664F /* PlaylistHeaderCollectionReusableView.swift */; };
+		51CD4F2B296A37800075F657 /* MarqueeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CD4F2A296A37800075F657 /* MarqueeLabel.swift */; };
 		51E1B24D294661F40098DDE1 /* UserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1B24C294661F40098DDE1 /* UserObject.swift */; };
 		51E1B24F2946824E0098DDE1 /* SongObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1B24E2946824E0098DDE1 /* SongObject.swift */; };
 		51E319B1291D1E27006E5C55 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319B0291D1E27006E5C55 /* AuthViewController.swift */; };
@@ -113,6 +114,7 @@
 		51ABF8FB2962B6B70057664F /* TitleHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		51ABF8FD2962E6700057664F /* PlaylistHeaderViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderViewViewModel.swift; sourceTree = "<group>"; };
 		51ABF8FF2962E6F50057664F /* PlaylistHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		51CD4F2A296A37800075F657 /* MarqueeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarqueeLabel.swift; sourceTree = "<group>"; };
 		51E1B24C294661F40098DDE1 /* UserObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserObject.swift; sourceTree = "<group>"; };
 		51E1B24E2946824E0098DDE1 /* SongObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongObject.swift; sourceTree = "<group>"; };
 		51E319B0291D1E27006E5C55 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 		51A54F52291BA5F80065EF82 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				51CD4F29296A376A0075F657 /* Frameworks */,
 				51A54F43291BA42D0065EF82 /* Assets.xcassets */,
 				51A54F3A291BA42B0065EF82 /* AppDelegate.swift */,
 				51763A152923B95500AA871E /* Constants.swift */,
@@ -267,6 +270,14 @@
 				51ABF8F5296272EC0057664F /* LikedSongsViewController.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		51CD4F29296A376A0075F657 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				51CD4F2A296A37800075F657 /* MarqueeLabel.swift */,
+			);
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 		51E1B24B294661C90098DDE1 /* RealmObjects */ = {
@@ -489,6 +500,7 @@
 				51EB350A2940B16B0015F61D /* AuthManagerSettingForAuth.swift in Sources */,
 				51A481ED295A480E0021706F /* Extensions.swift in Sources */,
 				51E319B9291D1E61006E5C55 /* PlayerViewController.swift in Sources */,
+				51CD4F2B296A37800075F657 /* MarqueeLabel.swift in Sources */,
 				51ABF8FE2962E6700057664F /* PlaylistHeaderViewViewModel.swift in Sources */,
 				51E319B5291D1E43006E5C55 /* SettingsViewController.swift in Sources */,
 			);

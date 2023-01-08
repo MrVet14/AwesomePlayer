@@ -18,18 +18,21 @@ class PlayerViewController: UIViewController {
 		return imageView
 	}()
 
-	let songTitleLabel: UILabel = {
-		let label = UILabel()
+	let songTitleLabel: MarqueeLabel = {
+		let label = MarqueeLabel()
 		label.font = .systemFont(ofSize: 22, weight: .semibold)
 		label.numberOfLines = 1
+		label.animationDelay = 2.0
+		label.type = .leftRight
 		return label
 	}()
 
-	let songArtistNameLabel: UILabel = {
-		let label = UILabel()
+	let songArtistNameLabel: MarqueeLabel = {
+		let label = MarqueeLabel()
 		label.font = .systemFont(ofSize: 18, weight: .regular)
 		label.textColor = .secondaryLabel
 		label.numberOfLines = 1
+		label.animationDelay = 2.0
 		return label
 	}()
 
@@ -108,7 +111,17 @@ class PlayerViewController: UIViewController {
 
 		setupViews()
 		configureView()
+
+		playPauseButton.addTarget(self, action: #selector(didTapPlayPauseButton), for: .touchUpInside)
+		backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+		nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
+		shareButton.addTarget(self, action: #selector(didTapShareButton), for: .touchUpInside)
+		likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
     }
+
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+	}
 
 	// MARK: Adding view elements to View & configuring them
 	func setupViews() {
@@ -119,13 +132,11 @@ class PlayerViewController: UIViewController {
 		view.addSubview(songArtistNameLabel)
 		view.addSubview(explicitLabel)
 
-		view.addSubview(backButton)
 		view.addSubview(playPauseButton)
+		view.addSubview(backButton)
 		view.addSubview(nextButton)
 		view.addSubview(shareButton)
 		view.addSubview(likeButton)
-
-		view.clipsToBounds = true
 	}
 
 	// MARK: Adding constraints to subviews
@@ -201,5 +212,48 @@ class PlayerViewController: UIViewController {
 			),
 			for: .normal
 		)
+	}
+
+	// MARK: Logic for the controller
+	@objc
+	func didTapPlayPauseButton() {
+	}
+
+	@objc
+	func didTapBackButton() {
+	}
+
+	@objc
+	func didTapNextButton() {
+	}
+
+	@objc
+	func didTapShareButton() {
+		let songToShare = APIConstants.baseURLForSharingSongs + songToDisplay.id
+		let items = [
+			// Song Name
+			songToDisplay.name,
+			// Link to Song
+			songToShare
+		]
+
+		let activityAC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+		present(activityAC, animated: true)
+	}
+
+	@objc
+	func didTapLikeButton() {
+		TrackHandlerManager.shared.processLikeButtonTappedAction(
+			id: songToDisplay.id,
+			liked: songToDisplay.liked
+		) { [weak self] in
+			self?.likeButton.setImage(
+				UIImage(
+					systemName: self?.songToDisplay.liked ?? false ? "heart.fill" : "heart",
+					withConfiguration: UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
+				),
+				for: .normal
+			)
+		}
 	}
 }
