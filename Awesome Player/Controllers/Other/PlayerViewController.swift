@@ -26,7 +26,7 @@ class PlayerViewController: UIViewController {
 
 	// MARK: - Subviews
 	let blurredBackground: UIVisualEffectView = {
-		let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.regular)
+		let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.systemUltraThinMaterial)
 		let effect = UIVisualEffectView(effect: blurEffect)
 		return effect
 	}()
