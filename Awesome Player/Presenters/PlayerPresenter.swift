@@ -7,12 +7,15 @@ class PlayerPresenter {
 
 	private init() {}
 
+	var isPlayerActive = false
+
 	var player: AVPlayer?
 	var playerVC = PlayerViewController.shared
 
 	var currentSong = SongObject()
 	var listOfOtherSong: [SongObject] = []
 
+	// MARK: Starting playback when user tapped on a song in a view
 	func startPlaybackProcess(
 		from viewController: UIViewController,
 		listOfOtherSongsInView: [SongObject],
@@ -26,6 +29,7 @@ class PlayerPresenter {
 		viewController.present(playerVC, animated: true)
 	}
 
+	// MARK: Creating Player and passing all the needed data to PlayerVC
 	func startPlayback() {
 		guard let url = URL(string: currentSong.previewURL) else {
 			print("Error creating URL for AVPlayer")
@@ -40,8 +44,11 @@ class PlayerPresenter {
 		player?.play()
 
 		managePlayback()
+
+		isPlayerActive = true
 	}
 
+	// MARK: Managing callbacks from PlayerVC
 	func managePlayback() {
 		playerVC.didTapPlayPause = { [weak self] in
 			if self?.playerVC.playerPlaying == true {
@@ -64,18 +71,21 @@ class PlayerPresenter {
 		}
 	}
 
+	// MARK: Switching song back
 	func tappedBack() {
-		getCurrentIndexOfSongInArray { index in
+		getCurrentIndexOfASongInArray { index in
 			updateSongDataForPlayer(songIndexToLaunch: index - 1)
 		}
 	}
 
+	// MARK: Switching song forward
 	func tappedNext() {
-		getCurrentIndexOfSongInArray { index in
+		getCurrentIndexOfASongInArray { index in
 			updateSongDataForPlayer(songIndexToLaunch: index + 1)
 		}
 	}
 
+	// MARK: Setting new song to play
 	func updateSongDataForPlayer(songIndexToLaunch: Int) {
 		var index = 0
 
@@ -91,7 +101,8 @@ class PlayerPresenter {
 		startPlayback()
 	}
 
-	func getCurrentIndexOfSongInArray(completion: ((Int) -> Void)) {
+	// MARK: Identifying index of current song
+	func getCurrentIndexOfASongInArray(completion: ((Int) -> Void)) {
 		guard let songIndex = listOfOtherSong.firstIndex(of: currentSong) else {
 			print("Error occurred, song element hasn't been found")
 			return
