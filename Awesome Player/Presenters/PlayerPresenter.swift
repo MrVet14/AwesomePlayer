@@ -34,6 +34,7 @@ class PlayerPresenter {
 		player = AVPlayer(url: url)
 
 		playerVC.songToDisplay = currentSong
+		playerVC.listOfOtherSongs = listOfOtherSong
 		playerVC.configureView()
 
 		player?.play()
@@ -56,6 +57,10 @@ class PlayerPresenter {
 
 		playerVC.didTapNext = { [weak self] in
 			self?.tappedNext()
+		}
+
+		playerVC.tappedOnTheSongInListOfOtherSongs = { [weak self] index in
+			self?.updateSongDataForPlayer(songIndexToLaunch: index)
 		}
 	}
 

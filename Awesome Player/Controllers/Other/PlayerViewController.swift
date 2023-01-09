@@ -21,8 +21,12 @@ class PlayerViewController: UIViewController {
 	var didTapPlayPause: (() -> Void)?
 	var didTapBack: (() -> Void)?
 	var didTapNext: (() -> Void)?
+	var tappedOnTheSongInListOfOtherSongs: ((Int) -> Void)?
 
 	var playerPlaying = true
+
+	var listOfOtherSongs: [SongObject] = []
+	var listOfOtherSongsModel: [SongCellViewModel] = []
 
 	// MARK: - Subviews
 	let blurredBackground: UIVisualEffectView = {
@@ -124,6 +128,33 @@ class PlayerViewController: UIViewController {
 		return button
 	}()
 
+	var collectionView = UICollectionView(
+		frame: .zero,
+		collectionViewLayout: UICollectionViewCompositionalLayout { _, _ -> NSCollectionLayoutSection? in
+			// Item
+			let item = NSCollectionLayoutItem(
+				layoutSize: NSCollectionLayoutSize(
+					widthDimension: .fractionalWidth(1.0),
+					heightDimension: .fractionalHeight(1.0))
+			)
+			item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 3, bottom: 0, trailing: 3)
+
+			// Group
+			let group = NSCollectionLayoutGroup.horizontal(
+				layoutSize: NSCollectionLayoutSize(
+					widthDimension: .absolute(140),
+					heightDimension: .absolute(190)
+				),
+				subitem: item,
+				count: 1
+			)
+
+			// Section
+			let section = NSCollectionLayoutSection(group: group)
+			section.orthogonalScrollingBehavior = .continuous
+			return section
+		})
+
 	// MARK: App Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -153,6 +184,7 @@ class PlayerViewController: UIViewController {
 
 		playerPlaying = true
 
+		collectionView.backgroundColor = .clear
 		imageView.kf.setImage(
 			with: URL(string: songToDisplay.albumCoverURL),
 			options: [.transition(.fade(0.1))]
@@ -174,6 +206,24 @@ class PlayerViewController: UIViewController {
 			),
 			for: .normal
 		)
+
+		configureModel()
+	}
+
+	func configureModel() {
+		self.listOfOtherSongsModel.removeAll()
+		let viewModelToReturn = self.listOfOtherSongs.compactMap({
+			return SongCellViewModel(
+				id: $0.id,
+				name: $0.name,
+				albumCoverURL: $0.albumCoverURL,
+				artistName: $0.artistName,
+				explicit: $0.explicit,
+				liked: $0.liked)
+		})
+		self.listOfOtherSongsModel.append(contentsOf: viewModelToReturn)
+
+		self.collectionView.reloadData()
 	}
 
 	// MARK: Logic for the controller
@@ -257,6 +307,15 @@ extension PlayerViewController {
 		view.addSubview(nextButton)
 		view.addSubview(shareButton)
 		view.addSubview(likeButton)
+
+		view.addSubview(collectionView)
+
+		collectionView.register(
+			ListOfSongsInPlayerCollectionViewCell.self,
+			forCellWithReuseIdentifier: ListOfSongsInPlayerCollectionViewCell.identifier
+		)
+		collectionView.dataSource = self
+		collectionView.delegate = self
 	}
 
 	// MARK: Adding constraints to subviews
@@ -292,7 +351,7 @@ extension PlayerViewController {
 
 		playPauseButton.snp.makeConstraints { make in
 			make.centerX.equalToSuperview()
-			make.top.equalTo(songArtistNameLabel.snp.bottom).offset(50)
+			make.top.equalTo(songArtistNameLabel.snp.bottom).offset(40)
 		}
 
 		backButton.snp.makeConstraints { make in
@@ -313,6 +372,12 @@ extension PlayerViewController {
 		likeButton.snp.makeConstraints { make in
 			make.top.equalTo(playPauseButton).offset(6)
 			make.leading.equalTo(nextButton.snp.trailing).offset(30)
+		}
+
+		collectionView.snp.makeConstraints { make in
+			make.top.equalTo(playPauseButton.snp.bottom).offset(50)
+			make.leading.equalToSuperview().offset(20)
+			make.trailing.bottom.equalToSuperview().offset(-20)
 		}
 	}
 }

@@ -9,8 +9,28 @@ class LikedSongsViewController: UIViewController {
 	var collectionView = UICollectionView(
 		frame: .zero,
 		collectionViewLayout: UICollectionViewCompositionalLayout { _, _ -> NSCollectionLayoutSection? in
-			return LikedSongsViewController().createSectionLayout()
-	 })
+			// Item
+			let item = NSCollectionLayoutItem(
+				layoutSize: NSCollectionLayoutSize(
+					widthDimension: .fractionalWidth(1.0),
+					heightDimension: .fractionalWidth(1.0))
+			)
+			item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+
+			// Group
+			let group = NSCollectionLayoutGroup.vertical(
+				layoutSize: NSCollectionLayoutSize(
+					widthDimension: .fractionalWidth(1.0),
+					heightDimension: .absolute(80)
+				),
+				subitem: item,
+				count: 1
+			)
+
+			// Section
+			let section = NSCollectionLayoutSection(group: group)
+			return section
+		})
 
 	let noLikedSongsLabel: UILabel = {
 		let label = UILabel()
@@ -191,30 +211,5 @@ extension LikedSongsViewController: UICollectionViewDelegate, UICollectionViewDa
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let song = likedSongs[indexPath.row]
 		PlayerPresenter.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: likedSongs, song: song)
-	}
-
-	// MARK: Creating Section Layout for Collection View
-	func createSectionLayout() -> NSCollectionLayoutSection {
-		// Item
-		let item = NSCollectionLayoutItem(
-			layoutSize: NSCollectionLayoutSize(
-				widthDimension: .fractionalWidth(1.0),
-				heightDimension: .fractionalWidth(1.0))
-		)
-		item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-
-		// Group
-		let group = NSCollectionLayoutGroup.vertical(
-			layoutSize: NSCollectionLayoutSize(
-				widthDimension: .fractionalWidth(1.0),
-				heightDimension: .absolute(80)
-			),
-			subitem: item,
-			count: 1
-		)
-
-		// Section
-		let section = NSCollectionLayoutSection(group: group)
-		return section
 	}
 }
