@@ -58,6 +58,7 @@ class SongCollectionViewCell: UICollectionViewCell {
 		contentView.addSubview(explicitLabel)
 		likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
 	}
+
 	// swiftlint:disable fatal_error
 	@available(*, unavailable)
 	required init?(coder: NSCoder) {

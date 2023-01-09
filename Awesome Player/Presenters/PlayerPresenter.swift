@@ -8,7 +8,7 @@ class PlayerPresenter {
 	private init() {}
 
 	var player: AVPlayer?
-	var playerVC = PlayerViewController()
+	var playerVC = PlayerViewController.shared
 
 	var currentSong = SongObject()
 	var listOfOtherSong: [SongObject] = []
@@ -33,8 +33,8 @@ class PlayerPresenter {
 		}
 		player = AVPlayer(url: url)
 
-		playerVC = PlayerViewController()
 		playerVC.songToDisplay = currentSong
+		playerVC.configureView()
 
 		player?.play()
 
@@ -60,13 +60,37 @@ class PlayerPresenter {
 	}
 
 	func tappedBack() {
-		print("Did tap back")
+		getCurrentIndexOfSongInArray { index in
+			updateSongDataForPlayer(songIndexToLaunch: index - 1)
+		}
 	}
 
 	func tappedNext() {
-		print("Did tap next")
+		getCurrentIndexOfSongInArray { index in
+			updateSongDataForPlayer(songIndexToLaunch: index + 1)
+		}
 	}
 
-	func passNewDataToPlayerVC() {
+	func updateSongDataForPlayer(songIndexToLaunch: Int) {
+		var index = 0
+
+		if songIndexToLaunch > listOfOtherSong.count - 1 {
+			index = 0
+		} else if songIndexToLaunch < 0 {
+			index = listOfOtherSong.count - 1
+		} else {
+			index = songIndexToLaunch
+		}
+
+		currentSong = listOfOtherSong[index]
+		startPlayback()
+	}
+
+	func getCurrentIndexOfSongInArray(completion: ((Int) -> Void)) {
+		guard let songIndex = listOfOtherSong.firstIndex(of: currentSong) else {
+			print("Error occurred, song element hasn't been found")
+			return
+		}
+		completion(songIndex)
 	}
 }

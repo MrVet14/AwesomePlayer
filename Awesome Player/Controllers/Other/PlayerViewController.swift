@@ -3,7 +3,20 @@ import SnapKit
 import UIKit
 
 class PlayerViewController: UIViewController {
-	var songToDisplay = SongObject()
+	static let shared = PlayerViewController(songToDisplay: SongObject())
+
+	private init(songToDisplay: SongObject) {
+		self.songToDisplay = songToDisplay
+		super.init(nibName: nil, bundle: nil)
+	}
+
+	// swiftlint:disable fatal_error
+	@available(*, unavailable)
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
+	var songToDisplay: SongObject?
 
 	var didTapPlayPause: (() -> Void)?
 	var didTapBack: (() -> Void)?
@@ -131,6 +144,105 @@ class PlayerViewController: UIViewController {
 		NotificationCenter.default.post(name: Notification.Name("PlayerVCClosed"), object: nil)
 	}
 
+	// MARK: Filling View with Data
+	func configureView() {
+		guard let songToDisplay = songToDisplay else {
+			print("Song to display in PlayerVC is not existent")
+			return
+		}
+
+		playerPlaying = true
+
+		imageView.kf.setImage(
+			with: URL(string: songToDisplay.albumCoverURL),
+			options: [.transition(.fade(0.1))]
+		)
+		songTitleLabel.text = songToDisplay.name
+		songArtistNameLabel.text = songToDisplay.artistName
+		explicitLabel.isHidden = !songToDisplay.explicit
+		likeButton.setImage(
+			UIImage(
+				systemName: songToDisplay.liked ? "heart.fill" : "heart",
+				withConfiguration: UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
+			),
+			for: .normal
+		)
+		playPauseButton.setImage(
+			UIImage(
+				systemName: "pause",
+				withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
+			),
+			for: .normal
+		)
+	}
+
+	// MARK: Logic for the controller
+	@objc
+	func didTapPlayPauseButton() {
+		didTapPlayPause?()
+		playerPlaying.toggle()
+		playPauseButton.setImage(
+			UIImage(
+				systemName: playerPlaying ? "pause" : "play.fill",
+				withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
+			),
+			for: .normal
+		)
+	}
+
+	@objc
+	func didTapBackButton() {
+		didTapBack?()
+	}
+
+	@objc
+	func didTapNextButton() {
+		didTapNext?()
+	}
+
+	@objc
+	func didTapShareButton() {
+		guard let songToDisplay = songToDisplay else {
+			print("Song to display in PlayerVC is not existent")
+			return
+		}
+
+		let songToShare = APIConstants.baseURLForSharingSongs + songToDisplay.id
+		let items = [
+			// Song Name
+			songToDisplay.name,
+			// Link to Song
+			songToShare
+		]
+
+		let activityAC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+		present(activityAC, animated: true)
+	}
+
+	@objc
+	func didTapLikeButton() {
+		guard let songToDisplay = songToDisplay else {
+			print("Song to display in PlayerVC is not existent")
+			return
+		}
+
+		TrackHandlerManager.shared.processLikeButtonTappedAction(
+			id: songToDisplay.id,
+			liked: songToDisplay.liked
+		) { [weak self] in
+			self?.likeButton.setImage(
+				UIImage(
+					systemName: songToDisplay.liked ? "heart.fill" : "heart",
+					withConfiguration: UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
+				),
+				for: .normal
+			)
+		}
+	}
+}
+
+// MARK: Adding Subviews to View & Laying out Constraints
+extension PlayerViewController {
 	// MARK: Adding view elements to View & configuring them
 	func setupViews() {
 		view.addSubview(blurredBackground)
@@ -180,7 +292,7 @@ class PlayerViewController: UIViewController {
 
 		playPauseButton.snp.makeConstraints { make in
 			make.centerX.equalToSuperview()
-			make.top.equalTo(songArtistNameLabel.snp.bottom).offset(70)
+			make.top.equalTo(songArtistNameLabel.snp.bottom).offset(50)
 		}
 
 		backButton.snp.makeConstraints { make in
@@ -201,78 +313,6 @@ class PlayerViewController: UIViewController {
 		likeButton.snp.makeConstraints { make in
 			make.top.equalTo(playPauseButton).offset(6)
 			make.leading.equalTo(nextButton.snp.trailing).offset(30)
-		}
-	}
-
-	// MARK: Filling View with Data
-	func configureView() {
-		imageView.kf.setImage(
-			with: URL(string: songToDisplay.albumCoverURL),
-			options: [.transition(.fade(0.1))]
-		)
-		songTitleLabel.text = songToDisplay.name
-		songArtistNameLabel.text = songToDisplay.artistName
-		explicitLabel.isHidden = !songToDisplay.explicit
-		likeButton.setImage(
-			UIImage(
-				systemName: songToDisplay.liked ? "heart.fill" : "heart",
-				withConfiguration: UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
-			),
-			for: .normal
-		)
-	}
-
-	// MARK: Logic for the controller
-	@objc
-	func didTapPlayPauseButton() {
-		didTapPlayPause?()
-		playerPlaying.toggle()
-		playPauseButton.setImage(
-			UIImage(
-				systemName: playerPlaying ? "pause" : "play.fill",
-				withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
-			),
-			for: .normal
-		)
-	}
-
-	@objc
-	func didTapBackButton() {
-		didTapBack?()
-	}
-
-	@objc
-	func didTapNextButton() {
-		didTapNext?()
-	}
-
-	@objc
-	func didTapShareButton() {
-		let songToShare = APIConstants.baseURLForSharingSongs + songToDisplay.id
-		let items = [
-			// Song Name
-			songToDisplay.name,
-			// Link to Song
-			songToShare
-		]
-
-		let activityAC = UIActivityViewController(activityItems: items, applicationActivities: nil)
-		present(activityAC, animated: true)
-	}
-
-	@objc
-	func didTapLikeButton() {
-		TrackHandlerManager.shared.processLikeButtonTappedAction(
-			id: songToDisplay.id,
-			liked: songToDisplay.liked
-		) { [weak self] in
-			self?.likeButton.setImage(
-				UIImage(
-					systemName: self?.songToDisplay.liked ?? false ? "heart.fill" : "heart",
-					withConfiguration: UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
-				),
-				for: .normal
-			)
 		}
 	}
 }
