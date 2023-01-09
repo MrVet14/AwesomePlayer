@@ -125,9 +125,10 @@ class PlayerViewController: UIViewController {
 		likeButton.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
     }
 
-	override func viewDidDisappear(_ animated: Bool) {
-		super.viewDidDisappear(animated)
-		self.dismiss(animated: animated)
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+
+		NotificationCenter.default.post(name: Notification.Name("PlayerVCClosed"), object: nil)
 	}
 
 	// MARK: Adding view elements to View & configuring them

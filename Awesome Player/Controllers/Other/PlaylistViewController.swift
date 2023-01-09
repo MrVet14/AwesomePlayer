@@ -64,6 +64,13 @@ class PlaylistViewController: UIViewController {
 		} else {
 			loadData()
 		}
+
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(configureModel),
+			name: Notification.Name("PlayerVCClosed"),
+			object: nil
+		)
     }
 
 	// MARK: Adding view elements to View & configuring them
@@ -132,6 +139,7 @@ class PlaylistViewController: UIViewController {
 	}
 
 	// MARK: Updating or creating View Models
+	@objc
 	func configureModel() {
 		getDataFromDB { [weak self] in
 			guard let self = self else {
@@ -246,6 +254,6 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
 		let song = playlistSongs[indexPath.row]
-		PlayerManager.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: playlistSongs, song: song)
+		PlayerPresenter.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: playlistSongs, song: song)
 	}
 }

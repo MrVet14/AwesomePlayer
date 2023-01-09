@@ -2,8 +2,8 @@ import AVFoundation
 import Foundation
 import UIKit
 
-class PlayerManager {
-	static let shared = PlayerManager()
+class PlayerPresenter {
+	static let shared = PlayerPresenter()
 
 	private init() {}
 
@@ -22,7 +22,6 @@ class PlayerManager {
 		listOfOtherSong = listOfOtherSongsInView
 
 		startPlayback()
-		managePlayback()
 
 		viewController.present(playerVC, animated: true)
 	}
@@ -38,6 +37,8 @@ class PlayerManager {
 		playerVC.songToDisplay = currentSong
 
 		player?.play()
+
+		managePlayback()
 	}
 
 	func managePlayback() {

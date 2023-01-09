@@ -45,6 +45,13 @@ class LikedSongsViewController: UIViewController {
 
 		setupViews()
 		configureModel()
+
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(configureModel),
+			name: Notification.Name("PlayerVCClosed"),
+			object: nil
+		)
     }
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -104,6 +111,7 @@ class LikedSongsViewController: UIViewController {
 	}
 
 	// MARK: Creating or updating ViewModels
+	@objc
 	func configureModel() {
 		getUpdatedDataFromDB { [weak self] in
 			guard let self = self else {
@@ -182,7 +190,7 @@ extension LikedSongsViewController: UICollectionViewDelegate, UICollectionViewDa
 	// MARK: Adding Action on Tap on Cell
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let song = likedSongs[indexPath.row]
-		PlayerManager.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: likedSongs, song: song)
+		PlayerPresenter.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: likedSongs, song: song)
 	}
 
 	// MARK: Creating Section Layout for Collection View

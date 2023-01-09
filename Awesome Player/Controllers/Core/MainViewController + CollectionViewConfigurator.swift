@@ -73,7 +73,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 		case .recommendedSongs:
 			let song = recommendedSongs[indexPath.row]
-			PlayerManager.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: recommendedSongs, song: song)
+			PlayerPresenter.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: recommendedSongs, song: song)
 		}
 	}
 

@@ -44,10 +44,18 @@ class MainViewController: UIViewController {
 
 		setupViews()
 		loadTheData()
+
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(configureModels),
+			name: Notification.Name("PlayerVCClosed"),
+			object: nil
+		)
     }
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
+
 		configureModels()
 	}
 
@@ -198,6 +206,7 @@ class MainViewController: UIViewController {
 	}
 
 	// MARK: Creating or updating ViewModels
+	@objc
 	func configureModels() {
 		getUpdatedDataFromDB { [weak self] in
 			guard let self = self else {
