@@ -12,10 +12,15 @@ class PlayerPresenter {
 	var player: AVPlayer?
 	let playerVC = PlayerViewController.shared
 	let playerBar = PlayerBarAboveAllViewsView.shared
-	var playerPlaying = true
+
+	var playerPlaying = true {
+		didSet {
+			playerVC.playerPlaying = playerPlaying
+			playerBar.playerPlaying = playerPlaying
+		}
+	}
 
 	var currentSong = SongObject()
-	var listOfOtherSong: [SongObject] = []
 
 	// MARK: Starting playback when user tapped on a song in a view
 	func startPlaybackProcess(
@@ -24,7 +29,7 @@ class PlayerPresenter {
 		song: SongObject
 	) {
 		currentSong = song
-		listOfOtherSong = listOfOtherSongsInView
+		playerVC.listOfOtherSong = listOfOtherSongsInView
 
 		if !isPlayerBarActive {
 			NotificationCenter.default.post(name: Notification.Name(NotificationCenterConstants.playerBar), object: nil)
@@ -44,16 +49,10 @@ class PlayerPresenter {
 		}
 		player = AVPlayer(url: url)
 
-		playerPlaying = true
-
 		playerVC.songToDisplay = currentSong
-		playerVC.listOfOtherSongs = listOfOtherSong
-		playerVC.playerPlaying = playerPlaying
-		playerVC.configureView()
-
 		playerBar.songToDisplay = currentSong
-		playerBar.playerPlaying = playerPlaying
-		playerBar.configureView()
+
+		playerPlaying = true
 
 		player?.play()
 
@@ -73,26 +72,19 @@ class PlayerPresenter {
 			return
 		}
 
-		HapticsManager.shared.vibrateForSelection()
-
-		if player.timeControlStatus == .playing {
+		switch player.timeControlStatus {
+		case .playing:
 			playerPlaying = false
 			player.pause()
-		} else if player.timeControlStatus == .paused {
+
+		case .paused:
 			playerPlaying = true
 			player.play()
+
+		default:
+			playerPlaying = false
+			player.pause()
 		}
-
-		updatePlayPauseButtonView()
-	}
-
-	// MARK: Passing new data into dependent Views and Updating Them
-	func updatePlayPauseButtonView() {
-		playerVC.playerPlaying = playerPlaying
-		playerVC.configureView()
-
-		playerBar.playerPlaying = playerPlaying
-		playerBar.configureView()
 	}
 
 	// MARK: Switching song back
@@ -111,25 +103,23 @@ class PlayerPresenter {
 
 	// MARK: Setting new song to play
 	func updateSongDataForPlayer(songIndexToLaunch: Int) {
-		HapticsManager.shared.vibrateForSelection()
-
 		var index = 0
 
-		if songIndexToLaunch > listOfOtherSong.count - 1 {
+		if songIndexToLaunch > playerVC.listOfOtherSong.count - 1 {
 			index = 0
 		} else if songIndexToLaunch < 0 {
-			index = listOfOtherSong.count - 1
+			index = playerVC.listOfOtherSong.count - 1
 		} else {
 			index = songIndexToLaunch
 		}
 
-		currentSong = listOfOtherSong[index]
+		currentSong = playerVC.listOfOtherSong[index]
 		startPlayback()
 	}
 
 	// MARK: Identifying index of current song
 	func getCurrentIndexOfASongInArray() -> Int {
-		guard let songIndex = listOfOtherSong.firstIndex(of: currentSong) else {
+		guard let songIndex = playerVC.listOfOtherSong.firstIndex(of: currentSong) else {
 			print("Error occurred, song element hasn't been found")
 			return 0
 		}

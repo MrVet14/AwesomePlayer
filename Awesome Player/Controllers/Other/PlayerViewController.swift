@@ -25,12 +25,36 @@ class PlayerViewController: UIViewController {
 
 	weak var delegate: PlayerControlsDelegate?
 
-	var songToDisplay: SongObject?
+	var songToDisplay: SongObject? {
+		didSet {
+			configureView()
+		}
+	}
 
-	var playerPlaying = true
+	var playerPlaying = true {
+		didSet {
+			playPauseButton.setImage(
+				UIImage(
+					systemName: playerPlaying ? "pause" : "play.fill",
+					withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
+				),
+				for: .normal
+			)
+		}
+	}
 
-	var listOfOtherSongs: [SongObject] = []
-	var listOfOtherSongsModel: [SongCellViewModel] = []
+	var listOfOtherSong: [SongObject] = []
+	var listOfOtherSongsModel: [SongCellViewModel] {
+		listOfOtherSong.compactMap {
+			return SongCellViewModel(
+				id: $0.id,
+				name: $0.name,
+				albumCoverURL: $0.albumCoverURL,
+				artistName: $0.artistName,
+				explicit: $0.explicit,
+				liked: $0.liked)
+		}
+	}
 
 	// MARK: - Subviews
 	let blurredBackground: UIVisualEffectView = {
@@ -88,13 +112,7 @@ class PlayerViewController: UIViewController {
 	let playPauseButton: UIButton = {
 		let button = UIButton()
 		button.tintColor = .label
-		button.setImage(
-			UIImage(
-				systemName: "pause",
-				withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
-			),
-			for: .normal
-		)
+		button.setImage(UIImage(systemName: "pause"), for: .normal)
 		return button
 	}()
 
@@ -126,8 +144,7 @@ class PlayerViewController: UIViewController {
 
 	let likeButton: UIButton = {
 		let button = UIButton()
-		button.setImage(
-			UIImage(systemName: "heart"), for: .normal)
+		button.setImage(UIImage(systemName: "heart"), for: .normal)
 		button.tintColor = .label
 		return button
 	}()
@@ -166,7 +183,6 @@ class PlayerViewController: UIViewController {
 		delegate = PlayerPresenter.shared
 
 		setupViews()
-		configureView()
 
 		playPauseButton.addTarget(self, action: #selector(didTapPlayPauseButton), for: .touchUpInside)
 		backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
@@ -183,6 +199,21 @@ class PlayerViewController: UIViewController {
 	}
 
 	// MARK: Filling View with Data
+	func updateLikeButton() {
+		guard let songToDisplay = songToDisplay else {
+			print("Song to display in PlayerVC is not existent")
+			return
+		}
+
+		likeButton.setImage(
+			UIImage(
+				systemName: songToDisplay.liked ? "heart.fill" : "heart",
+				withConfiguration: UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
+			),
+			for: .normal
+		)
+	}
+
 	func configureView() {
 		guard let songToDisplay = songToDisplay else {
 			print("Song to display in PlayerVC is not existent")
@@ -197,39 +228,9 @@ class PlayerViewController: UIViewController {
 		songTitleLabel.text = songToDisplay.name
 		songArtistNameLabel.text = songToDisplay.artistName
 		explicitLabel.isHidden = !songToDisplay.explicit
-		likeButton.setImage(
-			UIImage(
-				systemName: songToDisplay.liked ? "heart.fill" : "heart",
-				withConfiguration: UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
-			),
-			for: .normal
-		)
-		playPauseButton.setImage(
-			UIImage(
-				systemName: playerPlaying ? "pause" : "play.fill",
-				withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
-			),
-			for: .normal
-		)
+		updateLikeButton()
 
-		configureModel()
-	}
-
-	// MARK: Configuring model to show in Collection View under player
-	func configureModel() {
-		self.listOfOtherSongsModel.removeAll()
-		let viewModelToReturn = self.listOfOtherSongs.compactMap({
-			return SongCellViewModel(
-				id: $0.id,
-				name: $0.name,
-				albumCoverURL: $0.albumCoverURL,
-				artistName: $0.artistName,
-				explicit: $0.explicit,
-				liked: $0.liked)
-		})
-		self.listOfOtherSongsModel.append(contentsOf: viewModelToReturn)
-
-		self.collectionView.reloadData()
+		collectionView.reloadData()
 	}
 
 	// MARK: Logic for the controller
@@ -278,13 +279,7 @@ class PlayerViewController: UIViewController {
 			id: songToDisplay.id,
 			liked: songToDisplay.liked
 		) { [weak self] in
-			self?.likeButton.setImage(
-				UIImage(
-					systemName: songToDisplay.liked ? "heart.fill" : "heart",
-					withConfiguration: UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
-				),
-				for: .normal
-			)
+			self?.updateLikeButton()
 		}
 	}
 }
