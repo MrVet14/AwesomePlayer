@@ -182,6 +182,8 @@ class PlaylistViewController: UIViewController {
 	func handlingErrorDuringLoadingData(error: Error) {
 		print(error.localizedDescription)
 
+		HapticsManager.shared.vibrate(for: .error)
+
 		let alert = UIAlertController(
 			title: L10n.somethingWentWrong,
 			message: L10n.tryRestartingAppOrPressReload,
@@ -253,6 +255,7 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
 	// MARK: Adding Action on Tap on Cell
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
+		HapticsManager.shared.vibrateForSelection()
 		let song = playlistSongs[indexPath.row]
 		PlayerPresenter.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: playlistSongs, song: song)
 	}

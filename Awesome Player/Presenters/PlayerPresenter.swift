@@ -73,6 +73,8 @@ class PlayerPresenter {
 			return
 		}
 
+		HapticsManager.shared.vibrateForSelection()
+
 		if player.timeControlStatus == .playing {
 			playerPlaying = false
 			player.pause()
@@ -109,6 +111,8 @@ class PlayerPresenter {
 
 	// MARK: Setting new song to play
 	func updateSongDataForPlayer(songIndexToLaunch: Int) {
+		HapticsManager.shared.vibrateForSelection()
+
 		var index = 0
 
 		if songIndexToLaunch > listOfOtherSong.count - 1 {
