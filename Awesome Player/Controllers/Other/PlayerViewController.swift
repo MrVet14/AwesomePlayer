@@ -27,22 +27,7 @@ class PlayerViewController: UIViewController {
 
 	var songToDisplay: SongObject? {
 		didSet {
-			guard let songToDisplay = songToDisplay else {
-				print("Song to display in PlayerVC is not existent")
-				return
-			}
-
-			collectionView.backgroundColor = .clear
-			imageView.kf.setImage(
-				with: URL(string: songToDisplay.albumCoverURL),
-				options: [.transition(.fade(0.1))]
-			)
-			songTitleLabel.text = songToDisplay.name
-			songArtistNameLabel.text = songToDisplay.artistName
-			explicitLabel.isHidden = !songToDisplay.explicit
-			updateLikeButton()
-
-			collectionView.reloadData()
+			configureView()
 		}
 	}
 
@@ -227,6 +212,25 @@ class PlayerViewController: UIViewController {
 			),
 			for: .normal
 		)
+	}
+
+	func configureView() {
+		guard let songToDisplay = songToDisplay else {
+			print("Song to display in PlayerVC is not existent")
+			return
+		}
+
+		collectionView.backgroundColor = .clear
+		imageView.kf.setImage(
+			with: URL(string: songToDisplay.albumCoverURL),
+			options: [.transition(.fade(0.1))]
+		)
+		songTitleLabel.text = songToDisplay.name
+		songArtistNameLabel.text = songToDisplay.artistName
+		explicitLabel.isHidden = !songToDisplay.explicit
+		updateLikeButton()
+
+		collectionView.reloadData()
 	}
 
 	// MARK: Logic for the controller
