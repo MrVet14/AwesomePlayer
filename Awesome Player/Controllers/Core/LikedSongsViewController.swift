@@ -209,6 +209,7 @@ extension LikedSongsViewController: UICollectionViewDelegate, UICollectionViewDa
 
 	// MARK: Adding Action on Tap on Cell
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		HapticsManager.shared.vibrateForSelection()
 		let song = likedSongs[indexPath.row]
 		PlayerPresenter.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: likedSongs, song: song)
 	}

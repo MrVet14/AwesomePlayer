@@ -131,6 +131,7 @@ class WelcomeViewController: UIViewController {
 
 	@objc
 	func didTapSignIn() {
+		HapticsManager.shared.vibrateForSelection()
 		let authVC = AuthViewController()
 		authVC.completionHandler = { [weak self] success in
 			self?.handleSignIn(success: success)
@@ -141,11 +142,14 @@ class WelcomeViewController: UIViewController {
 
 	private func handleSignIn(success: Bool) {
 		guard success else {
+			HapticsManager.shared.vibrate(for: .error)
 			let alert = UIAlertController(title: L10n.somethingWentWrong, message: L10n.tryAgainLater, preferredStyle: .alert)
 			alert.addAction(UIAlertAction(title: L10n.dismiss, style: .cancel))
 			present(alert, animated: true)
 			return
 		}
+
+		HapticsManager.shared.vibrate(for: .success)
 
 		timer?.invalidate()
 		let mainVC = TabBarViewController()

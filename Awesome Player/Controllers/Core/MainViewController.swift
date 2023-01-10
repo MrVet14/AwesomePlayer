@@ -247,6 +247,8 @@ class MainViewController: UIViewController {
 	func handlingErrorDuringLoadingData(error: Error) {
 		print(error.localizedDescription)
 
+		HapticsManager.shared.vibrate(for: .error)
+
 		let alert = UIAlertController(
 			title: L10n.somethingWentWrong,
 			message: L10n.tryRestartingAppOrPressReload,
