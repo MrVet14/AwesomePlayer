@@ -25,12 +25,52 @@ class PlayerViewController: UIViewController {
 
 	weak var delegate: PlayerControlsDelegate?
 
-	var songToDisplay: SongObject?
-
-	var playerPlaying = true
-
-	var listOfOtherSongs: [SongObject] = []
 	var listOfOtherSongsModel: [SongCellViewModel] = []
+
+	var songToDisplay: SongObject? {
+		didSet {
+			guard let songToDisplay = songToDisplay else {
+				print("Song to display in PlayerVC is not existent")
+				return
+			}
+
+			collectionView.backgroundColor = .clear
+			imageView.kf.setImage(
+				with: URL(string: songToDisplay.albumCoverURL),
+				options: [.transition(.fade(0.1))]
+			)
+			songTitleLabel.text = songToDisplay.name
+			songArtistNameLabel.text = songToDisplay.artistName
+			explicitLabel.isHidden = !songToDisplay.explicit
+			updateLikeButton()
+
+			self.listOfOtherSongsModel.removeAll()
+			let viewModelToReturn = PlayerPresenter.shared.listOfOtherSong.compactMap({
+				return SongCellViewModel(
+					id: $0.id,
+					name: $0.name,
+					albumCoverURL: $0.albumCoverURL,
+					artistName: $0.artistName,
+					explicit: $0.explicit,
+					liked: $0.liked)
+			})
+			self.listOfOtherSongsModel.append(contentsOf: viewModelToReturn)
+
+			self.collectionView.reloadData()
+		}
+	}
+
+	var playerPlaying = true {
+		didSet {
+			playPauseButton.setImage(
+				UIImage(
+					systemName: playerPlaying ? "pause" : "play.fill",
+					withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
+				),
+				for: .normal
+			)
+		}
+	}
 
 	// MARK: - Subviews
 	let blurredBackground: UIVisualEffectView = {
@@ -88,13 +128,7 @@ class PlayerViewController: UIViewController {
 	let playPauseButton: UIButton = {
 		let button = UIButton()
 		button.tintColor = .label
-		button.setImage(
-			UIImage(
-				systemName: "pause",
-				withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
-			),
-			for: .normal
-		)
+		button.setImage(UIImage(systemName: "pause"), for: .normal)
 		return button
 	}()
 
@@ -126,8 +160,7 @@ class PlayerViewController: UIViewController {
 
 	let likeButton: UIButton = {
 		let button = UIButton()
-		button.setImage(
-			UIImage(systemName: "heart"), for: .normal)
+		button.setImage(UIImage(systemName: "heart"), for: .normal)
 		button.tintColor = .label
 		return button
 	}()
@@ -166,7 +199,6 @@ class PlayerViewController: UIViewController {
 		delegate = PlayerPresenter.shared
 
 		setupViews()
-		configureView()
 
 		playPauseButton.addTarget(self, action: #selector(didTapPlayPauseButton), for: .touchUpInside)
 		backButton.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
@@ -183,20 +215,12 @@ class PlayerViewController: UIViewController {
 	}
 
 	// MARK: Filling View with Data
-	func configureView() {
+	func updateLikeButton() {
 		guard let songToDisplay = songToDisplay else {
 			print("Song to display in PlayerVC is not existent")
 			return
 		}
 
-		collectionView.backgroundColor = .clear
-		imageView.kf.setImage(
-			with: URL(string: songToDisplay.albumCoverURL),
-			options: [.transition(.fade(0.1))]
-		)
-		songTitleLabel.text = songToDisplay.name
-		songArtistNameLabel.text = songToDisplay.artistName
-		explicitLabel.isHidden = !songToDisplay.explicit
 		likeButton.setImage(
 			UIImage(
 				systemName: songToDisplay.liked ? "heart.fill" : "heart",
@@ -204,32 +228,6 @@ class PlayerViewController: UIViewController {
 			),
 			for: .normal
 		)
-		playPauseButton.setImage(
-			UIImage(
-				systemName: playerPlaying ? "pause" : "play.fill",
-				withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
-			),
-			for: .normal
-		)
-
-		configureModel()
-	}
-
-	// MARK: Configuring model to show in Collection View under player
-	func configureModel() {
-		self.listOfOtherSongsModel.removeAll()
-		let viewModelToReturn = self.listOfOtherSongs.compactMap({
-			return SongCellViewModel(
-				id: $0.id,
-				name: $0.name,
-				albumCoverURL: $0.albumCoverURL,
-				artistName: $0.artistName,
-				explicit: $0.explicit,
-				liked: $0.liked)
-		})
-		self.listOfOtherSongsModel.append(contentsOf: viewModelToReturn)
-
-		self.collectionView.reloadData()
 	}
 
 	// MARK: Logic for the controller
@@ -278,13 +276,7 @@ class PlayerViewController: UIViewController {
 			id: songToDisplay.id,
 			liked: songToDisplay.liked
 		) { [weak self] in
-			self?.likeButton.setImage(
-				UIImage(
-					systemName: songToDisplay.liked ? "heart.fill" : "heart",
-					withConfiguration: UIImage.SymbolConfiguration(pointSize: 26, weight: .regular)
-				),
-				for: .normal
-			)
+			self?.updateLikeButton()
 		}
 	}
 }

@@ -5,8 +5,35 @@ import UIKit
 class PlayerBarAboveAllViewsView: UIView {
 	static let shared = PlayerBarAboveAllViewsView()
 
-	var songToDisplay: SongObject?
-	var playerPlaying = true
+	var songToDisplay: SongObject? {
+		didSet {
+			guard let songToDisplay = self.songToDisplay else {
+				return
+			}
+
+			songNameLabel.text = songToDisplay.name
+			artistNameLabel.text = songToDisplay.artistName
+			albumCoverImageView.kf.setImage(with: URL(string: songToDisplay.albumCoverURL), options: [.transition(.fade(0.1))])
+			explicitLabel.isHidden = !songToDisplay.explicit
+		}
+	}
+
+	var playerPlaying = true {
+		didSet {
+			let blurEffect = UIBlurEffect(
+				style: playerPlaying ? UIBlurEffect.Style.systemUltraThinMaterial : UIBlurEffect.Style.systemThinMaterial
+			)
+			blurredBackground.effect = blurEffect
+
+			playPauseButton.setImage(
+				UIImage(
+					systemName: playerPlaying ? "pause" : "play.fill",
+					withConfiguration: UIImage.SymbolConfiguration(pointSize: 35, weight: .regular)
+				),
+				for: .normal
+			)
+		}
+	}
 
 	var didTapPlayPause: (() -> Void)?
 
@@ -112,29 +139,6 @@ class PlayerBarAboveAllViewsView: UIView {
 			make.leading.equalTo(songNameLabel)
 			make.bottom.equalToSuperview().offset(-5)
 		}
-	}
-
-	func configureView() {
-		guard let songToDisplay = self.songToDisplay else {
-			return
-		}
-
-		let blurEffect = UIBlurEffect(
-			style: playerPlaying ? UIBlurEffect.Style.systemUltraThinMaterial : UIBlurEffect.Style.systemThinMaterial
-		)
-		blurredBackground.effect = blurEffect
-
-		songNameLabel.text = songToDisplay.name
-		artistNameLabel.text = songToDisplay.artistName
-		albumCoverImageView.kf.setImage(with: URL(string: songToDisplay.albumCoverURL), options: [.transition(.fade(0.1))])
-		explicitLabel.isHidden = !songToDisplay.explicit
-		playPauseButton.setImage(
-			UIImage(
-				systemName: playerPlaying ? "pause" : "play.fill",
-				withConfiguration: UIImage.SymbolConfiguration(pointSize: 35, weight: .regular)
-			),
-			for: .normal
-		)
 	}
 
 	// MARK: View logic
