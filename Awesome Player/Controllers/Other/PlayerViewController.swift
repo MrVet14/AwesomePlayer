@@ -42,7 +42,7 @@ class PlayerViewController: UIViewController {
 			explicitLabel.isHidden = !songToDisplay.explicit
 			updateLikeButton()
 
-			configureModel()
+			collectionView.reloadData()
 		}
 	}
 
@@ -59,7 +59,17 @@ class PlayerViewController: UIViewController {
 	}
 
 	var listOfOtherSong: [SongObject] = []
-	var listOfOtherSongsModel: [SongCellViewModel] = []
+	var listOfOtherSongsModel: [SongCellViewModel] {
+		listOfOtherSong.compactMap {
+			return SongCellViewModel(
+				id: $0.id,
+				name: $0.name,
+				albumCoverURL: $0.albumCoverURL,
+				artistName: $0.artistName,
+				explicit: $0.explicit,
+				liked: $0.liked)
+		}
+	}
 
 	// MARK: - Subviews
 	let blurredBackground: UIVisualEffectView = {
@@ -217,23 +227,6 @@ class PlayerViewController: UIViewController {
 			),
 			for: .normal
 		)
-	}
-
-	func configureModel() {
-		self.listOfOtherSongsModel.removeAll()
-
-		let viewModelToReturn = self.listOfOtherSong.compactMap({
-			return SongCellViewModel(
-				id: $0.id,
-				name: $0.name,
-				albumCoverURL: $0.albumCoverURL,
-				artistName: $0.artistName,
-				explicit: $0.explicit,
-				liked: $0.liked)
-		})
-		self.listOfOtherSongsModel.append(contentsOf: viewModelToReturn)
-
-		self.collectionView.reloadData()
 	}
 
 	// MARK: Logic for the controller
