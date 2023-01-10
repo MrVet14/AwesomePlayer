@@ -69,7 +69,7 @@ class LikedSongsViewController: UIViewController {
 		NotificationCenter.default.addObserver(
 			self,
 			selector: #selector(configureModel),
-			name: Notification.Name("PlayerVCClosed"),
+			name: Notification.Name(NotificationCenterConstants.playerVCClosed),
 			object: nil
 		)
     }

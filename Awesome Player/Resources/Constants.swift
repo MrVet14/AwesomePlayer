@@ -42,3 +42,8 @@ enum DBSongTypes {
 	static let recommended = "recommended"
 	static let inAPlaylist = "inAPlaylist"
 }
+
+enum NotificationCenterConstants {
+	static let playerVCClosed = "playerVCClosed"
+	static let playerBar = "playerBar"
+}

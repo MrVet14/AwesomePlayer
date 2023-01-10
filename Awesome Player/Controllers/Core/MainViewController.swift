@@ -48,7 +48,7 @@ class MainViewController: UIViewController {
 		NotificationCenter.default.addObserver(
 			self,
 			selector: #selector(configureModels),
-			name: Notification.Name("PlayerVCClosed"),
+			name: Notification.Name(NotificationCenterConstants.playerVCClosed),
 			object: nil
 		)
     }

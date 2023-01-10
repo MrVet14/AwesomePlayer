@@ -45,7 +45,7 @@ class TabBarViewController: UITabBarController {
 		NotificationCenter.default.addObserver(
 			self,
 			selector: #selector(showPlayerBar),
-			name: Notification.Name("PlayerBar"),
+			name: Notification.Name(NotificationCenterConstants.playerBar),
 			object: nil
 		)
 

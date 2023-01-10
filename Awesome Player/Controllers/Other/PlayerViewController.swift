@@ -2,6 +2,13 @@ import Kingfisher
 import SnapKit
 import UIKit
 
+protocol PlayerControlsDelegate: AnyObject {
+	func didTapPlayPause()
+	func didTapBack()
+	func didTapNext()
+	func tappedOnTheSongInListOfOtherSongs(songIndex: Int)
+}
+
 class PlayerViewController: UIViewController {
 	static let shared = PlayerViewController(songToDisplay: SongObject())
 
@@ -16,12 +23,9 @@ class PlayerViewController: UIViewController {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	var songToDisplay: SongObject?
+	weak var delegate: PlayerControlsDelegate?
 
-	var didTapPlayPause: (() -> Void)?
-	var didTapBack: (() -> Void)?
-	var didTapNext: (() -> Void)?
-	var tappedOnTheSongInListOfOtherSongs: ((Int) -> Void)?
+	var songToDisplay: SongObject?
 
 	var playerPlaying = true
 
@@ -159,6 +163,8 @@ class PlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		delegate = PlayerPresenter.shared
+
 		setupViews()
 		configureView()
 
@@ -173,7 +179,7 @@ class PlayerViewController: UIViewController {
 		super.viewWillDisappear(animated)
 
 		// Sending signal to reload VCs data when player window closed
-		NotificationCenter.default.post(name: Notification.Name("PlayerVCClosed"), object: nil)
+		NotificationCenter.default.post(name: Notification.Name(NotificationCenterConstants.playerVCClosed), object: nil)
 	}
 
 	// MARK: Filling View with Data
@@ -182,8 +188,6 @@ class PlayerViewController: UIViewController {
 			print("Song to display in PlayerVC is not existent")
 			return
 		}
-
-		playerPlaying = true
 
 		collectionView.backgroundColor = .clear
 		imageView.kf.setImage(
@@ -202,7 +206,7 @@ class PlayerViewController: UIViewController {
 		)
 		playPauseButton.setImage(
 			UIImage(
-				systemName: "pause",
+				systemName: playerPlaying ? "pause" : "play.fill",
 				withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
 			),
 			for: .normal
@@ -231,25 +235,17 @@ class PlayerViewController: UIViewController {
 	// MARK: Logic for the controller
 	@objc
 	func didTapPlayPauseButton() {
-		didTapPlayPause?()
-		playerPlaying.toggle()
-		playPauseButton.setImage(
-			UIImage(
-				systemName: playerPlaying ? "pause" : "play.fill",
-				withConfiguration: UIImage.SymbolConfiguration(pointSize: 42, weight: .regular)
-			),
-			for: .normal
-		)
+		delegate?.didTapPlayPause()
 	}
 
 	@objc
 	func didTapBackButton() {
-		didTapBack?()
+		delegate?.didTapBack()
 	}
 
 	@objc
 	func didTapNextButton() {
-		didTapNext?()
+		delegate?.didTapNext()
 	}
 
 	@objc

@@ -7,11 +7,12 @@ class PlayerPresenter {
 
 	private init() {}
 
-	var isPlayerActive = false
+	var isPlayerBarActive = false
 
 	var player: AVPlayer?
 	let playerVC = PlayerViewController.shared
 	let playerBar = PlayerBarAboveAllViewsView.shared
+	var playerPlaying = true
 
 	var currentSong = SongObject()
 	var listOfOtherSong: [SongObject] = []
@@ -25,9 +26,9 @@ class PlayerPresenter {
 		currentSong = song
 		listOfOtherSong = listOfOtherSongsInView
 
-		if !isPlayerActive {
-			NotificationCenter.default.post(name: Notification.Name("PlayerBar"), object: nil)
-			isPlayerActive = true
+		if !isPlayerBarActive {
+			NotificationCenter.default.post(name: Notification.Name(NotificationCenterConstants.playerBar), object: nil)
+			isPlayerBarActive = true
 		}
 
 		startPlayback()
@@ -43,11 +44,15 @@ class PlayerPresenter {
 		}
 		player = AVPlayer(url: url)
 
+		playerPlaying = true
+
 		playerVC.songToDisplay = currentSong
 		playerVC.listOfOtherSongs = listOfOtherSong
+		playerVC.playerPlaying = playerPlaying
 		playerVC.configureView()
 
 		playerBar.songToDisplay = currentSong
+		playerBar.playerPlaying = playerPlaying
 		playerBar.configureView()
 
 		player?.play()
@@ -57,47 +62,49 @@ class PlayerPresenter {
 
 	// MARK: Managing callbacks from PlayerVC
 	func managePlayback() {
-		playerVC.didTapPlayPause = { [weak self] in
-			if self?.playerVC.playerPlaying == true {
-				self?.player?.pause()
-			} else {
-				self?.player?.play()
-			}
-		}
-
 		playerBar.didTapPlayPause = { [weak self] in
-			if self?.playerBar.playerPlaying == true {
-				self?.player?.pause()
-			} else {
-				self?.player?.play()
-			}
+			self?.playPause()
+		}
+	}
+
+	// MARK: Resuming or Pausing Playback based on the current state of playback
+	func playPause() {
+		guard let player = self.player else {
+			return
 		}
 
-		playerVC.didTapBack = { [weak self] in
-			self?.tappedBack()
+		if player.timeControlStatus == .playing {
+			playerPlaying = false
+			player.pause()
+		} else if player.timeControlStatus == .paused {
+			playerPlaying = true
+			player.play()
 		}
 
-		playerVC.didTapNext = { [weak self] in
-			self?.tappedNext()
-		}
+		updatePlayPauseButtonView()
+	}
 
-		playerVC.tappedOnTheSongInListOfOtherSongs = { [weak self] index in
-			self?.updateSongDataForPlayer(songIndexToLaunch: index)
-		}
+	// MARK: Passing new data into dependent Views and Updating Them
+	func updatePlayPauseButtonView() {
+		playerVC.playerPlaying = playerPlaying
+		playerVC.configureView()
+
+		playerBar.playerPlaying = playerPlaying
+		playerBar.configureView()
 	}
 
 	// MARK: Switching song back
 	func tappedBack() {
-		getCurrentIndexOfASongInArray { index in
-			updateSongDataForPlayer(songIndexToLaunch: index - 1)
-		}
+		updateSongDataForPlayer(
+			songIndexToLaunch: getCurrentIndexOfASongInArray() - 1
+		)
 	}
 
 	// MARK: Switching song forward
 	func tappedNext() {
-		getCurrentIndexOfASongInArray { index in
-			updateSongDataForPlayer(songIndexToLaunch: index + 1)
-		}
+		updateSongDataForPlayer(
+			songIndexToLaunch: getCurrentIndexOfASongInArray() + 1
+		)
 	}
 
 	// MARK: Setting new song to play
@@ -117,11 +124,30 @@ class PlayerPresenter {
 	}
 
 	// MARK: Identifying index of current song
-	func getCurrentIndexOfASongInArray(completion: ((Int) -> Void)) {
+	func getCurrentIndexOfASongInArray() -> Int {
 		guard let songIndex = listOfOtherSong.firstIndex(of: currentSong) else {
 			print("Error occurred, song element hasn't been found")
-			return
+			return 0
 		}
-		completion(songIndex)
+		return songIndex
+	}
+}
+
+// MARK: Managing Controls in PlayerVC
+extension PlayerPresenter: PlayerControlsDelegate {
+	func didTapPlayPause() {
+		playPause()
+	}
+
+	func didTapBack() {
+		tappedBack()
+	}
+
+	func didTapNext() {
+		tappedNext()
+	}
+
+	func tappedOnTheSongInListOfOtherSongs(songIndex: Int) {
+		updateSongDataForPlayer(songIndexToLaunch: songIndex)
 	}
 }

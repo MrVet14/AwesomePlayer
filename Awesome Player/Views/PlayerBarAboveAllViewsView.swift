@@ -141,7 +141,5 @@ class PlayerBarAboveAllViewsView: UIView {
 	@objc
 	func didTapPlayPauseAction() {
 		didTapPlayPause?()
-		playerPlaying.toggle()
-		configureView()
 	}
 }
