@@ -58,6 +58,7 @@ extension PlayerViewController {
 	}
 
 	// MARK: Adding constraints to subviews
+	// swiftlint:disable override_in_extension
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 

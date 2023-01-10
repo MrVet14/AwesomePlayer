@@ -10,7 +10,8 @@ class PlayerPresenter {
 	var isPlayerActive = false
 
 	var player: AVPlayer?
-	var playerVC = PlayerViewController.shared
+	let playerVC = PlayerViewController.shared
+	let playerBar = PlayerBarAboveAllViewsView.shared
 
 	var currentSong = SongObject()
 	var listOfOtherSong: [SongObject] = []
@@ -23,6 +24,11 @@ class PlayerPresenter {
 	) {
 		currentSong = song
 		listOfOtherSong = listOfOtherSongsInView
+
+		if !isPlayerActive {
+			NotificationCenter.default.post(name: Notification.Name("PlayerBar"), object: nil)
+			isPlayerActive = true
+		}
 
 		startPlayback()
 
@@ -41,17 +47,26 @@ class PlayerPresenter {
 		playerVC.listOfOtherSongs = listOfOtherSong
 		playerVC.configureView()
 
+		playerBar.songToDisplay = currentSong
+		playerBar.configureView()
+
 		player?.play()
 
 		managePlayback()
-
-		isPlayerActive = true
 	}
 
 	// MARK: Managing callbacks from PlayerVC
 	func managePlayback() {
 		playerVC.didTapPlayPause = { [weak self] in
 			if self?.playerVC.playerPlaying == true {
+				self?.player?.pause()
+			} else {
+				self?.player?.play()
+			}
+		}
+
+		playerBar.didTapPlayPause = { [weak self] in
+			if self?.playerBar.playerPlaying == true {
 				self?.player?.pause()
 			} else {
 				self?.player?.play()

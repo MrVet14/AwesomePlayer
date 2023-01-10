@@ -1,10 +1,14 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
+	let playerBar: UIView = PlayerBarAboveAllViewsView.shared
+	var gesture = UITapGestureRecognizer()
+
 	// MARK: App lifecycle + TabBarController Set Up
     override func viewDidLoad() {
         super.viewDidLoad()
 
+		// Adding VCs to Tab Bar and configuring Tab Bar Behavior & UI
 		let mainVC = MainViewController()
 		let likedSongsVC = LikedSongsViewController()
 
@@ -24,6 +28,30 @@ class TabBarViewController: UITabBarController {
 		nav2.navigationBar.prefersLargeTitles = true
 
 		setViewControllers([nav1, nav2], animated: false)
+
+		// Managing Player Bar
+		playerBar.isHidden = true
+		view.addSubview(playerBar)
+
+		// Laying out constraints for Player Bar
+		playerBar.snp.makeConstraints { make in
+			make.height.equalTo(60)
+			make.leading.equalToSuperview().offset(7)
+			make.trailing.equalToSuperview().offset(-7)
+			make.bottom.equalToSuperview().offset(-87)
+		}
+
+		// Catching notification from presenter
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(showPlayerBar),
+			name: Notification.Name("PlayerBar"),
+			object: nil
+		)
+
+		// Adding tap gesture to Player Bar
+		gesture = UITapGestureRecognizer(target: self, action: #selector(presentPlayerVC))
+		playerBar.addGestureRecognizer(gesture)
     }
 
 	// MARK: Setting View Title depending on the time of the day
@@ -40,5 +68,18 @@ class TabBarViewController: UITabBarController {
 		default:
 			return L10n.goodNight
 		}
+	}
+
+	// MARK: Making Player Bar visible ofter notification from presenter
+	@objc
+	func showPlayerBar() {
+		playerBar.isHidden = false
+	}
+
+	// MARK: Presenting PlayerVC after tapping Player bar
+	@objc
+	func presentPlayerVC() {
+		let playerVC = PlayerViewController.shared
+		present(playerVC, animated: true)
 	}
 }
