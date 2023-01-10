@@ -21,7 +21,6 @@ class PlayerPresenter {
 	}
 
 	var currentSong = SongObject()
-	var listOfOtherSong: [SongObject] = []
 
 	// MARK: Starting playback when user tapped on a song in a view
 	func startPlaybackProcess(
@@ -30,7 +29,7 @@ class PlayerPresenter {
 		song: SongObject
 	) {
 		currentSong = song
-		listOfOtherSong = listOfOtherSongsInView
+		playerVC.listOfOtherSong = listOfOtherSongsInView
 
 		if !isPlayerBarActive {
 			NotificationCenter.default.post(name: Notification.Name(NotificationCenterConstants.playerBar), object: nil)
@@ -106,21 +105,21 @@ class PlayerPresenter {
 	func updateSongDataForPlayer(songIndexToLaunch: Int) {
 		var index = 0
 
-		if songIndexToLaunch > listOfOtherSong.count - 1 {
+		if songIndexToLaunch > playerVC.listOfOtherSong.count - 1 {
 			index = 0
 		} else if songIndexToLaunch < 0 {
-			index = listOfOtherSong.count - 1
+			index = playerVC.listOfOtherSong.count - 1
 		} else {
 			index = songIndexToLaunch
 		}
 
-		currentSong = listOfOtherSong[index]
+		currentSong = playerVC.listOfOtherSong[index]
 		startPlayback()
 	}
 
 	// MARK: Identifying index of current song
 	func getCurrentIndexOfASongInArray() -> Int {
-		guard let songIndex = listOfOtherSong.firstIndex(of: currentSong) else {
+		guard let songIndex = playerVC.listOfOtherSong.firstIndex(of: currentSong) else {
 			print("Error occurred, song element hasn't been found")
 			return 0
 		}
