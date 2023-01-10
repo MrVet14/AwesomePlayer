@@ -2,12 +2,16 @@ import Kingfisher
 import SnapKit
 import UIKit
 
-class SongCollectionViewCell: UICollectionViewCell {
-	static let identifier = "RecommendedSongCollectionViewCell"
-
-	var likeButtonTapAction: (() -> Void)?
+class ListOfSongsInPlayerCollectionViewCell: UICollectionViewCell {
+	static let identifier = "RecommendedSongInPlayerViewCollectionViewCell"
 
 	// MARK: Subviews
+	let blurredBackground: UIVisualEffectView = {
+		let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.systemUltraThinMaterial)
+		let effect = UIVisualEffectView(effect: blurEffect)
+		return effect
+	}()
+
 	let albumCoverImageView: UIImageView = {
 		let imageView = UIImageView()
 		imageView.image = UIImage(systemName: "photo")
@@ -17,14 +21,14 @@ class SongCollectionViewCell: UICollectionViewCell {
 
 	let songNameLabel: UILabel = {
 		let label = UILabel()
-		label.font = .systemFont(ofSize: 18, weight: .semibold)
+		label.font = .systemFont(ofSize: 16, weight: .semibold)
 		label.numberOfLines = 1
 		return label
 	}()
 
 	let artistNameLabel: UILabel = {
 		let label = UILabel()
-		label.font = .systemFont(ofSize: 14, weight: .regular)
+		label.font = .systemFont(ofSize: 12, weight: .regular)
 		label.textColor = .secondaryLabel
 		label.numberOfLines = 1
 		return label
@@ -32,31 +36,23 @@ class SongCollectionViewCell: UICollectionViewCell {
 
 	let explicitLabel: UILabel = {
 		let label = UILabel()
-		label.font = .systemFont(ofSize: 12, weight: .heavy)
+		label.font = .systemFont(ofSize: 10, weight: .heavy)
 		label.textColor = .secondaryLabel
 		label.text = L10n.explicit
 		label.isHidden = true
 		return label
 	}()
 
-	let likeButton: UIButton = {
-		let button = UIButton()
-		button.setImage(UIImage(systemName: "heart"), for: .normal)
-		button.tintColor = .label
-		return button
-	}()
-
 	// MARK: Init
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		contentView.backgroundColor = .secondarySystemBackground
 		contentView.clipsToBounds = true
+		contentView.addSubview(blurredBackground)
 		contentView.addSubview(albumCoverImageView)
-		contentView.addSubview(likeButton)
 		contentView.addSubview(songNameLabel)
 		contentView.addSubview(artistNameLabel)
 		contentView.addSubview(explicitLabel)
-		likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
+		contentView.layer.cornerRadius = 10
 	}
 
 	// swiftlint:disable fatal_error
@@ -69,32 +65,29 @@ class SongCollectionViewCell: UICollectionViewCell {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 
+		blurredBackground.snp.makeConstraints { make in
+			make.edges.equalToSuperview()
+		}
+
 		albumCoverImageView.snp.makeConstraints { make in
-			make.height.width.equalTo(contentView.height - 15)
-			make.top.leading.equalToSuperview().offset(10)
-			make.bottom.equalToSuperview().offset(-10)
+			make.leading.top.equalToSuperview().offset(10)
+			make.trailing.equalToSuperview().offset(-10)
+			make.height.equalTo(120)
 		}
 
 		songNameLabel.snp.makeConstraints { make in
-			make.top.equalToSuperview().offset(5)
-			make.leading.equalTo(albumCoverImageView.snp.trailing).offset(10)
-			make.trailing.equalToSuperview().offset(-5)
+			make.top.equalTo(albumCoverImageView.snp.bottom).offset(10)
+			make.horizontalEdges.equalTo(albumCoverImageView)
 		}
 
 		artistNameLabel.snp.makeConstraints { make in
-			make.top.equalTo(songNameLabel).offset(25)
-			make.leading.equalTo(songNameLabel)
-			make.trailing.equalTo(likeButton.snp.leading).offset(-10)
+			make.top.equalTo(songNameLabel.snp.bottom).offset(1)
+			make.horizontalEdges.equalTo(songNameLabel)
 		}
 
 		explicitLabel.snp.makeConstraints { make in
-			make.leading.equalTo(songNameLabel)
-			make.bottom.equalToSuperview().offset(-10)
-		}
-
-		likeButton.snp.makeConstraints { make in
-			make.bottom.equalToSuperview().offset(-13)
-			make.trailing.equalToSuperview().offset(-10)
+			make.top.equalTo(albumCoverImageView.snp.bottom).offset(1)
+			make.trailing.equalTo(albumCoverImageView)
 		}
 	}
 
@@ -112,21 +105,5 @@ class SongCollectionViewCell: UICollectionViewCell {
 		artistNameLabel.text = viewModel.artistName
 		albumCoverImageView.kf.setImage(with: URL(string: viewModel.albumCoverURL), options: [.transition(.fade(0.1))])
 		explicitLabel.isHidden = !viewModel.explicit
-		likeButton.setImage(
-			UIImage(
-				systemName: viewModel.liked ? "heart.fill" : "heart",
-				withConfiguration:
-					UIImage.SymbolConfiguration(
-					pointSize: 24, weight: .regular
-				)
-			),
-			for: .normal
-		)
-	}
-
-	// MARK: Handling Like Button Tap
-	@objc
-	func likeButtonTapped(_ sender: UIButton) {
-		likeButtonTapAction?()
 	}
 }

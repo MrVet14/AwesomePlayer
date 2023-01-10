@@ -2,8 +2,7 @@ import SnapKit
 import UIKit
 
 class PlaylistViewController: UIViewController {
-	// swiftlint:disable redundant_type_annotation
-	var playlist: PlaylistObject = PlaylistObject()
+	var playlist = PlaylistObject()
 	var playlistSongs: [SongObject] = []
 	var playlistSongViewModel: [SongCellViewModel] = []
 	var alreadyLoaded = false
@@ -65,6 +64,13 @@ class PlaylistViewController: UIViewController {
 		} else {
 			loadData()
 		}
+
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(configureModel),
+			name: Notification.Name(NotificationCenterConstants.playerVCClosed),
+			object: nil
+		)
     }
 
 	// MARK: Adding view elements to View & configuring them
@@ -133,6 +139,7 @@ class PlaylistViewController: UIViewController {
 	}
 
 	// MARK: Updating or creating View Models
+	@objc
 	func configureModel() {
 		getDataFromDB { [weak self] in
 			guard let self = self else {
@@ -247,6 +254,6 @@ extension PlaylistViewController: UICollectionViewDelegate, UICollectionViewData
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
 		let song = playlistSongs[indexPath.row]
-		print("Playlist song with id: \(song.id) has been tapped")
+		PlayerPresenter.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: playlistSongs, song: song)
 	}
 }

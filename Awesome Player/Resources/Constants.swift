@@ -21,6 +21,7 @@ enum PlistBundleParameters {
 
 enum APIConstants {
 	static let spotifyWebAPIBaseUrl = "spotifyWebAPIBaseUrl"
+	static let baseURLForSharingSongs = "https://open.spotify.com/track/"
 	static let loadSongsAPILimit = 50
 }
 
@@ -40,4 +41,9 @@ enum DBSongTypes {
 	static let liked = "liked"
 	static let recommended = "recommended"
 	static let inAPlaylist = "inAPlaylist"
+}
+
+enum NotificationCenterConstants {
+	static let playerVCClosed = "playerVCClosed"
+	static let playerBar = "playerBar"
 }

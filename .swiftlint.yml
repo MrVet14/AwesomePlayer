@@ -93,6 +93,8 @@ file_name:
     - Extensions.swift
     - Settings.swift
     - MainViewController + CollectionViewConfigurator.swift
+    - PlayerViewController + View & Constraints.swift
+    - PlayerViewController + CollectionViewConfigurator.swift
 
 custom_rules:
   rule_id:

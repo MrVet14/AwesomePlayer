@@ -9,8 +9,28 @@ class LikedSongsViewController: UIViewController {
 	var collectionView = UICollectionView(
 		frame: .zero,
 		collectionViewLayout: UICollectionViewCompositionalLayout { _, _ -> NSCollectionLayoutSection? in
-			return LikedSongsViewController().createSectionLayout()
-	 })
+			// Item
+			let item = NSCollectionLayoutItem(
+				layoutSize: NSCollectionLayoutSize(
+					widthDimension: .fractionalWidth(1.0),
+					heightDimension: .fractionalWidth(1.0))
+			)
+			item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
+
+			// Group
+			let group = NSCollectionLayoutGroup.vertical(
+				layoutSize: NSCollectionLayoutSize(
+					widthDimension: .fractionalWidth(1.0),
+					heightDimension: .absolute(80)
+				),
+				subitem: item,
+				count: 1
+			)
+
+			// Section
+			let section = NSCollectionLayoutSection(group: group)
+			return section
+		})
 
 	let noLikedSongsLabel: UILabel = {
 		let label = UILabel()
@@ -45,6 +65,13 @@ class LikedSongsViewController: UIViewController {
 
 		setupViews()
 		configureModel()
+
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(configureModel),
+			name: Notification.Name(NotificationCenterConstants.playerVCClosed),
+			object: nil
+		)
     }
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -104,6 +131,7 @@ class LikedSongsViewController: UIViewController {
 	}
 
 	// MARK: Creating or updating ViewModels
+	@objc
 	func configureModel() {
 		getUpdatedDataFromDB { [weak self] in
 			guard let self = self else {
@@ -172,8 +200,7 @@ extension LikedSongsViewController: UICollectionViewDelegate, UICollectionViewDa
 		let viewModel = likedSongsViewModels[indexPath.row]
 
 		cell.configure(with: viewModel)
-		cell.likeButtonTapAction = {
-			[weak self] () in
+		cell.likeButtonTapAction = { [weak self] in
 			self?.processLikeButtonTappedAction(id: viewModel.id, liked: viewModel.liked)
 		}
 
@@ -183,31 +210,6 @@ extension LikedSongsViewController: UICollectionViewDelegate, UICollectionViewDa
 	// MARK: Adding Action on Tap on Cell
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		let song = likedSongs[indexPath.row]
-		print("Liked song with id: \(song.id) has been tapped")
-	}
-
-	// MARK: Creating Section Layout for Collection View
-	func createSectionLayout() -> NSCollectionLayoutSection {
-		// Item
-		let item = NSCollectionLayoutItem(
-			layoutSize: NSCollectionLayoutSize(
-				widthDimension: .fractionalWidth(1.0),
-				heightDimension: .fractionalWidth(1.0))
-		)
-		item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
-
-		// Group
-		let group = NSCollectionLayoutGroup.vertical(
-			layoutSize: NSCollectionLayoutSize(
-				widthDimension: .fractionalWidth(1.0),
-				heightDimension: .absolute(80)
-			),
-			subitem: item,
-			count: 1
-		)
-
-		// Section
-		let section = NSCollectionLayoutSection(group: group)
-		return section
+		PlayerPresenter.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: likedSongs, song: song)
 	}
 }

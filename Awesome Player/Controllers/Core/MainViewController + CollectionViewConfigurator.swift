@@ -47,8 +47,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 			let viewModel = viewModels[indexPath.row]
 
 			cell.configure(with: viewModel)
-			cell.likeButtonTapAction = {
-				[weak self] () in
+			cell.likeButtonTapAction = { [weak self] in
 				self?.processLikeButtonTappedAction(id: viewModel.id, liked: viewModel.liked)
 			}
 
@@ -74,7 +73,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
 		case .recommendedSongs:
 			let song = recommendedSongs[indexPath.row]
-			print("Recommended song with id: \(song.id) has been tapped")
+			PlayerPresenter.shared.startPlaybackProcess(from: self, listOfOtherSongsInView: recommendedSongs, song: song)
 		}
 	}
 
@@ -122,7 +121,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 		item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
 
 		switch section {
-		// Liked Songs Section
+		// MARK: Featured Playlists Section
 		case 0:
 			// Group
 			let verticalGroup = NSCollectionLayoutGroup.vertical(
@@ -148,7 +147,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 			section.boundarySupplementaryItems = supplementaryViews
 			return section
 
-		// Recommended Songs Section
+		// MARK: Recommended Songs Section
 		default:
 			// Group
 			let group = NSCollectionLayoutGroup.vertical(
