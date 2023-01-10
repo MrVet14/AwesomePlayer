@@ -256,6 +256,8 @@ class PlayerViewController: UIViewController {
 			return
 		}
 
+		HapticsManager.shared.vibrateForSelection()
+
 		let songToShare = APIConstants.baseURLForSharingSongs + songToDisplay.id
 		let items = [
 			// Song Name
