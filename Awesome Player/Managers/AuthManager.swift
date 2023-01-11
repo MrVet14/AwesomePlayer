@@ -4,9 +4,6 @@ import Moya
 class AuthManager {
 	static let shared = AuthManager()
 
-	// MARK: Setting for AuthManager
-	let vars = AuthManagerVariablesParser.shared.parse()
-
 	// MARK: provider for Moya
 	let provider = MoyaProvider<SpotifyAccessToken>()
 
@@ -16,17 +13,6 @@ class AuthManager {
 	private init() {}
 
 	// MARK: all the required variables for AuthManager
-
-	/// creating sign in url with all the needed attributes
-	var signInURL: URL? {
-		let base = vars.spotifyAuthBaseURL
-		let clientIdString = "client_id=\(vars.clientID)"
-		let scopesString = "scope=\(vars.scopes)"
-		let redirectURIString = "redirect_uri=\(vars.redirectURI)"
-		let showDialogString = "show_dialog=TRUE"
-		let string = "\(base)?response_type=code&\(clientIdString)&\(scopesString)&\(redirectURIString)&\(showDialogString)"
-		return URL(string: string)
-	}
 
 	var isSignedIn: Bool {
 		return accessToken != nil
@@ -326,7 +312,7 @@ extension SpotifyAccessToken: TargetType {
 	// MARK: Setting for AuthManager
 
 	var baseURL: URL {
-		return URL(string: AuthManager.shared.vars.tokenAPIURL)!
+		return Configuration.spotifyAPITokenURL
 	}
 
 	var path: String {
@@ -346,7 +332,7 @@ extension SpotifyAccessToken: TargetType {
 			let parameters = [
 				"grant_type": "authorization_code",
 				"code": code,
-				"redirect_uri": AuthManager.shared.vars.redirectURI
+				"redirect_uri": Configuration.redirectURI
 			]
 
 			return.requestParameters(
@@ -369,10 +355,11 @@ extension SpotifyAccessToken: TargetType {
 	}
 
 	var headers: [String: String]? {
-		let authString = "\(AuthManager.shared.vars.clientID):\(AuthManager.shared.vars.clientSecret)"
+		let authString = "\(Configuration.spotifyClientID):\(Configuration.spotifyClientSecretKey)"
+		let returnAuthString = authString.data(using: .utf8)!.base64EncodedString()
 
 		let headersToReturn = [
-			"Authorization": "Basic \(authString.data(using: .utf8)!.base64EncodedString())",
+			"Authorization": "Basic " + returnAuthString,
 			"Content-type": "application/x-www-form-urlencoded"
 		] as [String: String]
 

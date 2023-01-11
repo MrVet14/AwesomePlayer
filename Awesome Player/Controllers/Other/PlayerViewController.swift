@@ -17,7 +17,6 @@ class PlayerViewController: UIViewController {
 		super.init(nibName: nil, bundle: nil)
 	}
 
-	// swiftlint:disable fatal_error
 	@available(*, unavailable)
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
@@ -258,7 +257,7 @@ class PlayerViewController: UIViewController {
 
 		HapticsManager.shared.vibrateForSelection()
 
-		let songToShare = APIConstants.baseURLForSharingSongs + songToDisplay.id
+		let songToShare = Configuration.baseURLForSharingSongs + songToDisplay.id
 		let items = [
 			// Song Name
 			songToDisplay.name,

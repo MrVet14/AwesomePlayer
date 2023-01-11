@@ -1,10 +1,10 @@
 import Foundation
 
 struct AuthManagerSettingForAuth {
-	var spotifyAuthBaseURL: String = ""
-	var clientID: String = ""
-	var clientSecret: String = ""
-	var redirectURI: String = ""
-	var tokenAPIURL: String = ""
-	var scopes: String = ""
+	let spotifyAuthBaseURL: URL
+	let clientID: String
+	let clientSecret: String
+	let redirectURI: String
+	let tokenAPIURL: URL
+	let scopes: String
 }
