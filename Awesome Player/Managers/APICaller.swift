@@ -174,8 +174,7 @@ enum SpotifyAPI {
 
 extension SpotifyAPI: TargetType {
 	var baseURL: URL {
-		// swiftlint:disable force_cast
-		return URL(string: Bundle.main.infoDictionary?[APIConstants.spotifyWebAPIBaseUrl] as! String)!
+		return Configuration.baseURL
 	}
 
 	var path: String {

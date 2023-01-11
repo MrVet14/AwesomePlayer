@@ -59,7 +59,6 @@ class SongCollectionViewCell: UICollectionViewCell {
 		likeButton.addTarget(self, action: #selector(likeButtonTapped), for: .touchUpInside)
 	}
 
-	// swiftlint:disable fatal_error
 	@available(*, unavailable)
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")

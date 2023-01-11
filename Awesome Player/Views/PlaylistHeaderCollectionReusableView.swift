@@ -29,7 +29,6 @@ class PlaylistHeaderCollectionReusableView: UICollectionReusableView {
 		addSubview(descriptionLabel)
 	}
 
-	// swiftlint:disable fatal_error
 	@available(*, unavailable)
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")

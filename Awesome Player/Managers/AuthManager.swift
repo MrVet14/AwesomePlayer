@@ -326,7 +326,7 @@ extension SpotifyAccessToken: TargetType {
 	// MARK: Setting for AuthManager
 
 	var baseURL: URL {
-		return URL(string: AuthManager.shared.vars.tokenAPIURL)!
+		return AuthManager.shared.vars.tokenAPIURL
 	}
 
 	var path: String {

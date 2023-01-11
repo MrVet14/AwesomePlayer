@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>scopes</key>
-	<string>user-read-private user-read-email</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -24,18 +22,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>spotifyClientId</key>
-	<string>a02da930b4a64ab8a976ea8376eda362</string>
-	<key>spotifyClientSecretKey</key>
-	<string>dd4bc1311afa489b8c2e6f5ffe1298cf</string>
-	<key>redirectUri</key>
-	<string>https://scand.com</string>
-	<key>spotifyAPITokenURL</key>
-	<string>https://accounts.spotify.com/api/token</string>
-	<key>spotifyWebAPIBaseUrl</key>
-	<string>https://api.spotify.com/v1</string>
-	<key>spotifyAuthBaseURL</key>
-	<string>https://accounts.spotify.com/authorize</string>
+	<key>Configuration</key>
+	<string>$(CONFIGURATION)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
