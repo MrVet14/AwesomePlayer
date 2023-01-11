@@ -5,7 +5,7 @@ class AuthManager {
 	static let shared = AuthManager()
 
 	// MARK: Setting for AuthManager
-	let vars = AuthManagerVariablesParser.shared.parse()
+	let vars = Configuration.passedVarsToAuthManager
 
 	// MARK: provider for Moya
 	let provider = MoyaProvider<SpotifyAccessToken>()

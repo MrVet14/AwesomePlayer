@@ -70,7 +70,6 @@
 		51E319BF291D22E2006E5C55 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E319BE291D22E2006E5C55 /* HapticsManager.swift */; };
 		51E319C7291D4519006E5C55 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 51E319C6291D4519006E5C55 /* .swiftlint.yml */; };
 		51EB350A2940B16B0015F61D /* AuthManagerSettingForAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EB35092940B16B0015F61D /* AuthManagerSettingForAuth.swift */; };
-		51EB350D2940B5050015F61D /* AuthManagerVariablesParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EB350C2940B5050015F61D /* AuthManagerVariablesParser.swift */; };
 		51FED502296EDDD0006A295A /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FED501296EDDD0006A295A /* Configuration.swift */; };
 /* End PBXBuildFile section */
 
@@ -135,7 +134,6 @@
 		51E319BE291D22E2006E5C55 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		51E319C6291D4519006E5C55 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		51EB35092940B16B0015F61D /* AuthManagerSettingForAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerSettingForAuth.swift; sourceTree = "<group>"; };
-		51EB350C2940B5050015F61D /* AuthManagerVariablesParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerVariablesParser.swift; sourceTree = "<group>"; };
 		51FED501296EDDD0006A295A /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -338,7 +336,6 @@
 		51EB350B2940B2070015F61D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				51EB350C2940B5050015F61D /* AuthManagerVariablesParser.swift */,
 				5197D20F295320BF00A7D02C /* LoadAllTheLikedSongsHelper.swift */,
 			);
 			path = Helpers;
@@ -515,7 +512,6 @@
 				51ABF8EE296239890057664F /* TrackHandlerManager.swift in Sources */,
 				51ABF8F229625E940057664F /* PlaylistCellViewModel.swift in Sources */,
 				5198246F296CCD8F00BDF801 /* PlayerBarAboveAllViewsView.swift in Sources */,
-				51EB350D2940B5050015F61D /* AuthManagerVariablesParser.swift in Sources */,
 				51E319B1291D1E27006E5C55 /* AuthViewController.swift in Sources */,
 				5198246D296C885900BDF801 /* PlayerViewController + CollectionViewConfigurator.swift in Sources */,
 				51A54F57291BC6A60065EF82 /* User.swift in Sources */,
