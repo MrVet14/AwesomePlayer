@@ -359,7 +359,7 @@ extension SpotifyAccessToken: TargetType {
 		let returnAuthString = authString.data(using: .utf8)!.base64EncodedString()
 
 		let headersToReturn = [
-			"Authorization": "Basic \(returnAuthString)",
+			"Authorization": "Basic " + returnAuthString,
 			"Content-type": "application/x-www-form-urlencoded"
 		] as [String: String]
 
