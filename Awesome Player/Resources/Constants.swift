@@ -10,18 +10,8 @@ enum TypesOfDataForKeychain {
 	static let refreshToken = "refreshToken"
 }
 
-enum PlistBundleParameters {
-	static let spotifyAuthBaseURL: String = "spotifyAuthBaseURL"
-	static let spotifyClientId: String = "spotifyClientId"
-	static let spotifyClientSecretKey: String = "spotifyClientSecretKey"
-	static let redirectUri: String = "redirectUri"
-	static let spotifyAPITokenURL: String = "spotifyAPITokenURL"
-	static let scopes: String = "scopes"
-}
-
 enum APIConstants {
 	static let spotifyWebAPIBaseUrl = "spotifyWebAPIBaseUrl"
-	static let baseURLForSharingSongs = "https://open.spotify.com/track/"
 	static let loadSongsAPILimit = 50
 }
 

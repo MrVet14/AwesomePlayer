@@ -102,4 +102,16 @@ enum Configuration: String {
 			return "user-read-private user-read-email"
 		}
 	}
+
+	// MARK: Base URL for sharing songs
+	static var baseURLForSharingSongs: String {
+		switch current {
+		case .staging:
+			return "https://open.spotify.com/track/"
+		case .production:
+			return "https://open.spotify.com/track/"
+		case .release:
+			return "https://open.spotify.com/track/"
+		}
+	}
 }
