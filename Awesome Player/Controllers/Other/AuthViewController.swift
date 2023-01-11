@@ -11,6 +11,17 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
 		return webView
 	}()
 
+	/// creating sign in url with all the needed attributes
+	var signInURL: URL {
+		let base = Configuration.spotifyAuthBaseURL
+		let clientIdString = "client_id=\(Configuration.spotifyClientID)"
+		let scopesString = "scope=\(Configuration.APIScopes.replacingOccurrences(of: " ", with: "%20"))"
+		let redirectURIString = "redirect_uri=\(Configuration.redirectURI)"
+		let showDialogString = "show_dialog=TRUE"
+		let string = "\(base)?response_type=code&\(clientIdString)&\(scopesString)&\(redirectURIString)&\(showDialogString)"
+		return URL(string: string)!
+	}
+
 	var completionHandler: ((Bool) -> Void)?
 
     override func viewDidLoad() {
@@ -20,10 +31,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
 		webView.navigationDelegate = self
 		view.addSubview(webView)
 
-		guard let url = AuthManager.shared.signInURL else {
-			return
-		}
-		webView.load(URLRequest(url: url))
+		webView.load(URLRequest(url: signInURL))
     }
 
 	override func viewDidLayoutSubviews() {
