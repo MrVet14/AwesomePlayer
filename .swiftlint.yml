@@ -1,4 +1,5 @@
 included:
+  - Shared
   - Awesome Player
 excluded:
   - Tests/SwiftLintFrameworkTests/Resources
@@ -27,7 +28,6 @@ opt_in_rules:
   - fallthrough
   - fatal_error_message
   - file_header
-  - file_name
   - first_where
   - flatmap_over_map_reduce
   - identical_operands
@@ -81,20 +81,6 @@ identifier_name:
 large_tuple: 3
 number_separator:
   minimum_length: 5
-file_name:
-  excluded:
-    - SwiftSyntax+SwiftLint.swift
-    - GeneratedTests.swift
-    - TestHelpers.swift
-    - Assets-Constants.swift
-    - L10n-Constants.swift
-    - Strings.swift
-    - Constants.swift
-    - Extensions.swift
-    - Settings.swift
-    - MainViewController + CollectionViewConfigurator.swift
-    - PlayerViewController + View & Constraints.swift
-    - PlayerViewController + CollectionViewConfigurator.swift
 
 custom_rules:
   rule_id:

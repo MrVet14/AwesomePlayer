@@ -1,5 +1,5 @@
- input_dir: Awesome Player/
- output_dir: Awesome Player/SwiftGen
+ input_dir: Shared/
+ output_dir: Shared/SwiftGen
  
  strings:
   inputs: Resources/en.lproj
@@ -12,7 +12,7 @@
     templateName: structured-swift5
     output: Strings.swift
  xcassets:
-    inputs: Resources/Assets.xcassets
+    inputs: Resources/SharedAssets.xcassets
     outputs:
       - templateName: swift5
         output: Assets-Constants.swift

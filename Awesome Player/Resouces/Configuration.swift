@@ -4,7 +4,6 @@ enum Configuration: String {
 	// MARK: Possible configurations
 	case staging
 	case production
-	case release
 
 	// MARK: Current configuration
 	private static let current: Configuration = {

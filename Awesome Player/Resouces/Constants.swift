@@ -26,14 +26,3 @@ enum KeychainError: Error {
 	/// Any operation result status than errSecSuccess
 	case unexpectedStatus(OSStatus)
 }
-
-enum DBSongTypes {
-	static let liked = "liked"
-	static let recommended = "recommended"
-	static let inAPlaylist = "inAPlaylist"
-}
-
-enum NotificationCenterConstants {
-	static let playerVCClosed = "playerVCClosed"
-	static let playerBar = "playerBar"
-}
