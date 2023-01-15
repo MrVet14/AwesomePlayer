@@ -263,12 +263,10 @@
 		51A54F2E291BA42A0065EF82 = {
 			isa = PBXGroup;
 			children = (
-				51A54F5C291BEADA0065EF82 /* swiftgen.yml */,
-				51E319C6291D4519006E5C55 /* .swiftlint.yml */,
 				51A5FB032971F17B008A0461 /* Shared */,
 				51A54F39291BA42B0065EF82 /* Awesome Player */,
 				51A5FB7329734F89008A0461 /* Awesome Player Yandex */,
-				51CD4F29296A376A0075F657 /* Frameworks */,
+				51A5FC042973D2E4008A0461 /* ConfigsForLinter&SwiftGen */,
 				51A54F38291BA42B0065EF82 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -291,8 +289,7 @@
 				51A5FB092971F46F008A0461 /* Managers */,
 				51A5FB072971F45B008A0461 /* Controllers */,
 				51A5FB062971F450008A0461 /* Resouces */,
-				51A54F48291BA42D0065EF82 /* Info.plist */,
-				5125B725291E791A007EDF5D /* GoogleService-Info.plist */,
+				51A5FC052973D355008A0461 /* InfoForProjectAndFirebase */,
 			);
 			path = "Awesome Player";
 			sourceTree = "<group>";
@@ -376,6 +373,7 @@
 				51982469296B925700BDF801 /* Presenters */,
 				51E319AE291D19B4006E5C55 /* Controllers */,
 				51A54F52291BA5F80065EF82 /* Resources */,
+				51CD4F29296A376A0075F657 /* Frameworks */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -467,8 +465,7 @@
 				51A5FBB829735283008A0461 /* Managers */,
 				51A5FBB72973527C008A0461 /* Controllers */,
 				51A5FBB62973526B008A0461 /* Resources */,
-				51A5FB8229734F8B008A0461 /* Info.plist */,
-				51A5FBF529739C57008A0461 /* GoogleService-Info.plist */,
+				51A5FC062973D3DD008A0461 /* InfoForProjectAndFirebase */,
 			);
 			path = "Awesome Player Yandex";
 			sourceTree = "<group>";
@@ -542,6 +539,33 @@
 				51A5FBEF29738ED4008A0461 /* SettingsViewControllerYandexExtension.swift */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		51A5FC042973D2E4008A0461 /* ConfigsForLinter&SwiftGen */ = {
+			isa = PBXGroup;
+			children = (
+				51A54F5C291BEADA0065EF82 /* swiftgen.yml */,
+				51E319C6291D4519006E5C55 /* .swiftlint.yml */,
+			);
+			name = "ConfigsForLinter&SwiftGen";
+			sourceTree = "<group>";
+		};
+		51A5FC052973D355008A0461 /* InfoForProjectAndFirebase */ = {
+			isa = PBXGroup;
+			children = (
+				51A54F48291BA42D0065EF82 /* Info.plist */,
+				5125B725291E791A007EDF5D /* GoogleService-Info.plist */,
+			);
+			name = InfoForProjectAndFirebase;
+			sourceTree = "<group>";
+		};
+		51A5FC062973D3DD008A0461 /* InfoForProjectAndFirebase */ = {
+			isa = PBXGroup;
+			children = (
+				51A5FB8229734F8B008A0461 /* Info.plist */,
+				51A5FBF529739C57008A0461 /* GoogleService-Info.plist */,
+			);
+			name = InfoForProjectAndFirebase;
 			sourceTree = "<group>";
 		};
 		51ABF8F8296273220057664F /* Core */ = {
