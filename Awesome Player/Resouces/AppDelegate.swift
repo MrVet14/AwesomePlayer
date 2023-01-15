@@ -18,6 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //			print("Signed Out")
 //		}
 
+		print("Launched Spotify version")
+
         let window = UIWindow(frame: UIScreen.main.bounds)
 		if AuthManager.shared.isSignedIn {
 			AuthManager.shared.refreshIfNeeded { success in

@@ -1,6 +1,7 @@
 included:
   - Shared
   - Awesome Player
+  - Awesome Player Yandex
 excluded:
   - Tests/SwiftLintFrameworkTests/Resources
 analyzer_rules:

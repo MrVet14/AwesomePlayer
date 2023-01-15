@@ -129,18 +129,7 @@ class WelcomeViewController: UIViewController {
 		greetingsLabel.text = waysToSayHi.randomElement()
 	}
 
-	@objc
-	func didTapSignIn() {
-		HapticsManager.shared.vibrateForSelection()
-		let authVC = AuthViewController()
-		authVC.completionHandler = { [weak self] success in
-			self?.handleSignIn(success: success)
-		}
-		authVC.navigationItem.largeTitleDisplayMode = .never
-		navigationController?.pushViewController(authVC, animated: true)
-	}
-
-	private func handleSignIn(success: Bool) {
+	func handleSignIn(success: Bool) {
 		guard success else {
 			HapticsManager.shared.vibrate(for: .error)
 			let alert = UIAlertController(title: L10n.somethingWentWrong, message: L10n.tryAgainLater, preferredStyle: .alert)
