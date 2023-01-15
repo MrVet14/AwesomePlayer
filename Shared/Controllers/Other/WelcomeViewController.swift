@@ -12,8 +12,6 @@ class WelcomeViewController: UIViewController {
 	// MARK: - Subviews
 	let signInButton: UIButton = {
 		let button = UIButton()
-		button.backgroundColor = UIColor(asset: Asset.spotifyGreen)
-		button.setTitle(L10n.connectYourSpotifyAccount, for: .normal)
 		button.titleLabel?.font = .boldSystemFont(ofSize: 20)
 		return button
 	}()
@@ -34,7 +32,6 @@ class WelcomeViewController: UIViewController {
 
 	let logoImageView: UIImageView = {
 		let imageView = UIImageView()
-		imageView.image = UIImage(asset: Asset.appLogo)
 		imageView.contentMode = .scaleAspectFit
 		return imageView
 	}()
@@ -69,6 +66,7 @@ class WelcomeViewController: UIViewController {
 			repeats: true
 		)
 
+		setLogoImageAndButtonTitleColor()
 		setupViews()
 
 		signInButton.addTarget(self, action: #selector(didTapSignIn), for: .touchUpInside)

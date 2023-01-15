@@ -30,6 +30,7 @@ internal enum Asset {
   internal static let greySemiTransparent = ColorAsset(name: "GreySemiTransparent")
   internal static let spotifyGreen = ColorAsset(name: "SpotifyGreen")
   internal static let spotifyGreenSemiTransparent = ColorAsset(name: "SpotifyGreenSemiTransparent")
+  internal static let yandexRed = ColorAsset(name: "YandexRed")
   internal static let anonymousUserJpg = ImageAsset(name: "anonymousUser.jpg")
   internal static let welcomeScreenBG = ImageAsset(name: "welcomeScreenBG")
 }

@@ -6,7 +6,11 @@ extension SettingsViewController {
 		let alert = UIAlertController(title: L10n.signOut, message: L10n.areYouSure, preferredStyle: .alert)
 		alert.addAction(UIAlertAction(title: L10n.cancel, style: .cancel, handler: nil))
 		alert.addAction(UIAlertAction(title: L10n.signOut, style: .destructive, handler: { _ in
-			// Sign out logic
+			let welcomeVC = UINavigationController(rootViewController: WelcomeViewController())
+			welcomeVC.modalPresentationStyle = .fullScreen
+			self.present(welcomeVC, animated: true, completion: {
+				self.navigationController?.popToRootViewController(animated: false)
+			})
 		}))
 		present(alert, animated: true)
 	}

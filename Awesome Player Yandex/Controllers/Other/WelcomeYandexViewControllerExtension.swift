@@ -2,6 +2,13 @@ import SnapKit
 import UIKit
 
 extension WelcomeViewController {
+	func setLogoImageAndButtonTitleColor() {
+		logoImageView.image = UIImage(asset: Asset.appLogoYandex)
+
+		signInButton.backgroundColor = UIColor(asset: Asset.yandexRed)
+		signInButton.setTitle(L10n.connectYourYandexAccount, for: .normal)
+	}
+
 	@objc
 	func didTapSignIn() {
 		HapticsManager.shared.vibrateForSelection()

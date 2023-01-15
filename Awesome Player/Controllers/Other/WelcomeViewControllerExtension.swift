@@ -2,6 +2,13 @@ import SnapKit
 import UIKit
 
 extension WelcomeViewController {
+	func setLogoImageAndButtonTitleColor() {
+		logoImageView.image = UIImage(asset: Asset.appLogo)
+
+		signInButton.backgroundColor = UIColor(asset: Asset.spotifyGreen)
+		signInButton.setTitle(L10n.connectYourSpotifyAccount, for: .normal)
+	}
+
 	@objc
 	func didTapSignIn() {
 		HapticsManager.shared.vibrateForSelection()

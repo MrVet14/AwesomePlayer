@@ -23,6 +23,8 @@ internal enum L10n {
   internal static let cancel = L10n.tr("Localizable", "Cancel", fallback: "Отмена")
   /// Подключите аккаунт Spotify
   internal static let connectYourSpotifyAccount = L10n.tr("Localizable", "Connect your Spotify account", fallback: "Подключите аккаунт Spotify")
+  /// Подключите аккаунт Yandex
+  internal static let connectYourYandexAccount = L10n.tr("Localizable", "Connect your Yandex account", fallback: "Подключите аккаунт Yandex")
   /// Продолжить со Spotify
   internal static let continueWithSpotify = L10n.tr("Localizable", "Continue with Spotify", fallback: "Продолжить со Spotify")
   /// Страна

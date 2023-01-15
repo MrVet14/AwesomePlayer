@@ -2,6 +2,27 @@ import UIKit
 
 // MARK: Configuring Collection View
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+	// MARK: Registering Collection View Cells that we intend to use
+	func registeringCollectionViewCells() {
+		collectionView.register(
+			UICollectionViewCell.self,
+			forCellWithReuseIdentifier: "cell"
+		)
+		collectionView.register(
+			PlaylistCollectionViewCell.self,
+			forCellWithReuseIdentifier: PlaylistCollectionViewCell.identifier
+		)
+		collectionView.register(
+			SongCollectionViewCell.self,
+			forCellWithReuseIdentifier: SongCollectionViewCell.identifier
+		)
+		collectionView.register(
+			TitleHeaderCollectionReusableView.self,
+			forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+			withReuseIdentifier: TitleHeaderCollectionReusableView.identifier
+		)
+	}
+
 	// MARK: Setting Number of Items in Section
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		let type = sections[section]
@@ -100,7 +121,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 	}
 
 	// MARK: Creating Section Layout for Collection View
-	static func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
+	func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
 		// Section Header
 		let supplementaryViews = [
 			NSCollectionLayoutBoundarySupplementaryItem(
