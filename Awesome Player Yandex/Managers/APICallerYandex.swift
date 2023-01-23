@@ -14,10 +14,10 @@ class APICallerYandex {
 			case .success(let response):
 				do {
 					//let json = try JSONSerialization.jsonObject(with: response.data, options: .fragmentsAllowed)
-					//print(String(data: response.data, encoding: .utf8))
 					let result = try JSONDecoder().decode(SeveralSongsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
+					print(String(data: response.data, encoding: .utf8) as Any)
 					self.printError("Failed to parse songs", error: error)
 					completion(.failure(error))
 				}

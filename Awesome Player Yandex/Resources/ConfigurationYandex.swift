@@ -20,7 +20,7 @@ enum Configuration: String {
 
 	// MARK: Base URL for Spotify API
 	static var baseChartsURL: URL {
-		return URL(string: "https://music.yandex.by/handlers/playlist.jsx?owner=yamusic-missed&kinds=102979508")!
+		return URL(string: "https://music.yandex.by/handlers/playlist.jsx?owner=yamusic-dejavu&kinds=37361060")!
 	}
 
 	// MARK: Base URL for sharing songs

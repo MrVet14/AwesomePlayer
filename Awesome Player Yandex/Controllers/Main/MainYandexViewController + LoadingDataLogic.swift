@@ -44,16 +44,9 @@ extension MainViewController {
 
 	// MARK: Loading Liked Songs from Firebase
 	func getLikedSongs() {
-		let group = DispatchGroup()
-		group.enter()
-
-		FirebaseManager.shared.getData { result in
+		FirebaseManager.shared.getData { [weak self] result in
 			DBManager.shared.markSongsAsMarked(ids: result)
-			group.leave()
-		}
 
-		// Creating Models, hiding indicator & showing collection view once all the data has been loaded
-		group.notify(queue: .main) { [weak self] in
 			self?.indicatorView.stopAnimating()
 			self?.collectionView.isHidden = false
 
