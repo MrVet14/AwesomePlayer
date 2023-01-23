@@ -123,6 +123,10 @@
 		51ABF8FE2962E6700057664F /* PlaylistHeaderViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51ABF8FD2962E6700057664F /* PlaylistHeaderViewViewModel.swift */; };
 		51ABF9002962E6F50057664F /* PlaylistHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51ABF8FF2962E6F50057664F /* PlaylistHeaderCollectionReusableView.swift */; };
 		51AF2697296D684000282D94 /* PlayerViewController + View & Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AF2696296D684000282D94 /* PlayerViewController + View & Constraints.swift */; };
+		51BE8C6F297E32CB007E2501 /* SeveralSongsRasponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51BE8C6E297E32CB007E2501 /* SeveralSongsRasponse.swift */; };
+		51BE8C71297E32DD007E2501 /* SongYandex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51BE8C70297E32DD007E2501 /* SongYandex.swift */; };
+		51BE8C73297E32EC007E2501 /* ArtistYandex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51BE8C72297E32EC007E2501 /* ArtistYandex.swift */; };
+		51BE8C75297E32FD007E2501 /* AlbumYandex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51BE8C74297E32FD007E2501 /* AlbumYandex.swift */; };
 		51CD4F2B296A37800075F657 /* MarqueeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CD4F2A296A37800075F657 /* MarqueeLabel.swift */; };
 		51E1B24D294661F40098DDE1 /* UserObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1B24C294661F40098DDE1 /* UserObject.swift */; };
 		51E1B24F2946824E0098DDE1 /* SongObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E1B24E2946824E0098DDE1 /* SongObject.swift */; };
@@ -206,6 +210,10 @@
 		51ABF8FD2962E6700057664F /* PlaylistHeaderViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderViewViewModel.swift; sourceTree = "<group>"; };
 		51ABF8FF2962E6F50057664F /* PlaylistHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		51AF2696296D684000282D94 /* PlayerViewController + View & Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlayerViewController + View & Constraints.swift"; sourceTree = "<group>"; };
+		51BE8C6E297E32CB007E2501 /* SeveralSongsRasponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeveralSongsRasponse.swift; sourceTree = "<group>"; };
+		51BE8C70297E32DD007E2501 /* SongYandex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongYandex.swift; sourceTree = "<group>"; };
+		51BE8C72297E32EC007E2501 /* ArtistYandex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistYandex.swift; sourceTree = "<group>"; };
+		51BE8C74297E32FD007E2501 /* AlbumYandex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumYandex.swift; sourceTree = "<group>"; };
 		51CD4F2A296A37800075F657 /* MarqueeLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarqueeLabel.swift; sourceTree = "<group>"; };
 		51E1B24C294661F40098DDE1 /* UserObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserObject.swift; sourceTree = "<group>"; };
 		51E1B24E2946824E0098DDE1 /* SongObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongObject.swift; sourceTree = "<group>"; };
@@ -519,6 +527,10 @@
 		51A5FBBB2973529A008A0461 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				51BE8C6E297E32CB007E2501 /* SeveralSongsRasponse.swift */,
+				51BE8C70297E32DD007E2501 /* SongYandex.swift */,
+				51BE8C72297E32EC007E2501 /* ArtistYandex.swift */,
+				51BE8C74297E32FD007E2501 /* AlbumYandex.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -917,6 +929,7 @@
 				51A5FBE429737349008A0461 /* DBManager.swift in Sources */,
 				51A5FB8A2973515E008A0461 /* Extensions.swift in Sources */,
 				51A5FB8829735150008A0461 /* MarqueeLabel.swift in Sources */,
+				51BE8C73297E32EC007E2501 /* ArtistYandex.swift in Sources */,
 				51A5FBD629736D5C008A0461 /* User.swift in Sources */,
 				51A5FBC529735403008A0461 /* MainYandexViewController + CollectionViewConfigurator.swift in Sources */,
 				51A5FBEC29738E54008A0461 /* ProfileViewController.swift in Sources */,
@@ -931,10 +944,12 @@
 				51A5FBE3297370E2008A0461 /* TitleHeaderCollectionReusableView.swift in Sources */,
 				51A5FBF929739D20008A0461 /* WelcomeViewController.swift in Sources */,
 				51A5FBD229736D5C008A0461 /* Playlist.swift in Sources */,
+				51BE8C71297E32DD007E2501 /* SongYandex.swift in Sources */,
 				51A5FBE929738DFF008A0461 /* PlayerViewController + View & Constraints.swift in Sources */,
 				51A5FBE72973738D008A0461 /* TrackHandlerManager.swift in Sources */,
 				51A5FBDC29736D94008A0461 /* SongObject.swift in Sources */,
 				51A5FBEB29738E20008A0461 /* PlayerPresenter.swift in Sources */,
+				51BE8C75297E32FD007E2501 /* AlbumYandex.swift in Sources */,
 				51A5FBD529736D5C008A0461 /* Image.swift in Sources */,
 				51A5FBBF297352F9008A0461 /* ConfigurationYandex.swift in Sources */,
 				51A5FBE2297370E2008A0461 /* PlayerBarAboveAllViewsView.swift in Sources */,
@@ -943,6 +958,7 @@
 				51A5FBE1297370E2008A0461 /* ListOfSongsInPlayerCollectionViewCell.swift in Sources */,
 				51A5FBFD29739DA3008A0461 /* WelcomeYandexViewControllerExtension.swift in Sources */,
 				51A5FBF429739021008A0461 /* TabBarViewController.swift in Sources */,
+				51BE8C6F297E32CB007E2501 /* SeveralSongsRasponse.swift in Sources */,
 				51A5FB7529734F89008A0461 /* AppDelegate.swift in Sources */,
 				51A5FB7729734F89008A0461 /* SceneDelegate.swift in Sources */,
 				51A5FBD829736D5C008A0461 /* Album.swift in Sources */,
@@ -1107,6 +1123,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1148,6 +1166,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vitalivyucheiski.Awesome-Player-Yandex1337";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1194,6 +1213,8 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1228,6 +1249,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vitalivyucheiski.Awesome-Player-Yandex1337";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

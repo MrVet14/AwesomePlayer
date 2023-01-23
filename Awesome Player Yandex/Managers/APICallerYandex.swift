@@ -4,9 +4,30 @@ import Moya
 class APICallerYandex {
 	static let shared = APICallerYandex()
 
-	//let provider = MoyaProvider<YandexAPI>()
+	let provider = MoyaProvider<YandexAPI>()
 
 	private init() {}
+
+	func loadChart(completion: @escaping (Result<SeveralSongsResponse, Error>) -> Void) {
+		provider.request(.loadRecommended) { result in
+			switch result {
+			case .success(let response):
+				do {
+					//let json = try JSONSerialization.jsonObject(with: response.data, options: .fragmentsAllowed)
+					//print(String(data: response.data, encoding: .utf8))
+					let result = try JSONDecoder().decode(SeveralSongsResponse.self, from: response.data)
+					completion(.success(result))
+				} catch {
+					self.printError("Failed to parse songs", error: error)
+					completion(.failure(error))
+				}
+
+			case .failure(let error):
+				self.printError("Failed to load songs", error: error)
+				completion(.failure(error))
+			}
+		}
+	}
 
 	// MARK: Printing out errors
 	func printError(
@@ -14,35 +35,36 @@ class APICallerYandex {
 		error: Error
 	) {
 		print(msg)
-		print(error.localizedDescription)
+		print(error)
 	}
 }
 
 // MARK: Moya configuration
 enum YandexAPI {
+	case loadRecommended
 }
 
-//extension YandexAPI: TargetType {
-//	var baseURL: URL {
-//		<#code#>
-//	}
-//
-//	var path: String {
-//		<#code#>
-//	}
-//
-//	var method: Moya.Method {
-//		<#code#>
-//	}
-//
-//	var task: Moya.Task {
-//		<#code#>
-//	}
-//
-//	var headers: [String : String]? {
-//		<#code#>
-//	}
-//}
+extension YandexAPI: TargetType {
+	var baseURL: URL {
+		return Configuration.baseChartsURL
+	}
+
+	var path: String {
+		return ""
+	}
+
+	var method: Moya.Method {
+		.get
+	}
+
+	var task: Moya.Task {
+		.requestPlain
+	}
+
+	var headers: [String : String]? {
+		.none
+	}
+}
 
 extension YandexAPI: AccessTokenAuthorizable {
 	var authorizationType: Moya.AuthorizationType? {

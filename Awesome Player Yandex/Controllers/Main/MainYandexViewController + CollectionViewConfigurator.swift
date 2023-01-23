@@ -84,8 +84,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 	}
 
 	// MARK: Creating Section Layout for Collection View
-	// MARK: Recommended Songs Section
 	func createSectionLayout(section: Int) -> NSCollectionLayoutSection {
+		// MARK: Recommended Songs Section
 		// Section Header
 		let supplementaryViews = [
 			NSCollectionLayoutBoundarySupplementaryItem(

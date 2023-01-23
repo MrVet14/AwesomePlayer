@@ -16,13 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		print("Launched Yandex version")
 
 		let window = UIWindow(frame: UIScreen.main.bounds)
-		if true {
-			window.rootViewController = rootViewController
-		} else {
-			let navVC = UINavigationController(rootViewController: WelcomeViewController())
-			window.rootViewController = navVC
-		}
-
+		window.rootViewController = rootViewController
 		window.makeKeyAndVisible()
 
 		self.window = window

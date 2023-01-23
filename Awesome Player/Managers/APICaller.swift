@@ -148,7 +148,7 @@ class APICaller {
 		error: Error
 	) {
 		print(msg)
-		print(error.localizedDescription)
+		print(error)
 	}
 
 	func debugResponse(

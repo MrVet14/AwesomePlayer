@@ -12,11 +12,10 @@ extension WelcomeViewController {
 	@objc
 	func didTapSignIn() {
 		HapticsManager.shared.vibrateForSelection()
-//		let authVC = AuthViewController()
-//		authVC.completionHandler = { [weak self] success in
-//			self?.handleSignIn(success: success)
-//		}
-//		authVC.navigationItem.largeTitleDisplayMode = .never
-//		navigationController?.pushViewController(authVC, animated: true)
+		let mainVC = TabBarViewController()
+		mainVC.modalPresentationStyle = .fullScreen
+		self.present(mainVC, animated: true, completion: {
+			self.navigationController?.popToRootViewController(animated: false)
+		})
 	}
 }
