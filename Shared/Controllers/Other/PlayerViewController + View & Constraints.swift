@@ -20,8 +20,8 @@ extension PlayerViewController {
 		view.addSubview(collectionView)
 
 		collectionView.register(
-			ListOfSongsInPlayerCollectionViewCell.self,
-			forCellWithReuseIdentifier: ListOfSongsInPlayerCollectionViewCell.identifier
+			SongsListInPlayerCollectionViewCell.self,
+			forCellWithReuseIdentifier: SongsListInPlayerCollectionViewCell.identifier
 		)
 		collectionView.dataSource = self
 		collectionView.delegate = self

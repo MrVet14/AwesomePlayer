@@ -2,7 +2,7 @@ import Kingfisher
 import SnapKit
 import UIKit
 
-class ListOfSongsInPlayerCollectionViewCell: UICollectionViewCell {
+class SongsListInPlayerCollectionViewCell: UICollectionViewCell {
 	static let identifier = "RecommendedSongInPlayerViewCollectionViewCell"
 
 	// MARK: Subviews

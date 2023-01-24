@@ -16,7 +16,7 @@ class TrackHandlerManager {
 		if liked {
 			FirebaseManager.shared.deleteUnlikedSongFromFirebase(id) { success in
 				if success {
-					DBManager.shared.dislikedSong(id)
+					DBManager.shared.dislikedASong(id)
 					HapticsManager.shared.vibrate(for: .success)
 					completion()
 				}
@@ -24,7 +24,7 @@ class TrackHandlerManager {
 		} else {
 			FirebaseManager.shared.addLikedSongToFirebase(id) { success in
 				if success {
-					DBManager.shared.likedSong(id)
+					DBManager.shared.likedASong(id)
 					HapticsManager.shared.vibrate(for: .success)
 					completion()
 				}

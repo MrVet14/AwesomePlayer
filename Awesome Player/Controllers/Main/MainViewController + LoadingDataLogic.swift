@@ -23,7 +23,7 @@ extension MainViewController {
 		group.enter()
 
 		// Purging all songs & playlists in realm on start
-		DBManager.shared.purgeAllSongsAndPlaylistsInRealmOnLaunch { success in
+		DBManager.shared.purgeSongsAndPlaylistsOnLaunch { success in
 			if success {
 				group.leave()
 			}
@@ -33,7 +33,7 @@ extension MainViewController {
 		APICaller.shared.loadRecommendedPlaylists { [weak self] featuredPlaylistsResult in
 			switch featuredPlaylistsResult {
 			case .success(let featuredPlaylists):
-				DBManager.shared.addFeaturedPlaylistsToRealm(featuredPlaylists)
+				DBManager.shared.addFeaturedPlaylists(featuredPlaylists)
 				group.leave()
 
 			case .failure(let error):
@@ -95,11 +95,11 @@ extension MainViewController {
 		group.enter()
 		group.enter()
 
-		DBManager.shared.getFeaturedPlaylistsFromDB { [weak self] featuredPlaylistsResult in
+		DBManager.shared.getFeaturedPlaylists { [weak self] featuredPlaylistsResult in
 			self?.featuredPlaylists = featuredPlaylistsResult
 			group.leave()
 		}
-		DBManager.shared.getRecommendedSongsFromDB { [weak self] recommendedSongsResult in
+		DBManager.shared.getRecommendedSongs { [weak self] recommendedSongsResult in
 			self?.recommendedSongs = recommendedSongsResult
 			group.leave()
 		}

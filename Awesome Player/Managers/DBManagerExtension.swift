@@ -3,7 +3,7 @@ import RealmSwift
 
 extension DBManager {
 	// MARK: Adding Featured Playlists to Realm
-	func addFeaturedPlaylistsToRealm(_ playlists: FeaturedPlaylistsResponse) {
+	func addFeaturedPlaylists(_ playlists: FeaturedPlaylistsResponse) {
 		for playlist in playlists.playlists.items {
 			realm.beginWrite()
 
@@ -20,7 +20,7 @@ extension DBManager {
 	}
 
 	// MARK: Adding Playlist Songs to Realm,
-	func addPlaylistSongsToRealm(_ playlist: PlaylistDetailsResponse) {
+	func addPlaylistsSongs(_ playlist: PlaylistDetailsResponse) {
 		let songFromPlaylistToSendToDB = playlist.tracks.items.compactMap {
 			return $0.track
 		}
@@ -28,7 +28,7 @@ extension DBManager {
 	}
 
 	// MARK: Retrieving Featured Playlists from realm
-	func getFeaturedPlaylistsFromDB(completion: @escaping (([PlaylistObject]) -> Void)) {
+	func getFeaturedPlaylists(completion: @escaping (([PlaylistObject]) -> Void)) {
 		let result = realm.objects(PlaylistObject.self)
 		completion(Array(result))
 	}

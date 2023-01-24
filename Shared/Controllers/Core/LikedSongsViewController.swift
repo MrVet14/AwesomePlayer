@@ -124,7 +124,7 @@ class LikedSongsViewController: UIViewController {
 
 	// MARK: Getting Fresh Data from DB
 	func getUpdatedDataFromDB(completion: @escaping (() -> Void)) {
-		DBManager.shared.getLikedSongsFromDB { [weak self] likedSongsFromDB in
+		DBManager.shared.getLikedSongs { [weak self] likedSongsFromDB in
 			self?.likedSongs = likedSongsFromDB
 			completion()
 		}

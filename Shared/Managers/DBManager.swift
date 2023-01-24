@@ -7,7 +7,7 @@ class DBManager {
 	private init() {}
 
 	// MARK: Openning Realm
-	// swiftlint:disable force_try
+	// swiftlint:disable:next force_try
 	let realm = try! Realm()
 
 	// MARK: Adding user data to Realm
@@ -96,7 +96,7 @@ class DBManager {
 	}
 
 	// MARK: Method for deleting all the song on App launch
-	func purgeAllSongsAndPlaylistsInRealmOnLaunch(completion: @escaping ((Bool) -> Void)) {
+	func purgeSongsAndPlaylistsOnLaunch(completion: @escaping ((Bool) -> Void)) {
 		realm.beginWrite()
 
 		realm.delete(realm.objects(PlaylistObject.self))
@@ -108,13 +108,13 @@ class DBManager {
 	}
 
 	// MARK: Retrieving Recommended songs from realm
-	func getRecommendedSongsFromDB(completion: @escaping (([SongObject]) -> Void)) {
+	func getRecommendedSongs(completion: @escaping (([SongObject]) -> Void)) {
 		let results = realm.objects(SongObject.self).where { $0.recommended == true }
 		completion(Array(results))
 	}
 
 	// MARK: Retrieving Liked songs from realm
-	func getLikedSongsFromDB(completion: @escaping (([SongObject]) -> Void)) {
+	func getLikedSongs(completion: @escaping (([SongObject]) -> Void)) {
 		let results = realm.objects(SongObject.self).where { $0.liked == true }
 		completion(Array(results))
 	}
@@ -129,7 +129,7 @@ class DBManager {
 	}
 
 	// MARK: Marking song as liked
-	func likedSong(_ songID: String) {
+	func likedASong(_ songID: String) {
 		guard let songObject = getSongObject(songID) else {
 			print("No Object present")
 			return
@@ -145,7 +145,7 @@ class DBManager {
 	}
 
 	// MARK: Removing song from liked
-	func dislikedSong(_ songID: String) {
+	func dislikedASong(_ songID: String) {
 		guard let songObject = getSongObject(songID) else {
 			print("No Object present")
 			return

@@ -12,7 +12,7 @@ extension MainViewController {
 		group.enter()
 
 		// Purging all songs & playlists in realm on start
-		DBManager.shared.purgeAllSongsAndPlaylistsInRealmOnLaunch { success in
+		DBManager.shared.purgeSongsAndPlaylistsOnLaunch { success in
 			if success {
 				group.leave()
 			}
@@ -59,7 +59,7 @@ extension MainViewController {
 		let group = DispatchGroup()
 		group.enter()
 
-		DBManager.shared.getRecommendedSongsFromDB { [weak self] recommendedSongsResult in
+		DBManager.shared.getRecommendedSongs { [weak self] recommendedSongsResult in
 			self?.recommendedSongs = recommendedSongsResult
 			group.leave()
 		}

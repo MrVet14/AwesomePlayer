@@ -119,7 +119,7 @@ class PlaylistViewController: UIViewController {
 			switch playlistDetailsResult {
 			case .success(let playlistDetails):
 				// Adding Songs to Realm & Creating Models
-				DBManager.shared.addPlaylistSongsToRealm(playlistDetails)
+				DBManager.shared.addPlaylistsSongs(playlistDetails)
 				self?.configureModel()
 				// letting MainVC know that playlist has been downloaded
 				self?.hasBeenLoaded?()

@@ -10,8 +10,8 @@ extension PlayerViewController: UICollectionViewDelegate, UICollectionViewDataSo
 	// MARK: Configuring Cells in Collection View
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		guard let cell = collectionView.dequeueReusableCell(
-			withReuseIdentifier: ListOfSongsInPlayerCollectionViewCell.identifier,
-			for: indexPath) as? ListOfSongsInPlayerCollectionViewCell
+			withReuseIdentifier: SongsListInPlayerCollectionViewCell.identifier,
+			for: indexPath) as? SongsListInPlayerCollectionViewCell
 		else {
 			return UICollectionViewCell()
 		}
