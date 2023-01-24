@@ -5,10 +5,6 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 	// MARK: Registering Collection View Cells that we intend to use
 	func registeringCollectionViewCells() {
 		collectionView.register(
-			UICollectionViewCell.self,
-			forCellWithReuseIdentifier: "cell"
-		)
-		collectionView.register(
 			PlaylistCollectionViewCell.self,
 			forCellWithReuseIdentifier: PlaylistCollectionViewCell.identifier
 		)

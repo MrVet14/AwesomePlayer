@@ -6,7 +6,7 @@ extension WelcomeViewController {
 		logoImageView.image = UIImage(asset: Asset.appLogoYandex)
 
 		signInButton.backgroundColor = UIColor(asset: Asset.yandexRed)
-		signInButton.setTitle(L10n.connectYourYandexAccount, for: .normal)
+		signInButton.setTitle(L10n.connectYourAccount("Yandex"), for: .normal)
 	}
 
 	@objc

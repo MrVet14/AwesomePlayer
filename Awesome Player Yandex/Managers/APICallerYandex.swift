@@ -1,6 +1,6 @@
 import Foundation
 import Moya
-// swiftlint:disable all
+
 class APICallerYandex {
 	static let shared = APICallerYandex()
 
@@ -13,7 +13,7 @@ class APICallerYandex {
 			switch result {
 			case .success(let response):
 				do {
-					//let json = try JSONSerialization.jsonObject(with: response.data, options: .fragmentsAllowed)
+//					let json = try JSONSerialization.jsonObject(with: response.data, options: .fragmentsAllowed)
 					let result = try JSONDecoder().decode(SeveralSongsResponse.self, from: response.data)
 					completion(.success(result))
 				} catch {
@@ -61,7 +61,7 @@ extension YandexAPI: TargetType {
 		.requestPlain
 	}
 
-	var headers: [String : String]? {
+	var headers: [String: String]? {
 		.none
 	}
 }

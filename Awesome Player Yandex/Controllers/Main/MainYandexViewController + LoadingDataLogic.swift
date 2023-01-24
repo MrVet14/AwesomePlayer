@@ -45,7 +45,7 @@ extension MainViewController {
 	// MARK: Loading Liked Songs from Firebase
 	func getLikedSongs() {
 		FirebaseManager.shared.getData { [weak self] result in
-			DBManager.shared.markSongsAsMarked(ids: result)
+			DBManager.shared.markSongsAsLiked(ids: result)
 
 			self?.indicatorView.stopAnimating()
 			self?.collectionView.isHidden = false

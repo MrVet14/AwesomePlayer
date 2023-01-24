@@ -1,5 +1,5 @@
 import Foundation
-// swiftlint:disable all
+
 enum Configuration: String {
 	// MARK: Possible configurations
 	case staging
@@ -18,7 +18,7 @@ enum Configuration: String {
 		return configuration
 	}()
 
-	// MARK: Base URL for Spotify API
+	// MARK: Base URL for Yandex
 	static var baseChartsURL: URL {
 		return URL(string: "https://music.yandex.by/handlers/playlist.jsx?owner=yamusic-dejavu&kinds=37361060")!
 	}
