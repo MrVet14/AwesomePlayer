@@ -30,6 +30,9 @@
 		5198246B296C5CF200BDF801 /* SongsListInPlayerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5198246A296C5CF200BDF801 /* SongsListInPlayerCollectionViewCell.swift */; };
 		5198246D296C885900BDF801 /* PlayerViewController + CollectionViewConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5198246C296C885900BDF801 /* PlayerViewController + CollectionViewConfigurator.swift */; };
 		5198246F296CCD8F00BDF801 /* PlayerBarAboveAllViewsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5198246E296CCD8F00BDF801 /* PlayerBarAboveAllViewsView.swift */; };
+		519D5BC92985A599002979C1 /* FirstAPIStorageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519D5BC82985A599002979C1 /* FirstAPIStorageResponse.swift */; };
+		519D5BCB2985A5D4002979C1 /* SecondAPIStorageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519D5BCA2985A5D4002979C1 /* SecondAPIStorageResponse.swift */; };
+		519D5BD02985BC85002979C1 /* PresenterYandex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519D5BCF2985BC85002979C1 /* PresenterYandex.swift */; };
 		519DBDDE2951FC970065859B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519DBDDD2951FC970065859B /* Settings.swift */; };
 		51A2E6F129267CEB008B43F5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 51A2E6F329267CEB008B43F5 /* Localizable.strings */; };
 		51A2E6F72926890F008B43F5 /* Assets-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A2E6F62926890F008B43F5 /* Assets-Constants.swift */; };
@@ -157,6 +160,9 @@
 		5198246A296C5CF200BDF801 /* SongsListInPlayerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongsListInPlayerCollectionViewCell.swift; sourceTree = "<group>"; };
 		5198246C296C885900BDF801 /* PlayerViewController + CollectionViewConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlayerViewController + CollectionViewConfigurator.swift"; sourceTree = "<group>"; };
 		5198246E296CCD8F00BDF801 /* PlayerBarAboveAllViewsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerBarAboveAllViewsView.swift; sourceTree = "<group>"; };
+		519D5BC82985A599002979C1 /* FirstAPIStorageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstAPIStorageResponse.swift; sourceTree = "<group>"; };
+		519D5BCA2985A5D4002979C1 /* SecondAPIStorageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondAPIStorageResponse.swift; sourceTree = "<group>"; };
+		519D5BCF2985BC85002979C1 /* PresenterYandex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterYandex.swift; sourceTree = "<group>"; };
 		519DBDDD2951FC970065859B /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		51A2E6F229267CEB008B43F5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		51A2E6F529267D0D008B43F5 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -266,6 +272,14 @@
 				51A971872965AB6C00E6B6B5 /* PlayerPresenter.swift */,
 			);
 			path = Presenters;
+			sourceTree = "<group>";
+		};
+		519D5BCE2985BC72002979C1 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				519D5BCF2985BC85002979C1 /* PresenterYandex.swift */,
+			);
+			path = Presenter;
 			sourceTree = "<group>";
 		};
 		51A54F2E291BA42A0065EF82 = {
@@ -467,6 +481,7 @@
 		51A5FB7329734F89008A0461 /* Awesome Player Yandex */ = {
 			isa = PBXGroup;
 			children = (
+				519D5BCE2985BC72002979C1 /* Presenter */,
 				51A5FBBB2973529A008A0461 /* Models */,
 				51A5FBBA29735295008A0461 /* Views */,
 				51A5FBB92973528A008A0461 /* ViewModels */,
@@ -531,6 +546,8 @@
 				51BE8C70297E32DD007E2501 /* SongYandex.swift */,
 				51BE8C72297E32EC007E2501 /* ArtistYandex.swift */,
 				51BE8C74297E32FD007E2501 /* AlbumYandex.swift */,
+				519D5BC82985A599002979C1 /* FirstAPIStorageResponse.swift */,
+				519D5BCA2985A5D4002979C1 /* SecondAPIStorageResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -930,6 +947,7 @@
 				51A5FB8A2973515E008A0461 /* Extensions.swift in Sources */,
 				51A5FB8829735150008A0461 /* MarqueeLabel.swift in Sources */,
 				51BE8C73297E32EC007E2501 /* ArtistYandex.swift in Sources */,
+				519D5BD02985BC85002979C1 /* PresenterYandex.swift in Sources */,
 				51A5FBD629736D5C008A0461 /* User.swift in Sources */,
 				51A5FBC529735403008A0461 /* MainYandexViewController + CollectionViewConfigurator.swift in Sources */,
 				51A5FBEC29738E54008A0461 /* ProfileViewController.swift in Sources */,
@@ -943,8 +961,10 @@
 				51A5FBE029736E98008A0461 /* SongCellViewModel.swift in Sources */,
 				51A5FBE3297370E2008A0461 /* TitleHeaderCollectionReusableView.swift in Sources */,
 				51A5FBF929739D20008A0461 /* WelcomeViewController.swift in Sources */,
+				519D5BCB2985A5D4002979C1 /* SecondAPIStorageResponse.swift in Sources */,
 				51A5FBD229736D5C008A0461 /* Playlist.swift in Sources */,
 				51BE8C71297E32DD007E2501 /* SongYandex.swift in Sources */,
+				519D5BC92985A599002979C1 /* FirstAPIStorageResponse.swift in Sources */,
 				51A5FBE929738DFF008A0461 /* PlayerViewController + View & Constraints.swift in Sources */,
 				51A5FBE72973738D008A0461 /* TrackHandlerManager.swift in Sources */,
 				51A5FBDC29736D94008A0461 /* SongObject.swift in Sources */,

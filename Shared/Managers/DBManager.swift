@@ -79,6 +79,7 @@ class DBManager {
 				let songToWrite = SongObject()
 				songToWrite.albumName = song.album?.name ?? ""
 				songToWrite.albumCoverURL = song.album?.images?.first?.url ?? ""
+				songToWrite.albumID = song.album?.id ?? ""
 				songToWrite.artistName = song.artistName
 				songToWrite.explicit = song.explicit
 				songToWrite.id = song.id

@@ -21,6 +21,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		self.window = window
 
+		APICallerYandex.shared.makeFirstCallToAPI(songID: "109747897", albumID: "24310640") { result in
+			switch result {
+			case .success(let response):
+				APICallerYandex.shared.makeSecondCallToAPI(src: response.src) { url in
+					print(url)
+				}
+
+			case .failure(let error):
+				print(error)
+			}
+		}
+
 		return true
 	}
 

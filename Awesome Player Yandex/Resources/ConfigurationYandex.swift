@@ -23,6 +23,11 @@ enum Configuration: String {
 		return URL(string: "https://music.yandex.by/handlers/playlist.jsx?owner=yamusic-dejavu&kinds=37361060")!
 	}
 
+	// MARK: Base URL for getting song from Yandex
+	static var gettingSongsBaseURL: URL {
+		return URL(string: "https://music.yandex.ru/api/v2.1/handlers/track/")!
+	}
+
 	// MARK: Base URL for sharing songs
 	static var baseURLForSharingSongs: String {
 		return ""
