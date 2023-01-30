@@ -4,9 +4,9 @@ enum MainViewSectionType {
 	case recommendedSongs(viewModels: [SongCellViewModel])
 }
 
-extension MainViewController {
+extension MainViewController: GettingDataToDisplay {
 	// MARK: Getting Data Form API & Firebase, then storing & retrieving it from Realm
-	func loadTheData() {
+	func loadData() {
 		let group = DispatchGroup()
 		group.enter()
 		group.enter()
@@ -38,12 +38,12 @@ extension MainViewController {
 		}
 
 		group.notify(queue: .main) { [weak self] in
-			self?.getLikedSongs()
+			self?.loadNonEssentialData()
 		}
 	}
 
 	// MARK: Loading Liked Songs from Firebase
-	func getLikedSongs() {
+	func loadNonEssentialData() {
 		FirebaseManager.shared.getData { [weak self] result in
 			DBManager.shared.markSongsAsLiked(ids: result)
 
@@ -55,7 +55,7 @@ extension MainViewController {
 	}
 
 	// MARK: Updating Song Data
-	func getUpdatedDataFromDB(completion: @escaping (() -> Void)) {
+	func getDataFromDB(completion: @escaping (() -> Void)) {
 		let group = DispatchGroup()
 		group.enter()
 
@@ -72,7 +72,7 @@ extension MainViewController {
 	// MARK: Creating or updating ViewModels
 	@objc
 	func configureModels() {
-		getUpdatedDataFromDB { [weak self] in
+		getDataFromDB { [weak self] in
 			guard let self = self else {
 				return
 			}

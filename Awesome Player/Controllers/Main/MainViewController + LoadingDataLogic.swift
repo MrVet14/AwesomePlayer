@@ -14,9 +14,9 @@ enum MainViewSectionType {
 	}
 }
 
-extension MainViewController {
+extension MainViewController: GettingDataToDisplay {
 	// MARK: Getting Data Form API & Firebase, then storing & retrieving it from Realm
-	func loadTheData() {
+	func loadData() {
 		let group = DispatchGroup()
 		group.enter()
 		group.enter()
@@ -61,11 +61,11 @@ extension MainViewController {
 			self.configureModels()
 		}
 
-		loadingAllNotSuperUrgentStuff()
+		loadNonEssentialData()
 	}
 
 	// MARK: Loading Data that not used immediately
-	func loadingAllNotSuperUrgentStuff() {
+	func loadNonEssentialData() {
 		// Getting user profile
 		APICaller.shared.loadUser { [weak self] userProfileResults in
 			switch userProfileResults {
@@ -90,7 +90,7 @@ extension MainViewController {
 	}
 
 	// MARK: Updating Song Data
-	func getUpdatedDataFromDB(completion: @escaping (() -> Void)) {
+	func getDataFromDB(completion: @escaping (() -> Void)) {
 		let group = DispatchGroup()
 		group.enter()
 		group.enter()
@@ -112,7 +112,7 @@ extension MainViewController {
 	// MARK: Creating or updating ViewModels
 	@objc
 	func configureModels() {
-		getUpdatedDataFromDB { [weak self] in
+		getDataFromDB { [weak self] in
 			guard let self = self else {
 				return
 			}

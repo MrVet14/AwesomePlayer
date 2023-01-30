@@ -1,6 +1,13 @@
 import SnapKit
 import UIKit
 
+protocol GettingDataToDisplay {
+	func loadData()
+	func loadNonEssentialData()
+	func getDataFromDB(completion: @escaping (() -> Void))
+	func configureModels()
+}
+
 class MainViewController: UIViewController {
 	var featuredPlaylists: [PlaylistObject] = []
 	var recommendedSongs: [SongObject] = []
@@ -29,7 +36,7 @@ class MainViewController: UIViewController {
         super.viewDidLoad()
 
 		setupViews()
-		loadTheData()
+		loadData()
 
 		NotificationCenter.default.addObserver(
 			self,
@@ -97,7 +104,7 @@ class MainViewController: UIViewController {
 				title: L10n.reload,
 				style: .default,
 				handler: { [weak self] _ in
-					self?.loadTheData()
+					self?.loadData()
 				}
 			)
 		)
