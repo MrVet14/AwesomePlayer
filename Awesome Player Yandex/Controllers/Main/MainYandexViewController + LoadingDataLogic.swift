@@ -22,20 +22,20 @@ extension MainViewController {
 		DBManager.shared.addUserToDB(AuthManagerYandex.shared.createUser())
 
 		// Loading Tracks
-//		APICallerYandex.shared.loadChart { [weak self] result in
-//			switch result {
-//			case .success(let response):
-//				DBManager.shared.addSongsToDB(
-//					(self?.convertResponse(response.playlist.tracks))!,
-//					typeOfPassedSongs: DBSongTypes.recommended,
-//					playlistID: ""
-//				)
-//				group.leave()
-//
-//			case .failure(let error):
-//				self?.handlingErrorDuringLoadingData(error: error)
-//			}
-//		}
+		APICallerYandex.shared.loadChart { [weak self] result in
+			switch result {
+			case .success(let response):
+				DBManager.shared.addSongsToDB(
+					(self?.convertResponse(response.playlist.tracks))!,
+					typeOfPassedSongs: DBSongTypes.recommended,
+					playlistID: ""
+				)
+				group.leave()
+
+			case .failure(let error):
+				self?.handlingErrorDuringLoadingData(error: error)
+			}
+		}
 
 		group.notify(queue: .main) { [weak self] in
 			self?.getLikedSongs()
@@ -125,7 +125,7 @@ extension MainViewController {
 					explicit: false,
 					id: song.realId,
 					name: song.title,
-					preview_url: "123"))
+					preview_url: "NILL"))
 		}
 
 		return conversion

@@ -21,6 +21,7 @@ class PlayerPresenter {
 	}
 
 	var currentSong = SongObject()
+	var currentSongsURL: URL?
 
 	// MARK: Starting playback when user tapped on a song in a view
 	func startPlaybackProcess(
@@ -29,6 +30,9 @@ class PlayerPresenter {
 		song: SongObject
 	) {
 		currentSong = song
+		if currentSong.previewURL != "NILL" {
+			currentSongsURL = URL(string: currentSong.previewURL)!
+		}
 		playerVC.listOfOtherSong = listOfOtherSongsInView
 
 		if !isPlayerBarActive {
