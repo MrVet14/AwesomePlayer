@@ -6,7 +6,7 @@ extension WelcomeViewController {
 		logoImageView.image = UIImage(asset: Asset.appLogo)
 
 		signInButton.backgroundColor = UIColor(asset: Asset.spotifyGreen)
-		signInButton.setTitle(L10n.connectYourAccount("Spotify"), for: .normal)
+		signInButton.setTitle(L10n.connectYourAccount(SupportedPlatforms.spotify), for: .normal)
 	}
 
 	@objc

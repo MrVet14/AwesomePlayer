@@ -10,3 +10,8 @@ enum NotificationCenterConstants {
 	static let playerVCClosed = "playerVCClosed"
 	static let playerBar = "playerBar"
 }
+
+enum SupportedPlatforms {
+	static let yandex = "Yandex"
+	static let spotify = "Spotify"
+}

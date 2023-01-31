@@ -25,8 +25,11 @@ extension MainViewController: GettingDataToDisplay {
 		APICallerYandex.shared.loadChart { [weak self] result in
 			switch result {
 			case .success(let response):
+				guard let songsToAdd = self?.convertResponse(response.playlist.tracks) else {
+					return
+				}
 				DBManager.shared.addSongsToDB(
-					(self?.convertResponse(response.playlist.tracks))!,
+					songsToAdd,
 					typeOfPassedSongs: DBSongTypes.recommended,
 					playlistID: ""
 				)
@@ -100,7 +103,7 @@ extension MainViewController: GettingDataToDisplay {
 		var conversion: [Song] = []
 
 		for song in songs {
-			let songImage = "https:/\(song.coverUri.replacingOccurrences(of: "%%", with: "400x400"))"
+			let songImage = "https://\(song.coverUri.replacingOccurrences(of: "%%", with: "400x400"))"
 			let conversionImage = Image(url: songImage)
 
 			guard let songAlbum = song.albums[0] else {
@@ -125,7 +128,7 @@ extension MainViewController: GettingDataToDisplay {
 					explicit: false,
 					id: song.realId,
 					name: song.title,
-					preview_url: "NILL"))
+					preview_url: "0"))
 		}
 
 		return conversion

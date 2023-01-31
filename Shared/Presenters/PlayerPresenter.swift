@@ -30,9 +30,6 @@ class PlayerPresenter {
 		song: SongObject
 	) {
 		currentSong = song
-		if currentSong.previewURL != "NILL" {
-			currentSongsURL = URL(string: currentSong.previewURL)!
-		}
 		playerVC.listOfOtherSong = listOfOtherSongsInView
 
 		if !isPlayerBarActive {
