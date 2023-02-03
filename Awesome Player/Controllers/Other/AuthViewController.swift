@@ -1,7 +1,7 @@
 import UIKit
 import WebKit
 
-class AuthViewController: UIViewController, WKNavigationDelegate {
+final class AuthViewController: UIViewController, WKNavigationDelegate {
 	private let webView: WKWebView = {
 		let prefs = WKWebpagePreferences()
 		prefs.allowsContentJavaScript = true
@@ -12,7 +12,7 @@ class AuthViewController: UIViewController, WKNavigationDelegate {
 	}()
 
 	/// creating sign in url with all the needed attributes
-	var signInURL: URL {
+	private var signInURL: URL {
 		let base = Configuration.spotifyAuthBaseURL
 		let clientIdString = "client_id=\(Configuration.spotifyClientID)"
 		let scopesString = "scope=\(Configuration.APIScopes.replacingOccurrences(of: " ", with: "%20"))"

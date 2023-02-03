@@ -1,10 +1,15 @@
 included:
+  - Shared
   - Awesome Player
+  - Awesome Player Yandex
+
 excluded:
   - Tests/SwiftLintFrameworkTests/Resources
+
 analyzer_rules:
   - unused_declaration
   - unused_import
+
 opt_in_rules:
   - array_init
   - attributes
@@ -27,7 +32,6 @@ opt_in_rules:
   - fallthrough
   - fatal_error_message
   - file_header
-  - file_name
   - first_where
   - flatmap_over_map_reduce
   - identical_operands
@@ -74,27 +78,42 @@ opt_in_rules:
   - xct_specific_matcher
   - yoda_condition
 
+attributes:
+  always_on_same_line:
+    - "@IBSegueAction"
+    - "@IBAction"
+    - "@NSManaged"
+    - "@objc"
+
 identifier_name:
   allowed_symbols: ["_"]
   excluded:
+    - i
     - id
+    - x
+    - y
+    - z
+
 large_tuple: 3
 number_separator:
   minimum_length: 5
-file_name:
-  excluded:
-    - SwiftSyntax+SwiftLint.swift
-    - GeneratedTests.swift
-    - TestHelpers.swift
-    - Assets-Constants.swift
-    - L10n-Constants.swift
-    - Strings.swift
-    - Constants.swift
-    - Extensions.swift
-    - Settings.swift
-    - MainViewController + CollectionViewConfigurator.swift
-    - PlayerViewController + View & Constraints.swift
-    - PlayerViewController + CollectionViewConfigurator.swift
+
+force_cast: warning
+force_try: warning
+function_body_length:
+    warning: 60
+
+line_length:
+  ignores_urls: true
+  ignores_function_declarations: true
+  ignores_comments: true
+
+trailing_whitespace:
+  ignores_empty_lines: false
+  ignores_comments: true
+
+vertical_whitespace:
+  max_empty_lines: 2
 
 custom_rules:
   rule_id:

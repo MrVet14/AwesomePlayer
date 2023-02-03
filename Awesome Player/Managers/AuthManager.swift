@@ -1,14 +1,14 @@
 import Foundation
 import Moya
 
-class AuthManager {
+final class AuthManager {
 	static let shared = AuthManager()
 
 	// MARK: provider for Moya
-	let provider = MoyaProvider<SpotifyAccessToken>()
+	private let provider = MoyaProvider<SpotifyAccessToken>()
 
-	var refreshingToken = false
-	var updatingForAPICall = false
+	private var refreshingToken = false
+	private var updatingForAPICall = false
 
 	private init() {}
 
@@ -74,7 +74,7 @@ class AuthManager {
 	}
 
 	// MARK: handling POST result from exchanging of refreshing token
-	func handleResult(
+	private func handleResult(
 		_ result: Result<Moya.Response, Moya.MoyaError>,
 		actionType: String
 	) -> Bool {
@@ -105,7 +105,7 @@ class AuthManager {
 	}
 
 	// MARK: caching access, refresh tokens & also saving expiration date
-	func cacheToken(result: AuthResponse) {
+	private func cacheToken(result: AuthResponse) {
 		do {
 			/// saving data on sign in
 			if result.refresh_token != nil {
@@ -171,7 +171,7 @@ class AuthManager {
 	}
 
 	// MARK: getting data from keychain & unwrapping it
-	func getDataFromKeychainAndUnwrapIt(_ dataToGet: String) -> String? {
+	private func getDataFromKeychainAndUnwrapIt(_ dataToGet: String) -> String? {
 		var returnData: String?
 
 		do {
@@ -191,14 +191,14 @@ class AuthManager {
 	// Otherwise, invalidItemFormat is thrown
 
 	/// initial shared query of parameter used by keychain methods below
-	var query: [String: Any] = [
+	private var query: [String: Any] = [
 		/// kSecAttrService,  kSecAttrAccount, and kSecClass uniquely identify the item in Keychain
 		kSecAttrAccount as String: KeyChainParameters.account as AnyObject,
 		kSecClass as String: kSecClassGenericPassword
 	]
 
 	// MARK: method to save our data to Keychain
-	func saveData(
+	private func saveData(
 		_ whatToSave: String,
 		_ value: Data
 	) throws {
@@ -227,7 +227,7 @@ class AuthManager {
 	}
 
 	// MARK: method to get our data from Keychain
-	func getData(_ whatToGet: String) throws -> String {
+	private func getData(_ whatToGet: String) throws -> String {
 		var query = self.query
 		/// type of  data we try to get from keychain
 		query[kSecAttrService as String] = whatToGet as AnyObject
@@ -261,7 +261,7 @@ class AuthManager {
 	}
 
 	// MARK: method to update our data in Keychain
-	func updateData(
+	private func updateData(
 		_ whatToUpdate: String,
 		_ value: Data
 	) throws {
@@ -289,7 +289,7 @@ class AuthManager {
 	}
 
 	// MARK: method to delete our data in Keychain
-	func deleteData(_ whatToDelete: String) throws {
+	private func deleteData(_ whatToDelete: String) throws {
 		var query = self.query
 		/// type of deleted data
 		query[kSecAttrService as String] = whatToDelete as AnyObject

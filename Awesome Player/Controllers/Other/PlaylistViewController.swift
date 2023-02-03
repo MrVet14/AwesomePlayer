@@ -1,7 +1,7 @@
 import SnapKit
 import UIKit
 
-class PlaylistViewController: UIViewController {
+final class PlaylistViewController: UIViewController {
 	var playlist = PlaylistObject()
 	var playlistSongs: [SongObject] = []
 	var playlistSongViewModel: [SongCellViewModel] = []
@@ -119,7 +119,7 @@ class PlaylistViewController: UIViewController {
 			switch playlistDetailsResult {
 			case .success(let playlistDetails):
 				// Adding Songs to Realm & Creating Models
-				DBManager.shared.addPlaylistSongsToRealm(playlistDetails)
+				DBManager.shared.addPlaylistsSongs(playlistDetails)
 				self?.configureModel()
 				// letting MainVC know that playlist has been downloaded
 				self?.hasBeenLoaded?()
@@ -139,8 +139,7 @@ class PlaylistViewController: UIViewController {
 	}
 
 	// MARK: Updating or creating View Models
-	@objc
-	func configureModel() {
+	@objc func configureModel() {
 		getDataFromDB { [weak self] in
 			guard let self = self else {
 				return
