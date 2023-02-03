@@ -1,6 +1,6 @@
 import Foundation
 
-class TrackHandlerManager {
+final class TrackHandlerManager {
 	static let shared = TrackHandlerManager()
 
 	private init() {}

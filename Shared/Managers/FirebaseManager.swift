@@ -1,7 +1,7 @@
 import FirebaseFirestore
 import Foundation
 
-class FirebaseManager {
+final class FirebaseManager {
 	static let shared = FirebaseManager()
 
 	// MARK: Getting User ID to identify user in Firestore

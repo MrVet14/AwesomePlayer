@@ -1,13 +1,13 @@
 import Foundation
 
-class LoadAllTheLikedSongsHelper {
+final class LoadAllTheLikedSongsHelper {
 	static let shared = LoadAllTheLikedSongsHelper()
 
 	private init() {}
 
-	let apiLimit = APIConstants.loadSongsAPILimit
-	var allTheSongsToLoad: [String] = []
-	var aBatchToLoad: [String] = []
+	private let apiLimit = APIConstants.loadSongsAPILimit
+	private var allTheSongsToLoad: [String] = []
+	private var aBatchToLoad: [String] = []
 
 	func getData(
 		_ ids: [String],
@@ -30,7 +30,7 @@ class LoadAllTheLikedSongsHelper {
 	}
 
 	// MARK: Breaking all the songs, making calls to API & returning results as solid array
-	func makeAPICall(completion: @escaping (([Song]) -> Void)) {
+	private func makeAPICall(completion: @escaping (([Song]) -> Void)) {
 		var songDataToPassBack: [Song] = []
 
 		repeat {

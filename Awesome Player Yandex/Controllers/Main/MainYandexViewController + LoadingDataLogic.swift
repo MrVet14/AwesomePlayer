@@ -73,8 +73,7 @@ extension MainViewController: GettingDataToDisplay {
 	}
 
 	// MARK: Creating or updating ViewModels
-	@objc
-	func configureModels() {
+	@objc func configureModels() {
 		getDataFromDB { [weak self] in
 			guard let self = self else {
 				return
@@ -99,7 +98,7 @@ extension MainViewController: GettingDataToDisplay {
 	}
 
 	// MARK: Converting Yandex's response to universal model
-	func convertResponse(_ songs: [SongYandex]) -> [Song] {
+	private func convertResponse(_ songs: [SongYandex]) -> [Song] {
 		var conversion: [Song] = []
 
 		for song in songs {

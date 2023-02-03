@@ -2,18 +2,18 @@ import AVFoundation
 import Foundation
 import UIKit
 
-class PlayerPresenter {
+final class PlayerPresenter {
 	static let shared = PlayerPresenter()
 
 	private init() {}
 
-	var isPlayerBarActive = false
+	private var isPlayerBarActive = false
 
-	var player: AVPlayer?
-	let playerVC = PlayerViewController.shared
-	let playerBar = PlayerBarAboveAllViewsView.shared
+	private var player: AVPlayer?
+	private let playerVC = PlayerViewController.shared
+	private let playerBar = PlayerBarAboveAllViewsView.shared
 
-	var playerPlaying = true {
+	private var playerPlaying = true {
 		didSet {
 			playerVC.playerPlaying = playerPlaying
 			playerBar.playerPlaying = playerPlaying
@@ -43,7 +43,7 @@ class PlayerPresenter {
 	}
 
 	// MARK: Creating Player and passing all the needed data to PlayerVC
-	func startPlayback() {
+	private func startPlayback() {
 		guard let url = URL(string: currentSong.previewURL) else {
 			print("Error creating URL for AVPlayer")
 			return
@@ -61,14 +61,14 @@ class PlayerPresenter {
 	}
 
 	// MARK: Managing callbacks from PlayerVC
-	func managePlayback() {
+	private func managePlayback() {
 		playerBar.didTapPlayPause = { [weak self] in
 			self?.playPause()
 		}
 	}
 
 	// MARK: Resuming or Pausing Playback based on the current state of playback
-	func playPause() {
+	private func playPause() {
 		guard let player = self.player else {
 			return
 		}
@@ -91,21 +91,21 @@ class PlayerPresenter {
 	}
 
 	// MARK: Switching song back
-	func tappedBack() {
+	private func tappedBack() {
 		updateSongDataForPlayer(
 			songIndexToLaunch: getCurrentIndexOfASongInArray() - 1
 		)
 	}
 
 	// MARK: Switching song forward
-	func tappedNext() {
+	private func tappedNext() {
 		updateSongDataForPlayer(
 			songIndexToLaunch: getCurrentIndexOfASongInArray() + 1
 		)
 	}
 
 	// MARK: Setting new song to play
-	func updateSongDataForPlayer(songIndexToLaunch: Int) {
+	private func updateSongDataForPlayer(songIndexToLaunch: Int) {
 		HapticsManager.shared.vibrateForSelection()
 
 		var index = 0
@@ -123,7 +123,7 @@ class PlayerPresenter {
 	}
 
 	// MARK: Identifying index of current song
-	func getCurrentIndexOfASongInArray() -> Int {
+	private func getCurrentIndexOfASongInArray() -> Int {
 		guard let songIndex = playerVC.listOfOtherSong.firstIndex(of: currentSong) else {
 			print("Error occurred, song element hasn't been found")
 			return 0

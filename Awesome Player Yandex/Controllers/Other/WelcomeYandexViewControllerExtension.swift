@@ -9,8 +9,7 @@ extension WelcomeViewController {
 		signInButton.setTitle(L10n.connectYourAccount(SupportedPlatforms.yandex), for: .normal)
 	}
 
-	@objc
-	func didTapSignIn() {
+	@objc func didTapSignIn() {
 		HapticsManager.shared.vibrateForSelection()
 		let mainVC = TabBarViewController()
 		mainVC.modalPresentationStyle = .fullScreen

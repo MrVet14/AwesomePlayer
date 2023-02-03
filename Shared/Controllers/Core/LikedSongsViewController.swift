@@ -1,7 +1,7 @@
 import SnapKit
 import UIKit
 
-class LikedSongsViewController: UIViewController {
+final class LikedSongsViewController: UIViewController {
 	var likedSongs: [SongObject] = []
 	var likedSongsViewModels: [SongCellViewModel] = []
 
@@ -131,8 +131,7 @@ class LikedSongsViewController: UIViewController {
 	}
 
 	// MARK: Creating or updating ViewModels
-	@objc
-	func configureModel() {
+	@objc func configureModel() {
 		getUpdatedDataFromDB { [weak self] in
 			guard let self = self else {
 				return

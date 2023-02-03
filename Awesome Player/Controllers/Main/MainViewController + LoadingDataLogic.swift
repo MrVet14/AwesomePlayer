@@ -110,8 +110,7 @@ extension MainViewController: GettingDataToDisplay {
 	}
 
 	// MARK: Creating or updating ViewModels
-	@objc
-	func configureModels() {
+	@objc func configureModels() {
 		getDataFromDB { [weak self] in
 			guard let self = self else {
 				return

@@ -1,7 +1,7 @@
 import Foundation
 import Moya
 
-class APICaller {
+final class APICaller {
 	static let shared = APICaller()
 
 	let provider = MoyaProvider<SpotifyAPI>()
@@ -143,7 +143,7 @@ class APICaller {
 	}
 
 	// MARK: Printing out errors
-	func printError(
+	private func printError(
 		_ msg: String,
 		error: Error
 	) {
@@ -151,7 +151,7 @@ class APICaller {
 		print(error)
 	}
 
-	func debugResponse(
+	private func debugResponse(
 		_ msq: String,
 		response: Response
 	) {

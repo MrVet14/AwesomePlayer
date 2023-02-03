@@ -142,8 +142,7 @@ class PlayerBarAboveAllViewsView: UIView {
 	}
 
 	// MARK: View logic
-	@objc
-	func didTapPlayPauseAction() {
+	@objc func didTapPlayPauseAction() {
 		didTapPlayPause?()
 	}
 }

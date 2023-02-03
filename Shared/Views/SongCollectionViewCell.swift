@@ -124,8 +124,7 @@ class SongCollectionViewCell: UICollectionViewCell {
 	}
 
 	// MARK: Handling Like Button Tap
-	@objc
-	func likeButtonTapped(_ sender: UIButton) {
+	@objc func likeButtonTapped(_ sender: UIButton) {
 		likeButtonTapAction?()
 	}
 }

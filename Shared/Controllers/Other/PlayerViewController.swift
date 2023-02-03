@@ -9,7 +9,7 @@ protocol PlayerControlsDelegate: AnyObject {
 	func tappedOnTheSongInListOfOtherSongs(songIndex: Int)
 }
 
-class PlayerViewController: UIViewController {
+final class PlayerViewController: UIViewController {
 	static let shared = PlayerViewController(songToDisplay: SongObject())
 
 	private init(songToDisplay: SongObject) {
@@ -198,7 +198,7 @@ class PlayerViewController: UIViewController {
 	}
 
 	// MARK: Filling View with Data
-	func updateLikeButton() {
+	private func updateLikeButton() {
 		guard let songToDisplay = songToDisplay else {
 			print("Song to display in PlayerVC is not existent")
 			return
@@ -233,23 +233,19 @@ class PlayerViewController: UIViewController {
 	}
 
 	// MARK: Logic for the controller
-	@objc
-	func didTapPlayPauseButton() {
+	@objc private func didTapPlayPauseButton() {
 		delegate?.didTapPlayPause()
 	}
 
-	@objc
-	func didTapBackButton() {
+	@objc private func didTapBackButton() {
 		delegate?.didTapBack()
 	}
 
-	@objc
-	func didTapNextButton() {
+	@objc private func didTapNextButton() {
 		delegate?.didTapNext()
 	}
 
-	@objc
-	func didTapShareButton() {
+	@objc private func didTapShareButton() {
 		guard let songToDisplay = songToDisplay else {
 			print("Song to display in PlayerVC is not existent")
 			return
@@ -269,8 +265,7 @@ class PlayerViewController: UIViewController {
 		present(activityAC, animated: true)
 	}
 
-	@objc
-	func didTapLikeButton() {
+	@objc private func didTapLikeButton() {
 		guard let songToDisplay = songToDisplay else {
 			print("Song to display in PlayerVC is not existent")
 			return

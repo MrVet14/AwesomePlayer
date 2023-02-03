@@ -1,8 +1,8 @@
 import UIKit
 
-class TabBarViewController: UITabBarController {
-	let playerBar: UIView = PlayerBarAboveAllViewsView.shared
-	var gesture = UITapGestureRecognizer()
+final class TabBarViewController: UITabBarController {
+	private let playerBar: UIView = PlayerBarAboveAllViewsView.shared
+	private var gesture = UITapGestureRecognizer()
 
 	// MARK: App lifecycle + TabBarController Set Up
     override func viewDidLoad() {
@@ -55,7 +55,7 @@ class TabBarViewController: UITabBarController {
     }
 
 	// MARK: Setting View Title depending on the time of the day
-	func setTitleDependingOnTheTimeOfDay() -> String {
+	private func setTitleDependingOnTheTimeOfDay() -> String {
 		let hour = Calendar.current.component(.hour, from: Date())
 
 		switch hour {
@@ -71,14 +71,12 @@ class TabBarViewController: UITabBarController {
 	}
 
 	// MARK: Making Player Bar visible ofter notification from presenter
-	@objc
-	func showPlayerBar() {
+	@objc private func showPlayerBar() {
 		playerBar.isHidden = false
 	}
 
 	// MARK: Presenting PlayerVC after tapping Player bar
-	@objc
-	func presentPlayerVC() {
+	@objc private func presentPlayerVC() {
 		let playerVC = PlayerViewController.shared
 		present(playerVC, animated: true)
 	}

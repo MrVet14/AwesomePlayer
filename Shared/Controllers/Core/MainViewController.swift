@@ -8,7 +8,7 @@ protocol GettingDataToDisplay {
 	func configureModels()
 }
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
 	var featuredPlaylists: [PlaylistObject] = []
 	var recommendedSongs: [SongObject] = []
 
@@ -53,7 +53,7 @@ class MainViewController: UIViewController {
 	}
 
     // MARK: Adding different elements to view
-    func setupViews() {
+	private func setupViews() {
 		view.backgroundColor = .systemBackground
 
 		let settingsButton = UIBarButtonItem(
@@ -113,8 +113,7 @@ class MainViewController: UIViewController {
 
 	// MARK: Controller logic
 	// Switching to settings View
-	@objc
-	func didTapSettings() {
+	@objc private func didTapSettings() {
 		let settingsVC = SettingsViewController()
 		settingsVC.navigationItem.largeTitleDisplayMode = .never
 		navigationController?.pushViewController(settingsVC, animated: true)

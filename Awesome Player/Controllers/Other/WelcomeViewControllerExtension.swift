@@ -9,8 +9,7 @@ extension WelcomeViewController {
 		signInButton.setTitle(L10n.connectYourAccount(SupportedPlatforms.spotify), for: .normal)
 	}
 
-	@objc
-	func didTapSignIn() {
+	@objc func didTapSignIn() {
 		HapticsManager.shared.vibrateForSelection()
 		let authVC = AuthViewController()
 		authVC.completionHandler = { [weak self] success in

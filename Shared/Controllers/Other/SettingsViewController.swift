@@ -2,7 +2,7 @@ import Kingfisher
 import SnapKit
 import UIKit
 
-class SettingsViewController: UIViewController {
+final class SettingsViewController: UIViewController {
 	var sections = [Section]()
 
 	// MARK: - Subviews

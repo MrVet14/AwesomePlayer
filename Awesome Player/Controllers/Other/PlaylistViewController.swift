@@ -1,7 +1,7 @@
 import SnapKit
 import UIKit
 
-class PlaylistViewController: UIViewController {
+final class PlaylistViewController: UIViewController {
 	var playlist = PlaylistObject()
 	var playlistSongs: [SongObject] = []
 	var playlistSongViewModel: [SongCellViewModel] = []
@@ -139,8 +139,7 @@ class PlaylistViewController: UIViewController {
 	}
 
 	// MARK: Updating or creating View Models
-	@objc
-	func configureModel() {
+	@objc func configureModel() {
 		getDataFromDB { [weak self] in
 			guard let self = self else {
 				return

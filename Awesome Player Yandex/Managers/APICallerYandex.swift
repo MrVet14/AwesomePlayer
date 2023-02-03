@@ -1,7 +1,7 @@
 import Foundation
 import Moya
 
-class APICallerYandex {
+final class APICallerYandex {
 	static let shared = APICallerYandex()
 
 	let provider = MoyaProvider<YandexAPI>()
@@ -124,7 +124,7 @@ extension YandexAPI: TargetType {
 		case .loadRecommended, .secondAPIStorageResponse:
 			return ""
 
-		case .firstAPIStorageResponse(let songID, let albumID):
+		case let .firstAPIStorageResponse(songID, albumID):
 			return "\(songID):\(albumID)/web-user_playlists-playlist-track-main/download/m"
 		}
 	}

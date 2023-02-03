@@ -1,14 +1,14 @@
 import Foundation
 import RealmSwift
 
-class DBManager {
+final class DBManager {
 	static let shared = DBManager()
 
 	private init() {}
 
 	// MARK: Openning Realm
 	// swiftlint:disable:next force_try
-	let realm = try! Realm()
+	internal let realm = try! Realm()
 
 	// MARK: Adding user data to Realm
 	func addUserToDB(_ passedUserData: User) {

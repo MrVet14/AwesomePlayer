@@ -6,12 +6,12 @@ enum Configuration: String {
 	case production
 
 	// MARK: Current configuration
-	private static let current: Configuration = {
+	private static let current: Self = {
 		guard let rawValue = Bundle.main.infoDictionary?["Configuration"] as? String else {
 			fatalError("No Configuration Found")
 		}
 
-		guard let configuration = Configuration(rawValue: rawValue.lowercased()) else {
+		guard let configuration = Self(rawValue: rawValue.lowercased()) else {
 			fatalError("Invalid Configuration")
 		}
 

@@ -2,7 +2,7 @@ import Kingfisher
 import SnapKit
 import UIKit
 
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
 	var userProfile: UserObject?
 
 	var model: [String] = []

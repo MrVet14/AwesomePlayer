@@ -1,7 +1,7 @@
 import SnapKit
 import UIKit
 
-class WelcomeViewController: UIViewController {
+final class WelcomeViewController: UIViewController {
 	let waysToSayHi = [
 		"Hello", "Привет", "你好", "今日は", " 안녕하세요", "Bonjour", "Hola",
 		"Hallo", "Ciao", "Ahoy!", "Aloha", "नमस्ते", "γεια σας", "Salve", "Osiyo"
@@ -121,8 +121,7 @@ class WelcomeViewController: UIViewController {
 	}
 
 	// MARK: Controller logic
-	@objc
-	func changeTitle() {
+	@objc func changeTitle() {
 		greetingsLabel.fadeTransition(0.6)
 		greetingsLabel.text = waysToSayHi.randomElement()
 	}
